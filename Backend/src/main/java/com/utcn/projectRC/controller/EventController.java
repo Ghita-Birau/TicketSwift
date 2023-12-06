@@ -34,4 +34,9 @@ public class EventController {
     public List<EventDTO> getEventByName(@RequestParam String eventName) {
         return eventService.getEventsDTOByName(eventName);
     }
+
+    @GetMapping("/eventsByLocation")
+    public List<EventDTO> getEventByLocation(@RequestParam String location) {
+        return eventService.getEventsDTOByLocation(location);
+    }
 }

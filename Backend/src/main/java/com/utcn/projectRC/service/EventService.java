@@ -74,4 +74,9 @@ public class EventService {
         List<Event> listEvent = eventRepository.findAllByEventName(eventName);
         return listEvent.stream().map(this::convertEventToEventDTO).toList();
     }
+
+    public List<EventDTO> getEventsDTOByLocation(String location) {
+        List<Event> listEvent = eventRepository.findAllByVenueId_Location(location);
+        return listEvent.stream().map(this::convertEventToEventDTO).toList();
+    }
 }
