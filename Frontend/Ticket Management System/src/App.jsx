@@ -1,0 +1,58 @@
+import { Toaster } from "react-hot-toast";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+import AppLayout from "./ui/AppLayout";
+import Dashboard from "./pages/Dashboard";
+import Orders from "./pages/Orders";
+import GlobalStyles from "../src/styles/GlobalStyles";
+
+const queryClient = new QueryClient();
+
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools initialIsOpen={false} />
+      <GlobalStyles />
+      <Toaster
+        toastOptions={{
+          style: {
+            padding: "0.4rem 0.6rem",
+            color: "var(--color-gray-700)",
+          },
+          error: {
+            iconTheme: {
+              primary: "var(--color-error-600)",
+            },
+            style: {
+              color: "var(--color-error-600)",
+            },
+          },
+          success: {
+            iconTheme: {
+              primary: "var(--color-success-600)",
+            },
+            style: {
+              color: "var(--color-success-600)",
+            },
+          },
+        }}
+        containerStyle={{
+          top: "2.4rem",
+        }}
+        gutter={10}
+      />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<AppLayout />}>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/orders" element={<Orders />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </QueryClientProvider>
+  );
+}
+
+export default App;
