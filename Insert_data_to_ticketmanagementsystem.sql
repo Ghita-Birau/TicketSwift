@@ -22,11 +22,11 @@ INSERT INTO ticketmanagementsystem.event_type (event_type_name) VALUES
 select * from ticketmanagementsystem.event_type;
 
 
-INSERT INTO ticketmanagementsystem.event (end_date, event_description, event_name, start_date, event_type_id, venue_id) VALUES
-	('2023-06-08 00:00:00.000', 'Muzica Electronica si nu numai', 'Untold', '2023-03-08 00:00:00.000', 1, 1),
-	('1894-07-04 00:00:00.000', 'Muzica Electronica si nu numai', 'Electric Castle', '1894-06-30 00:00:00.000', 2, 1),
-	('1894-06-30 00:00:00.000', 'Fotbal', 'Meci de fotbal', '1894-06-30 00:00:00.000', 1, 2),
-	('1894-06-21 00:00:00.000', 'Festival de vin', 'Wine Festival', '1894-06-18 00:00:00.000', 3, 3);
+INSERT INTO ticketmanagementsystem.event (end_date, event_description, event_name, start_date, event_type_id, venue_id, url_image) VALUES
+	('2023-06-08 00:00:00.000', 'Muzica Electronica si nu numai', 'Untold', '2023-03-08 00:00:00.000', 1, 1, 'https://viacluj.tv/wp-content/uploads/2022/08/untold-3.jpg'),
+	('1894-07-04 00:00:00.000', 'Muzica Electronica si nu numai', 'Electric Castle', '1894-06-30 00:00:00.000', 2, 1, 'https://www.interregeurope.eu/sites/default/files/styles/banner_image/public/good_practices/good_practice__5293__1620374651.png?itok=tPYd4yGe'),
+	('1894-06-30 00:00:00.000', 'Fotbal', 'Meci de fotbal', '1894-06-30 00:00:00.000', 1, 2, 'https://mediacdn.libertatea.ro/unsafe/960x539/smart/filters:format(webp):contrast(8):quality(75)/https://static4.libertatea.ro/wp-content/uploads/2022/12/shutterstock2201175331.jpg'),
+	('1894-06-21 00:00:00.000', 'Festival de vin', 'Wine Festival', '1894-06-18 00:00:00.000', 3, 3, 'https://vinul.ro/wp-content/uploads/2023/07/COVER_EVENT_WINEFEST_2023-752x440.png');
 select * from ticketmanagementsystem.event;
 
 
