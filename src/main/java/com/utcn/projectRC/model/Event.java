@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -31,9 +31,19 @@ public class Event {
 
     private String eventName;
 
-    private Date startDate;
+    private LocalDate startDate;
 
-    private Date endDate;
+    private LocalDate endDate;
+
+    private String urlImage;
+
+    public String getUrlImage() {
+        return urlImage;
+    }
+
+    public void setUrlImage(String urlImage) {
+        this.urlImage = urlImage;
+    }
 
     public Integer getEventId() {
         return eventId;
@@ -83,19 +93,19 @@ public class Event {
         this.eventName = eventName;
     }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 
@@ -103,12 +113,22 @@ public class Event {
 
     }
 
-    public Event(Venue venueId, EventType eventTypeId, String eventDescription, String eventName, Date startDate, Date endDate) {
+    public Event(Venue venueId, EventType eventTypeId, String eventDescription, String eventName, LocalDate startDate, LocalDate endDate) {
         this.venueId = venueId;
         this.eventTypeId = eventTypeId;
         this.eventDescription = eventDescription;
         this.eventName = eventName;
         this.startDate = startDate;
         this.endDate = endDate;
+    }
+
+    public Event(Venue venueId, EventType eventTypeId, String eventDescription, String eventName, LocalDate startDate, LocalDate endDate, String urlImage) {
+        this.venueId = venueId;
+        this.eventTypeId = eventTypeId;
+        this.eventDescription = eventDescription;
+        this.eventName = eventName;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.urlImage = urlImage;
     }
 }

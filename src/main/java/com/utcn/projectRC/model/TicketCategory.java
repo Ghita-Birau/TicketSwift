@@ -10,7 +10,7 @@ public class TicketCategory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer ticketCategoryId;
 
-    private String Description;
+    private String description;
 
     private long price;
 
@@ -27,11 +27,11 @@ public class TicketCategory {
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public void setDescription(String description) {
-        Description = description;
+        description = description;
     }
 
     public long getPrice() {
@@ -55,7 +55,7 @@ public class TicketCategory {
     }
 
     public TicketCategory(String description, long price, Event eventId) {
-        Description = description;
+        description = description;
         this.price = price;
         this.eventId = eventId;
     }
