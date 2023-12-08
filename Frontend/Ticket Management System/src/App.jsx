@@ -7,6 +7,8 @@ import AppLayout from "./ui/AppLayout";
 import Dashboard from "./pages/Dashboard";
 import Orders from "./pages/Orders";
 import GlobalStyles from "../src/styles/GlobalStyles";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 
 const queryClient = new QueryClient();
 
@@ -49,6 +51,8 @@ function App() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/orders" element={<Orders />} />
           </Route>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>

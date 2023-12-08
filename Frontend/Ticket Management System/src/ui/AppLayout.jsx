@@ -24,6 +24,8 @@ const StyledMain = styled.main`
   background-color: var(--color-gray-100);
   overflow: scroll;
 
+  border-radius: 8px;
+
   padding: 3.4rem 4.6rem;
 `;
 
