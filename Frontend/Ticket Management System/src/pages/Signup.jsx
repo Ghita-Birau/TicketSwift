@@ -1,9 +1,9 @@
 import { FaFacebook, FaGoogle } from "react-icons/fa6";
+import { NavLink } from "react-router-dom";
 
 import styled from "styled-components";
 import Heading from "../ui/Heading";
 import RegisterForm from "../features/authentication/RegisterForm";
-import { NavLink } from "react-router-dom";
 
 const StyledDiv = styled.div`
   font-family: "Poppins";

@@ -26,6 +26,7 @@ const StyledButton = styled.button`
   background-color: ${(props) => buttonTypes[props.variation].backgroundColor};
   color: ${(props) => buttonTypes[props.variation].color};
   border: ${(props) => buttonTypes[props.variation].border};
+  text-align: center;
 
   font-weight: 600;
   font-size: 1.4rem;
@@ -36,12 +37,22 @@ const StyledButton = styled.button`
   text-transform: uppercase;
   transition: all 0.2s;
 
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.2rem;
+
   &:focus {
     outline: none;
   }
 
   &:hover {
     background-color: ${(props) => buttonTypes[props?.variation].hover};
+  }
+
+  & > svg {
+    width: 2rem;
+    height: 2rem;
   }
 `;
 

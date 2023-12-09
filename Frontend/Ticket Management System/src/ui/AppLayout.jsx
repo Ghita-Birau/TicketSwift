@@ -23,6 +23,7 @@ const StyledDiv = styled.div`
 const StyledMain = styled.main`
   background-color: var(--color-gray-100);
   overflow: scroll;
+  border: 1px solid var(--color-gray-200);
 
   border-radius: 8px;
 

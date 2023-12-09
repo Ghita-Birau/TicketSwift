@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Button from "../../ui/Button";
+import { useForm } from "react-hook-form";
 
 const StyledForm = styled.form`
   display: flex;
@@ -20,12 +21,25 @@ const StyledInput = styled.input`
   border: 1px solid var(--color-gray-700);
 `;
 
+const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+
 function RegisterForm() {
+  const { register, formState, handleSubmit } = useForm();
   return (
     <StyledForm>
       <DivInput>
         <p>Email Address</p>
-        <StyledInput type="text" placeholder="example@gmail.com" />
+        <StyledInput
+          type="text"
+          placeholder="example@gmail.com"
+          {...register("email", {
+            required: "This field is required",
+            pattern: {
+              value: emailRegex,
+              message: "Invalid email address",
+            },
+          })}
+        />
       </DivInput>
       <DivInput>
         <p>Username</p>
