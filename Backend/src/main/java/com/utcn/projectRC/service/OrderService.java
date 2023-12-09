@@ -1,12 +1,11 @@
 package com.utcn.projectRC.service;
 
-import com.utcn.projectRC.DTO.EventDTO;
 import com.utcn.projectRC.DTO.OrderDTO;
+import com.utcn.projectRC.DTO.OrderUpdateDTO;
 import com.utcn.projectRC.model.*;
 import com.utcn.projectRC.repository.OrderRepository;
 import com.utcn.projectRC.repository.TicketCategoryRepository;
 import com.utcn.projectRC.repository.UserRepository;
-import jakarta.persistence.criteria.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -53,4 +52,16 @@ public class OrderService {
         return convertOrderEntityToOrderDTO(savedOrder);
     }
 
+    public void updateOrder(OrderUpdateDTO orderUpdateDTO) {
+        OrderEntity orderEntity = orderRepo.findOrderEntitieByOrderId(orderUpdateDTO.getOrderId());
+        TicketCategory ticketCategory = ticketCategoryRepository.findTicketCategoryByTicketCategoryId(orderUpdateDTO.getTicketCategoryId());
+
+        orderEntity.setNumberOfTickets(orderUpdateDTO.getNumberOfTickets());
+        orderEntity.setTotalPrice(orderUpdateDTO.getNumberOfTickets() * ticketCategory.getPrice());
+
+        //orderEntity.setTicketCategoryId(orderUpdateDTO.getTicketCategoryId());
+        orderEntity.getTicketCategoryId().setDescription(orderUpdateDTO.getDescription());
+
+        orderRepo.save(orderEntity);
+    }
 }

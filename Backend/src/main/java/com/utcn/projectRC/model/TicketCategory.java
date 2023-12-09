@@ -18,37 +18,6 @@ public class TicketCategory {
     @JoinColumn(name = "event_id")
     private Event eventId;
 
-    public Integer getTicketCategoryId() {
-        return ticketCategoryId;
-    }
-
-    public void setTicketCategoryId(Integer ticketCategoryId) {
-        this.ticketCategoryId = ticketCategoryId;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        description = description;
-    }
-
-    public long getPrice() {
-        return price;
-    }
-
-    public void setPrice(long price) {
-        this.price = price;
-    }
-
-    public Event getEventId() {
-        return eventId;
-    }
-
-    public void setEventId(Event eventId) {
-        this.eventId = eventId;
-    }
 
     public TicketCategory() {
 

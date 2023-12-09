@@ -27,53 +27,6 @@ public class OrderEntity {
 
     private long totalPrice;
 
-    public Integer getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Integer orderId) {
-        this.orderId = orderId;
-    }
-
-    public User getUserId() {
-        return userId;
-    }
-
-    public void setUserId(User userId) {
-        this.userId = userId;
-    }
-
-    public TicketCategory getTicketCategoryId() {
-        return ticketCategoryId;
-    }
-
-    public void setTicketCategoryId(TicketCategory ticketCategoryId) {
-        this.ticketCategoryId = ticketCategoryId;
-    }
-
-    public LocalDateTime getOrderedAt() {
-        return orderedAt;
-    }
-
-    public void setOrderedAt(LocalDateTime orderedAt) {
-        this.orderedAt = orderedAt;
-    }
-
-    public Integer getNumberOfTickets() {
-        return numberOfTickets;
-    }
-
-    public void setNumberOfTickets(Integer numberOfTickets) {
-        this.numberOfTickets = numberOfTickets;
-    }
-
-    public long getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(long totalPrice) {
-        this.totalPrice = totalPrice;
-    }
 
     public OrderEntity() {
 

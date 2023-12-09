@@ -16,21 +16,6 @@ public class EventType {
 
     private String eventTypeName;
 
-    public Integer getEventTypeId() {
-        return eventTypeId;
-    }
-
-    public void setEventTypeId(Integer eventTypeId) {
-        this.eventTypeId = eventTypeId;
-    }
-
-    public String getEventTypeName() {
-        return eventTypeName;
-    }
-
-    public void setEventTypeName(String eventTypeName) {
-        this.eventTypeName = eventTypeName;
-    }
 
     public EventType() {
 
