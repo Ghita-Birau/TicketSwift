@@ -36,4 +36,9 @@ public class OrderController {
     public void updateOrder(@RequestBody OrderUpdateDTO orderPatchDTO) {
         orderService.updateOrder(orderPatchDTO);
     }
+
+    @DeleteMapping("/order")
+    public void deleteOrder(@RequestParam Integer orderId) {
+        orderService.deleteOrder(orderId);
+    }
 }

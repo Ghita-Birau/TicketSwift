@@ -64,4 +64,9 @@ public class OrderService {
 
         orderRepo.save(orderEntity);
     }
+
+    public void deleteOrder(Integer orderId) {
+        OrderEntity orderEntity = orderRepo.findOrderEntitieByOrderId(orderId);
+        orderRepo.delete(orderEntity);
+    }
 }

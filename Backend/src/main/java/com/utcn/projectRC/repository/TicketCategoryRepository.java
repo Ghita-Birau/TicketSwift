@@ -14,4 +14,6 @@ public interface TicketCategoryRepository extends CrudRepository<TicketCategory,
 
     TicketCategory findTicketCategoryByTicketCategoryId(Integer ticketCategoryId);
 
+    TicketCategory findTicketCategoryByDescriptionAndPrice(String description, Integer price);
+
 }
