@@ -22,13 +22,15 @@ const StyledTicketContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
+  max-width: 90rem;
 `;
 
 const EventsHeader = styled.header`
-  background-color: var(--color-brand-200);
+  background-color: var(--color-brand-600);
   padding: 1.2rem 2.4rem;
   border-radius: 8px 8px 0px 0px;
   text-align: center;
+  color: var(--color-gray-0);
 `;
 
 const fakeData = [
@@ -105,6 +107,11 @@ const fakeData = [
         description: "Standard",
         price: 300,
         ticketCategoryId: 3,
+      },
+      {
+        description: "VIP",
+        price: 600,
+        ticketCategoryId: 7,
       },
       {
         description: "VIP",

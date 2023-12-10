@@ -8,13 +8,13 @@ import {
 import { MdOutlineSportsSoccer } from "react-icons/md";
 import { BiDrink } from "react-icons/bi";
 import { useState } from "react";
+import { formatCurrency, formatDate } from "../../utils/helpers";
 
 import styled from "styled-components";
 import Heading from "../../ui/Heading";
 import Button from "../../ui/Button";
 import TicketType from "./TicketType";
 import PropTypes from "prop-types";
-import { formatCurrency } from "../../utils/helpers";
 
 const Container = styled.div`
   background-color: var(--color-gray-200);
@@ -28,9 +28,13 @@ const StyledContainer = styled.div`
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 `;
 const ImgContainer = styled.div`
+  padding: 1rem;
+  background-color: var(--color-gray-100);
+
   & > img {
     width: 100%;
     height: 100%;
+    border-radius: 8px;
   }
 `;
 
@@ -43,6 +47,7 @@ const InformationContainer = styled.div`
     padding: 1rem 0;
     position: relative;
     margin-bottom: 0.4rem;
+    font-size: 1.6rem;
   }
 
   & > p::before,
@@ -64,7 +69,7 @@ const InformationContainer = styled.div`
 `;
 
 const StyledLocation = styled.div`
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   display: flex;
   align-items: center;
   gap: 0.8rem;
@@ -74,6 +79,7 @@ const Div = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 0.2rem 0rem 0rem 0rem;
   gap: 1rem;
 
   & > span {
@@ -92,9 +98,17 @@ const Div = styled.div`
 
 const OptionsContainer = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  padding: 1.2rem 2rem;
-  column-gap: 1rem;
+  grid-auto-flow: column;
+  padding: 1.4rem 2rem;
+  gap: 1rem;
+
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+
+  & > div {
+    min-width: 30rem;
+    flex: 0 0 auto;
+  }
 `;
 
 function EventCard({ event }) {
@@ -156,7 +170,7 @@ function EventCard({ event }) {
               <StyledLocation>
                 <HiCalendarDays />
                 <span>
-                  {startDate} &mdash; {endDate}
+                  {formatDate(startDate)} &mdash; {formatDate(endDate)}
                 </span>
               </StyledLocation>
             </div>
@@ -178,7 +192,11 @@ function EventCard({ event }) {
       {isOpen && (
         <OptionsContainer>
           {ticketCategories?.map((category) => (
-            <TicketType category={category} key={category.ticketCategoryId} />
+            <TicketType
+              category={category}
+              event={event}
+              key={category.ticketCategoryId}
+            />
           ))}
         </OptionsContainer>
       )}
