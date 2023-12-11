@@ -30,11 +30,19 @@ const StyledContainer = styled.div`
 const ImgContainer = styled.div`
   padding: 1rem;
   background-color: var(--color-gray-100);
+  transition: all 0.3s;
 
   & > img {
     width: 100%;
     height: 100%;
     border-radius: 8px;
+    transition: all 0.3s;
+  }
+
+  &:hover {
+    & > img {
+      transform: scale(1.1);
+    }
   }
 `;
 
@@ -48,6 +56,7 @@ const InformationContainer = styled.div`
     position: relative;
     margin-bottom: 0.4rem;
     font-size: 1.6rem;
+    border: 1px solid var(--color-gray-200);
   }
 
   & > p::before,
@@ -93,6 +102,10 @@ const Div = styled.div`
   & > p {
     font-size: 1.6rem;
     font-weight: 600;
+  }
+
+  & > h3 {
+    text-transform: uppercase;
   }
 `;
 

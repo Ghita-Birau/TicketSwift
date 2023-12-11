@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import useOutsideClick from "../hooks/useOutsideClick";
 
-const StyledToggle = styled.button`
+const StyledToggle = styled.div`
   background: none;
   border: none;
   padding: 0.4rem;
@@ -32,7 +32,7 @@ const StyledContainer = styled.div`
 const StyledList = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 1.2rem 2rem;
+  /* padding: 1rem 1.4rem; */
   position: fixed;
 
   background-color: var(--color-gray-100);

@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
-const StyledDiv = styled.div`
+const StyledDiv = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;

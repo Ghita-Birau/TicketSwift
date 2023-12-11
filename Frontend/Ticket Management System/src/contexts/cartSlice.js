@@ -48,14 +48,26 @@ const cartSlice = createSlice({
           )
       );
     },
+
+    clearCart(state, action) {
+      state.cart = [];
+    },
   },
 });
+
+export const getTotalCartPrice = (store) => {
+  return store?.cart.reduce(
+    (acc, curr) => (acc += Number(curr.price * curr.numberOfTickets)),
+    0
+  );
+};
 
 export const {
   addTicketToCart,
   incrementTicketQuantity,
   deleteTicket,
   decrementTicketQuantity,
+  clearCart,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

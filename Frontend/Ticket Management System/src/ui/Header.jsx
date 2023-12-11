@@ -81,12 +81,12 @@ function Header() {
           <Window.Toggle name="cart-window">
             <Button>
               <HiOutlineShoppingCart />
-              {currentPath !== "/cart" &&
-                nrOfItems !== 0 &&
-                nrOfItems === cartItems && (
-                  <Notification>+{nrOfItems}</Notification>
-                )}
             </Button>
+            {currentPath !== "/cart" &&
+              nrOfItems !== 0 &&
+              nrOfItems === cartItems && (
+                <Notification>+{nrOfItems}</Notification>
+              )}
           </Window.Toggle>
           <Window.Body name="cart-window">
             <CartWindow />

@@ -1,9 +1,10 @@
 import {
   HiClipboardDocumentList,
-  HiOutlineShoppingCart,
   HiOutlineTicket,
   HiHome,
 } from "react-icons/hi2";
+
+import { MdOutlineEventNote } from "react-icons/md";
 
 import styled from "styled-components";
 
@@ -35,12 +36,12 @@ function Sidebar() {
 
       <MainNav>
         <NavItem to="/" icon={<HiHome />} label="Home" />
+        <NavItem to="/events" icon={<MdOutlineEventNote />} label="Events" />
         <NavItem
-          to="/events"
+          to="/orders"
           icon={<HiClipboardDocumentList />}
-          label="Events"
+          label="Orders"
         />
-        <NavItem to="/orders" icon={<HiOutlineShoppingCart />} label="Orders" />
       </MainNav>
     </StyledSidebar>
   );
