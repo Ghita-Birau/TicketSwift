@@ -18,7 +18,7 @@ public class TicketCategory {
 
     private int avaibleQuantity;
 
-    private BigDecimal discountPercentage;
+    private Double discountPercentage;
 
     private long price;
 
@@ -40,7 +40,7 @@ public class TicketCategory {
         this.quantityInCart = quantityInCart;
     }
 
-    public TicketCategory(String description, String access, int avaibleQuantity, BigDecimal discountPercentage, long price, Event eventId, int quantityInCart) {
+    public TicketCategory(String description, String access, int avaibleQuantity, Double discountPercentage, long price, Event eventId, int quantityInCart) {
         this.description = description;
         this.access = access;
         this.avaibleQuantity = avaibleQuantity;

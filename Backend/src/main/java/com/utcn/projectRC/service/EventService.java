@@ -43,6 +43,8 @@ public class EventService {
         venueDTO.setLocation(event.getVenueId().getLocation());
         venueDTO.setType(event.getVenueId().getType());
         venueDTO.setCapacity(event.getVenueId().getCapacity());
+        venueDTO.setLatitude(event.getVenueId().getLatitude());
+        venueDTO.setLongitude(event.getVenueId().getLongitude());
         eventDTO.setVenue(venueDTO);
 
         List<TicketCategoryDTO> ticketCategories = event.getListTicketCategory()
@@ -58,6 +60,10 @@ public class EventService {
         ticketCategoryDTO.setTicketCategoryId(ticketCategory.getTicketCategoryId());
         ticketCategoryDTO.setDescription(ticketCategory.getDescription());
         ticketCategoryDTO.setPrice(ticketCategory.getPrice());
+        ticketCategoryDTO.setAccess(ticketCategory.getAccess());
+        ticketCategoryDTO.setAvaibleQuantity(ticketCategory.getAvaibleQuantity());
+        ticketCategoryDTO.setDiscountPercentage(ticketCategory.getDiscountPercentage());
+        ticketCategoryDTO.setSales(ticketCategory.getPrice() - (ticketCategoryDTO.getDiscountPercentage() / 100 * ticketCategory.getPrice()));
         return ticketCategoryDTO;
     }
     public List<EventDTO> getAllEventsDTO() {
