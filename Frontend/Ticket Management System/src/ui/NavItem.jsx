@@ -29,7 +29,7 @@ const StyledNavLink = styled(NavLink)`
     color: var(--color-gray-800);
   }
 
-  & svg {
+  & > svg {
     width: 2.4rem;
     height: 2.4rem;
     color: var(--color-gray-500);

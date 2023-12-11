@@ -3,9 +3,10 @@ import { HiMiniNoSymbol } from "react-icons/hi2";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addTicketToCart,
+  decrementTicketQuantity,
   deleteTicket,
   incrementTicketQuantity,
-} from "../../contexts/CartSlice";
+} from "../../contexts/cartSlice";
 
 import styled from "styled-components";
 import Button from "../../ui/Button";
@@ -87,6 +88,13 @@ const ButtonsContainer = styled.div`
 
 const StyledButton = styled(Button)`
   border-radius: 50%;
+  background-color: var(--color-gray-100);
+  border: 1px solid var(--color-brand-600);
+  color: var(--color-brand-500);
+
+  &:hover {
+    color: var(--color-gray-200);
+  }
 `;
 
 function TicketType({ category, event }) {
@@ -99,18 +107,31 @@ function TicketType({ category, event }) {
     (el) => el.eventId === eventId && el.ticketCategoryId === ticketCategoryId
   );
 
-  console.log(foundItem);
-
   function handleIncrement(e) {
     e.preventDefault();
-    dispatch(incrementTicketQuantity(event));
+    dispatch(
+      incrementTicketQuantity({
+        eventId,
+        ticketCategoryId,
+      })
+    );
+  }
+
+  function handleDecrement(e) {
+    e.preventDefault();
+    dispatch(
+      decrementTicketQuantity({
+        eventId,
+        ticketCategoryId,
+      })
+    );
   }
 
   function handleClick(e) {
     e.preventDefault();
 
     if (foundItem) {
-      dispatch(deleteTicket(eventId));
+      dispatch(deleteTicket({ ticketCategoryId, eventId }));
     } else {
       dispatch(
         addTicketToCart({
@@ -147,9 +168,9 @@ function TicketType({ category, event }) {
         <ButtonsContainer>
           {foundItem !== undefined && (
             <div>
-              <StyledButton>-</StyledButton>
+              <StyledButton onClick={handleDecrement}>-</StyledButton>
               <span>{foundItem.numberOfTickets}</span>
-              <StyledButton onClick={(e) => handleIncrement(e)}>+</StyledButton>
+              <StyledButton onClick={handleIncrement}>+</StyledButton>
             </div>
           )}
           <Button onClick={(e) => handleClick(e)}>

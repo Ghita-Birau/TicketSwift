@@ -2,6 +2,7 @@ import {
   HiClipboardDocumentList,
   HiOutlineShoppingCart,
   HiOutlineTicket,
+  HiHome,
 } from "react-icons/hi2";
 
 import styled from "styled-components";
@@ -33,7 +34,12 @@ function Sidebar() {
       </HeaderContainer>
 
       <MainNav>
-        <NavItem to="/" icon={<HiClipboardDocumentList />} label="Dashboard" />
+        <NavItem to="/" icon={<HiHome />} label="Home" />
+        <NavItem
+          to="/events"
+          icon={<HiClipboardDocumentList />}
+          label="Events"
+        />
         <NavItem to="/orders" icon={<HiOutlineShoppingCart />} label="Orders" />
       </MainNav>
     </StyledSidebar>
