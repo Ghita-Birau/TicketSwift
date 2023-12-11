@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -17,9 +18,9 @@ public class OrderEntity {
     @JoinColumn(name = "user_id")
     private User userId;
 
-    @ManyToOne
-    @JoinColumn(name = "ticket_category_id")
-    private TicketCategory ticketCategoryId;
+    @OneToMany
+    @JoinColumn(name = "order_id")
+    private List<TicketCategory> ticketCategories;
 
     private LocalDateTime orderedAt;
 
@@ -31,9 +32,10 @@ public class OrderEntity {
     public OrderEntity() {
 
     }
-    public OrderEntity(User userId, TicketCategory ticketCategoryId, LocalDateTime orderedAt, Integer numberOfTickets, long totalPrice) {
+
+    public OrderEntity(User userId, List<TicketCategory> ticketCategories, LocalDateTime orderedAt, Integer numberOfTickets, long totalPrice) {
         this.userId = userId;
-        this.ticketCategoryId = ticketCategoryId;
+        this.ticketCategories = ticketCategories;
         this.orderedAt = orderedAt;
         this.numberOfTickets = numberOfTickets;
         this.totalPrice = totalPrice;
