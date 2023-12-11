@@ -1,13 +1,12 @@
-INSERT INTO ticketmanagementsystem_v3.role(role_description, user_id) VALUES
-('ADMIN', 1),
-('USER', 2),
-('USER', 3);
-
 INSERT INTO ticketmanagementsystem_v3.user(user_email, user_name, address, date_of_birth, first_name, gender, password, second_name) VALUES
 ('ghita.birau@yahoo.com', 'Ghita_01', 'Cojocneei, Cluj-Napoca', '2001-03-05 00:00:00.000', 'Birau', 'male', 'Ghita_1234', 'Gheorghe-Marin'),
 ('laura.mocanu@yahoo.com', 'Laura_01', 'Republicii, Cluj-Napoca', '2001-06-17 00:00:00.000', 'Mocanu', 'female', 'Laura_1234', 'Laura'),
 ('david.besnei@yahoo.com', 'David_01', 'Observatorului, Cluj-Napoca', '2001-02-11 00:00:00.000', 'Besnei', 'male', 'David_1234', 'David');
 
+INSERT INTO ticketmanagementsystem_v3.role(role_description, user_id) VALUES
+('ADMIN', 1),
+('USER', 2),
+('USER', 3);
 
 INSERT INTO ticketmanagementsystem_v3.order_entity (number_of_tickets, ordered_at, total_price, user_id) VALUES
 	(2, '1894-06-16 00:00:00.000', 1600, 1),
@@ -22,12 +21,12 @@ INSERT INTO ticketmanagementsystem_v3.event_type (event_type_name) VALUES
 	('Festival de Muzica'),
 	('Sport'),
 	('Bauturi');
-
-INSERT INTO ticketmanagementsystem_v3.venue (capacity, location, type) VALUES
-	(1000, 'Aleea Stadionului 2, Cluj-Napoca', 'Stadion'),
-	(4000, 'Bontida Castle, Cluj-Napoca', 'Castle'),
-	(3000, 'Central Park, Cluj-Napoca', 'Park'),
-	(1000, 'Intre Lacuri, Cluj-Napoca', 'Park');
+    
+INSERT INTO ticketmanagementsystem_v3.venue (capacity, location, type, longitude, latitude) VALUES
+    (1000, 'Aleea Stadionului 2, Cluj-Napoca', 'Stadion', 23.5725, 46.7675),
+    (4000, 'Bontida Castle, Cluj-Napoca', 'Castle', 23.808139, 46.908861),
+    (3000, 'Central Park, Cluj-Napoca', 'Park', 23.578278, 46.770194),
+    (1000, 'Intre Lacuri, Cluj-Napoca', 'Park', 23.635056, 46.774528);
     
 INSERT INTO ticketmanagementsystem_v3.event (end_date, event_description, event_name, start_date, event_type_id, venue_id, url_image) VALUES
 	('2023-06-08 00:00:00.000', 'Muzica Electronica si nu numai', 'Untold', '2023-03-08 00:00:00.000', 1, 1, 'https://viacluj.tv/wp-content/uploads/2022/08/untold-3.jpg'),
@@ -42,4 +41,15 @@ INSERT INTO ticketmanagementsystem_v3.ticket_category (description, price, event
 	('Standard', 70, 4, 5, 'restricted', 400, 10),
 	('VIP', 1500, 1, 6, 'full', 700, 0),
 	('VIP', 1200, 2, 2, 'full', 500, 7),
-	('VIP', 600, 3, 4, 'full', 300, 0);
+	('VIP', 600, 3, 4, 'full', 300, 0),
+    ('Early Bird', 700, 1, 2, 'full', 5000, 15),
+	('Early Bird', 500, 2, 4, 'full', 1000, 20),
+	('Early Bird', 150, 3, 3, 'restricted', 200, 10),
+	('Early Bird', 50, 4, 5, 'restricted', 400, 8),
+	('Last Minute', 2000, 1, 6, 'full', 700, 0),
+	('Last Minute', 1500, 2, 2, 'full', 500, 0),
+	('Last Minute', 1000, 3, 4, 'restricted', 300, 0),
+    ('Family', 2000, 1, 2, 'full', 5000, 5),
+	('Family', 1500, 2, 4, 'restricted', 1000, 0),
+	('Family', 1000, 3, 3, 'full', 200, 22),
+	('Family', 500, 4, 5, 'restricted', 400, 10);
