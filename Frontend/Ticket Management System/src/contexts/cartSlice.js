@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import toast from "react-hot-toast";
 
 const initialState = {
   cart: [],
@@ -10,6 +11,7 @@ const cartSlice = createSlice({
   reducers: {
     addTicketToCart(state, action) {
       state.cart.push(action.payload);
+      toast.success("Item succesfully added to cart");
     },
 
     incrementTicketQuantity(state, action) {
@@ -47,10 +49,12 @@ const cartSlice = createSlice({
             item.ticketCategoryId === action.payload.ticketCategoryId
           )
       );
+      toast.success("Item succesfully removed");
     },
 
     clearCart(state, action) {
       state.cart = [];
+      toast.success("The cart has been cleared");
     },
   },
 });
@@ -58,6 +62,13 @@ const cartSlice = createSlice({
 export const getTotalCartPrice = (store) => {
   return store?.cart.reduce(
     (acc, curr) => (acc += Number(curr.price * curr.numberOfTickets)),
+    0
+  );
+};
+
+export const getTotalPriceWithDiscount = (store) => {
+  return store?.cart.reduce(
+    (acc, curr) => (acc += Number(curr?.sales * curr.numberOfTickets)),
     0
   );
 };

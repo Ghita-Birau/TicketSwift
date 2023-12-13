@@ -1,11 +1,7 @@
-import CartWindow from "../features/Cart/CartWindow";
+import ActiveSlider from "../ui/ActiveSlider";
 
 function Dashboard() {
-  return (
-    <div>
-      <CartWindow />
-    </div>
-  );
+  return <ActiveSlider />;
 }
 
 export default Dashboard;

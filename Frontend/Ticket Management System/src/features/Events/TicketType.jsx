@@ -1,5 +1,5 @@
 import { formatCurrency } from "../../utils/helpers";
-import { HiMiniNoSymbol } from "react-icons/hi2";
+import { HiMiniNoSymbol, HiOutlineKey } from "react-icons/hi2";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addTicketToCart,
@@ -19,6 +19,8 @@ const Container = styled.div`
   background-color: var(--color-gray-50);
   border-radius: 8px;
   max-width: 38rem;
+  position: relative;
+  overflow: hidden;
 `;
 
 const StyledHeader = styled.header`
@@ -53,10 +55,28 @@ const StyledFooter = styled.footer`
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
+`;
+
+const PriceDiv = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 
   & > p {
     font-weight: 600;
     font-size: 1.6rem;
+    text-decoration: ${(props) =>
+      props.discount !== 0 ? "line-through" : "none"};
+
+    color: ${(props) =>
+      props.discount !== 0 ? "var(--color-gray-400)" : "var(--color-gray-700)"};
+    text-decoration-thickness: 0.24rem;
+    text-decoration-style: solid;
+  }
+
+  & > span {
+    font-size: 1.6rem;
+    font-weight: 600;
   }
 `;
 
@@ -97,9 +117,27 @@ const StyledButton = styled(Button)`
   }
 `;
 
+const StyledDiscount = styled.div`
+  position: absolute;
+  top: 4%;
+  right: -15%;
+  background-color: var(--color-discount);
+  color: var(--color-gray-50);
+  padding: 0.4rem 6rem;
+  transform: rotate(45deg);
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
+`;
+
 function TicketType({ category, event }) {
   const { eventId, urlImage, description: eventDescription, name } = event;
-  const { description, price, ticketCategoryId } = category;
+  const {
+    description,
+    price,
+    ticketCategoryId,
+    sales,
+    discountPercentage,
+    access,
+  } = category;
   const dispatch = useDispatch();
   const cart = useSelector((store) => store.cart);
 
@@ -141,6 +179,7 @@ function TicketType({ category, event }) {
           eventDescription,
           description,
           price,
+          sales,
           numberOfTickets: 1,
           ticketCategoryId,
         })
@@ -154,6 +193,10 @@ function TicketType({ category, event }) {
       <StyledMain>
         <StyledSection>
           <header>Access</header>
+          <StyledCaracteristic>
+            <HiOutlineKey />
+            <span>{access}</span>
+          </StyledCaracteristic>
         </StyledSection>
         <StyledSection>
           <header>Fare Rules</header>
@@ -164,7 +207,11 @@ function TicketType({ category, event }) {
         </StyledSection>
       </StyledMain>
       <StyledFooter>
-        <p>{formatCurrency(price)}</p>
+        <PriceDiv discount={discountPercentage}>
+          <p>{formatCurrency(price)} </p>
+          {discountPercentage !== 0 && <span>{formatCurrency(sales)}</span>}
+        </PriceDiv>
+
         <ButtonsContainer>
           {foundItem !== undefined && (
             <div>
@@ -178,6 +225,9 @@ function TicketType({ category, event }) {
           </Button>
         </ButtonsContainer>
       </StyledFooter>
+      {discountPercentage !== 0 && (
+        <StyledDiscount>{discountPercentage}%</StyledDiscount>
+      )}
     </Container>
   );
 }

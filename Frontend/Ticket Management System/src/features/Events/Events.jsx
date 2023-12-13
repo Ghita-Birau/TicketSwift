@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import EventCard from "./EventCard";
+import Filters from "./Filters";
 // import useEvents from "./useEvents";
+// import Loader from "../../ui/Loader";
 
 const StyledContainer = styled.div`
   background-color: var(--color-gray-100);
@@ -33,7 +35,7 @@ const EventsHeader = styled.header`
   color: var(--color-gray-0);
 `;
 
-const fakeData = [
+export const fakeData = [
   {
     eventId: 1,
     venue: {
@@ -41,6 +43,8 @@ const fakeData = [
       location: "Aleea Stadionului 2, Cluj-Napoca",
       type: "Stadion",
       capacity: 1000,
+      latitude: 46.7675,
+      longitude: 23.5725,
     },
     eventTypeName: "Music",
     description: "Muzica Electronica si nu numai",
@@ -49,14 +53,49 @@ const fakeData = [
     endDate: "2023-06-08",
     ticketCategories: [
       {
+        ticketCategoryId: 1,
         description: "Standard",
         price: 800,
-        ticketCategoryId: 1,
+        access: "restricted",
+        avaibleQuantity: 5000,
+        discountPercentage: 5.0,
+        sales: 760.0,
       },
       {
+        ticketCategoryId: 5,
         description: "VIP",
         price: 1500,
-        ticketCategoryId: 5,
+        access: "full",
+        avaibleQuantity: 700,
+        discountPercentage: 0.0,
+        sales: 1500.0,
+      },
+      {
+        ticketCategoryId: 8,
+        description: "Early Bird",
+        price: 700,
+        access: "full",
+        avaibleQuantity: 5000,
+        discountPercentage: 15.0,
+        sales: 595.0,
+      },
+      {
+        ticketCategoryId: 12,
+        description: "Last Minute",
+        price: 2000,
+        access: "full",
+        avaibleQuantity: 700,
+        discountPercentage: 0.0,
+        sales: 2000.0,
+      },
+      {
+        ticketCategoryId: 15,
+        description: "Family",
+        price: 2000,
+        access: "full",
+        avaibleQuantity: 5000,
+        discountPercentage: 5.0,
+        sales: 1900.0,
       },
     ],
     urlImage: "https://viacluj.tv/wp-content/uploads/2022/08/untold-3.jpg",
@@ -68,22 +107,59 @@ const fakeData = [
       location: "Aleea Stadionului 2, Cluj-Napoca",
       type: "Stadion",
       capacity: 1000,
+      latitude: 46.7675,
+      longitude: 23.5725,
     },
-    eventTypeName: "Music",
+    eventTypeName: "Sport",
     description: "Muzica Electronica si nu numai",
     name: "Electric Castle",
     startDate: "1894-06-30",
     endDate: "1894-07-04",
     ticketCategories: [
       {
+        ticketCategoryId: 2,
         description: "Standard",
         price: 700,
-        ticketCategoryId: 2,
+        access: "restricted",
+        avaibleQuantity: 1000,
+        discountPercentage: 0.0,
+        sales: 700.0,
       },
       {
+        ticketCategoryId: 6,
         description: "VIP",
         price: 1200,
-        ticketCategoryId: 6,
+        access: "full",
+        avaibleQuantity: 500,
+        discountPercentage: 7.0,
+        sales: 1116.0,
+      },
+      {
+        ticketCategoryId: 9,
+        description: "Early Bird",
+        price: 500,
+        access: "full",
+        avaibleQuantity: 1000,
+        discountPercentage: 20.0,
+        sales: 400.0,
+      },
+      {
+        ticketCategoryId: 13,
+        description: "Last Minute",
+        price: 1500,
+        access: "full",
+        avaibleQuantity: 500,
+        discountPercentage: 0.0,
+        sales: 1500.0,
+      },
+      {
+        ticketCategoryId: 16,
+        description: "Family",
+        price: 1500,
+        access: "restricted",
+        avaibleQuantity: 1000,
+        discountPercentage: 0.0,
+        sales: 1500.0,
       },
     ],
     urlImage:
@@ -96,27 +172,59 @@ const fakeData = [
       location: "Bontida Castle, Cluj-Napoca",
       type: "Castle",
       capacity: 4000,
+      latitude: 46.908861,
+      longitude: 23.808139,
     },
-    eventTypeName: "Sport",
+    eventTypeName: "Music",
     description: "Fotbal",
     name: "Meci de fotbal",
     startDate: "1894-06-30",
     endDate: "1894-06-30",
     ticketCategories: [
       {
+        ticketCategoryId: 3,
         description: "Standard",
         price: 300,
-        ticketCategoryId: 3,
+        access: "restricted",
+        avaibleQuantity: 200,
+        discountPercentage: 22.0,
+        sales: 234.0,
       },
       {
+        ticketCategoryId: 7,
         description: "VIP",
         price: 600,
-        ticketCategoryId: 7,
+        access: "full",
+        avaibleQuantity: 300,
+        discountPercentage: 0.0,
+        sales: 600.0,
       },
       {
-        description: "VIP",
-        price: 600,
-        ticketCategoryId: 7,
+        ticketCategoryId: 10,
+        description: "Early Bird",
+        price: 150,
+        access: "restricted",
+        avaibleQuantity: 200,
+        discountPercentage: 10.0,
+        sales: 135.0,
+      },
+      {
+        ticketCategoryId: 14,
+        description: "Last Minute",
+        price: 1000,
+        access: "restricted",
+        avaibleQuantity: 300,
+        discountPercentage: 0.0,
+        sales: 1000.0,
+      },
+      {
+        ticketCategoryId: 17,
+        description: "Family",
+        price: 1000,
+        access: "full",
+        avaibleQuantity: 200,
+        discountPercentage: 22.0,
+        sales: 780.0,
       },
     ],
     urlImage:
@@ -129,6 +237,8 @@ const fakeData = [
       location: "Central Park, Cluj-Napoca",
       type: "Park",
       capacity: 3000,
+      latitude: 46.770194,
+      longitude: 23.578278,
     },
     eventTypeName: "Gastronomy",
     description: "Festival de vin",
@@ -137,9 +247,31 @@ const fakeData = [
     endDate: "1894-06-21",
     ticketCategories: [
       {
+        ticketCategoryId: 4,
         description: "Standard",
         price: 70,
-        ticketCategoryId: 4,
+        access: "restricted",
+        avaibleQuantity: 400,
+        discountPercentage: 10.0,
+        sales: 63.0,
+      },
+      {
+        ticketCategoryId: 11,
+        description: "Early Bird",
+        price: 50,
+        access: "restricted",
+        avaibleQuantity: 400,
+        discountPercentage: 8.0,
+        sales: 46.0,
+      },
+      {
+        ticketCategoryId: 18,
+        description: "Family",
+        price: 500,
+        access: "restricted",
+        avaibleQuantity: 400,
+        discountPercentage: 10.0,
+        sales: 450.0,
       },
     ],
     urlImage:
@@ -150,11 +282,13 @@ const fakeData = [
 function Events() {
   // const { events = {}, isLoading } = useEvents();
 
-  // if (isLoading) return <p>Spinner</p>;
+  // if (isLoading) return <Loader />
 
   return (
     <StyledContainer>
-      <StyledFilters>Filters</StyledFilters>
+      <StyledFilters>
+        <Filters />
+      </StyledFilters>
       <StyledTicketContainer>
         <EventsHeader>All Events</EventsHeader>
         {fakeData.map((event) => (

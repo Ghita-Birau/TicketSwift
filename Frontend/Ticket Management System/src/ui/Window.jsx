@@ -43,7 +43,7 @@ const StyledList = styled.div`
   top: ${(props) => props?.position?.y}px;
 `;
 
-const WindowContext = createContext();
+export const WindowContext = createContext();
 
 function Window({ children }) {
   const [openName, setOpenName] = useState(null);

@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import Heading from "../ui/Heading";
 import Events from "../features/Events/Events";
 
 const StyledContainer = styled.div`
@@ -11,7 +10,6 @@ const StyledContainer = styled.div`
 function EventsPage() {
   return (
     <StyledContainer>
-      <Heading as="h2">Dashboard</Heading>
       <Events />
     </StyledContainer>
   );

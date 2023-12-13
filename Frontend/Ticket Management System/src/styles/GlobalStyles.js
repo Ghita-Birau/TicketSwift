@@ -95,6 +95,8 @@ const GlobalStyles = createGlobalStyle`
 
 
   --color-error-600:#dc2626;
+  
+  --color-discount:#b91c1c;
 
   --color-success-600:#16a34a;
 

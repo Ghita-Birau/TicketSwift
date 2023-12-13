@@ -2,15 +2,17 @@ import { GrLocationPin } from "react-icons/gr";
 import {
   HiCalendarDays,
   HiChevronDown,
+  HiChevronLeft,
+  HiChevronRight,
   HiChevronUp,
   HiOutlineMusicalNote,
 } from "react-icons/hi2";
 import { MdOutlineSportsSoccer } from "react-icons/md";
 import { BiDrink } from "react-icons/bi";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { formatCurrency, formatDate } from "../../utils/helpers";
 
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import Heading from "../../ui/Heading";
 import Button from "../../ui/Button";
 import TicketType from "./TicketType";
@@ -109,27 +111,97 @@ const Div = styled.div`
   }
 `;
 
+const BackgroundContainer = styled.div`
+  position: relative;
+`;
+
 const OptionsContainer = styled.div`
   display: grid;
   grid-auto-flow: column;
   padding: 1.4rem 2rem;
   gap: 1rem;
 
-  overflow-x: auto;
+  overflow-x: hidden;
   overscroll-behavior-inline: contain;
+  scroll-behavior: smooth;
+  white-space: nowrap;
 
   & > div {
     min-width: 30rem;
     flex: 0 0 auto;
   }
+
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+  }
+`;
+
+const ButtonScroll = styled.button`
+  position: absolute;
+  top: 45%;
+  ${(props) =>
+    props.position === "left"
+      ? css`
+          left: 0;
+        `
+      : css`
+          right: 0;
+        `}
+
+  padding: 0.4rem 0.6rem;
+  border-radius: 8px;
+  background-color: var(--color-gray-50);
+  border: 1px solid var(--color-gray-300);
+
+  ${(props) =>
+    props.position === "left"
+      ? css`
+          transform: translate(-40%, -30%);
+        `
+      : css`
+          transform: translate(40%, -30%);
+        `}
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+
+  & > svg {
+    width: 2.4rem;
+    height: 2.4rem;
+    color: var(--color-brand-700);
+    align-self: center;
+  }
+
+  &:hover {
+    background-color: var(--color-brand-700);
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+
+    & > svg {
+      color: var(--color-gray-50);
+    }
+  }
 `;
 
 function EventCard({ event }) {
   const [isOpen, setIsOpen] = useState(false);
+  const containerRef = useRef(null);
   let icon;
 
+  const scrollToRight = () => {
+    if (containerRef.current) {
+      containerRef.current.scrollLeft += 380;
+    }
+  };
+
+  const scrollToLeft = () => {
+    if (containerRef.current) {
+      containerRef.current.scrollLeft -= 380;
+    }
+  };
+
   const {
-    // eventId,
     description,
     endDate,
     eventTypeName,
@@ -143,6 +215,7 @@ function EventCard({ event }) {
   const prices = ticketCategories.map((category) => category.price);
 
   const minPrice = Math.min(...prices);
+  const maxPrice = Math.max(...prices);
 
   switch (eventTypeName) {
     case "Music":
@@ -188,7 +261,12 @@ function EventCard({ event }) {
               </StyledLocation>
             </div>
             <Div>
-              {!isOpen && <p>{formatCurrency(minPrice, 0)}</p>}
+              {!isOpen && (
+                <p>
+                  <span>{formatCurrency(minPrice, 0)}</span> &mdash;{" "}
+                  <span>{formatCurrency(maxPrice, 0)}</span>
+                </p>
+              )}
 
               <Button
                 onClick={() => setIsOpen(!isOpen)}
@@ -203,15 +281,23 @@ function EventCard({ event }) {
       </StyledContainer>
 
       {isOpen && (
-        <OptionsContainer>
-          {ticketCategories?.map((category) => (
-            <TicketType
-              category={category}
-              event={event}
-              key={category.ticketCategoryId}
-            />
-          ))}
-        </OptionsContainer>
+        <BackgroundContainer>
+          <OptionsContainer ref={containerRef}>
+            {ticketCategories?.map((category) => (
+              <TicketType
+                category={category}
+                event={event}
+                key={category.ticketCategoryId}
+              />
+            ))}
+          </OptionsContainer>
+          <ButtonScroll onClick={scrollToRight} position="right">
+            <HiChevronRight />
+          </ButtonScroll>
+          <ButtonScroll onClick={scrollToLeft} position="left">
+            <HiChevronLeft />
+          </ButtonScroll>
+        </BackgroundContainer>
       )}
     </Container>
   );

@@ -1,12 +1,17 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  clearCart,
+  getTotalCartPrice,
+  getTotalPriceWithDiscount,
+} from "../../contexts/cartSlice";
+import { formatCurrency } from "../../utils/helpers";
+import { NavLink } from "react-router-dom";
+import { useContext } from "react";
+import { WindowContext } from "../../ui/Window";
 
 import styled from "styled-components";
 import EmptyCart from "./EmptyCart";
 import CartItem from "./CartItem";
-import { getTotalCartPrice } from "../../contexts/cartSlice";
-import { formatCurrency } from "../../utils/helpers";
-import { NavLink } from "react-router-dom";
-import useOutsideClick from "../../hooks/useOutsideClick";
 
 const StyledMain = styled.main`
   padding: 1rem 1.4rem;
@@ -22,9 +27,22 @@ const StyledMain = styled.main`
   & > p {
     margin-top: 0.8rem;
     margin-bottom: 0.4rem;
+
+    & > span {
+      font-size: 1.3rem;
+      margin-left: 1rem;
+      color: var(--color-gray-400);
+      text-decoration: line-through;
+    }
   }
 
   overflow: scroll;
+`;
+
+const StyledDiv = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
 `;
 
 const Button = styled(NavLink)`
@@ -47,6 +65,13 @@ const Button = styled(NavLink)`
 function CartWindow() {
   const cart = useSelector((store) => store.cart);
   const totalPrice = useSelector(getTotalCartPrice);
+  const totalPriceWithDisc = useSelector(getTotalPriceWithDiscount);
+  const { close } = useContext(WindowContext);
+  const dispatch = useDispatch();
+
+  function handleClear() {
+    dispatch(clearCart());
+  }
 
   return (
     <StyledMain>
@@ -60,9 +85,24 @@ function CartWindow() {
       {totalPrice !== 0 && (
         <>
           <p>
-            Total price:<strong>{formatCurrency(totalPrice)}</strong>
+            Total price:
+            <strong>
+              {formatCurrency(
+                totalPriceWithDisc < totalPrice
+                  ? totalPriceWithDisc
+                  : totalPrice
+              )}
+            </strong>
+            {totalPrice - totalPriceWithDisc !== 0 && (
+              <span>{formatCurrency(totalPrice)}</span>
+            )}
           </p>
-          <Button to="/cart">Go to cart</Button>
+          <StyledDiv>
+            <Button to="/cart" onClick={() => close()}>
+              Go to cart
+            </Button>
+            <Button onClick={handleClear}>Clear cart</Button>
+          </StyledDiv>
         </>
       )}
     </StyledMain>

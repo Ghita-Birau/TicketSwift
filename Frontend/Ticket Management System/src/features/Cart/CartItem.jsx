@@ -15,6 +15,8 @@ const Container = styled.div`
   position: relative;
   overflow: hidden;
 
+  /* border: 1px solid blue; */
+
   & > div:not(:last-child) {
     padding: 0.6rem;
 
@@ -94,7 +96,7 @@ function CartItem({ item }) {
         </div>
         <span>
           <strong>{formatCurrency(price)}</strong> x{" "}
-          <stron>{numberOfTickets}</stron>
+          <strong>{numberOfTickets}</strong>
         </span>
       </InformationContainer>
       <DeleteButton onClick={handleDelete}>

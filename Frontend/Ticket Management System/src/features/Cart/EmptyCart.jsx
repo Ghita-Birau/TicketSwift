@@ -6,6 +6,7 @@ const StyledDiv = styled.main`
   flex-direction: column;
   align-items: center;
   gap: 2rem;
+  padding: 1.2rem 2rem;
 
   & > p {
     color: var(--color-gray-400);
