@@ -43,8 +43,10 @@ public class EventController {
     }
 
     @GetMapping("searchEventByNameOrLocation")
-    public List<EventDTO> getEventsByNameOrLocation(@RequestParam String eventName, @RequestParam String eventLocation) {
-        return eventService.getEventsDTOByNameOrLocation(eventName, eventLocation);
+    public List<EventDTO> searchEventsByNameOrLocation(
+            @RequestParam(required = false) String eventName,
+            @RequestParam(required = false) String eventLocation) {
+        return eventService.searchEventsDTOByNameOrLocation(eventName, eventLocation);
     }
 
     @GetMapping("filterEventsByStartDate")
@@ -52,10 +54,21 @@ public class EventController {
         return eventService.getEventsDTOByStartDate(startDate);
     }
 
-    @GetMapping("filterEventsByStartDateBetween")
-    public List<EventDTO> getEventsByStartDateBetween(
+    @GetMapping("filterEventsByStartDateRange")
+    public List<EventDTO> filterEventsByStartDateBetween(
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDateFrom,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDateTo) {
-        return eventService.getEventsDTOByStartDateBetween(startDateFrom, startDateTo);
+        return eventService.filterEventsDTOByStartDateRange(startDateFrom, startDateTo);
     }
+
+    @GetMapping("filterEventsByPriceRange")
+    public List<EventDTO> filterEventsByPriceRange(
+            @RequestParam(required = false) long priceFrom,
+            @RequestParam(required = false) long priceTo) {
+        priceFrom = 0;
+        priceTo = 0;
+        return eventService.filterEventsDTOByPriceRange(priceFrom, priceTo);
+    }
+
+
 }

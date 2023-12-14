@@ -72,49 +72,68 @@ public class EventService {
         return ticketCategoryDTO;
     }
     public List<EventDTO> getAllEventsDTO() {
-        List<Event> listEvent = eventRepository.findAll();
-        return listEvent.stream().map(this::convertEventToEventDTO).toList();
+        List<Event> eventList = eventRepository.findAll();
+        return eventList.stream().map(this::convertEventToEventDTO).toList();
     }
 
     public List<EventDTO> getEventsDTOByLocationAndType(String location, String eventTypeName) {
-        List<Event> listEvent = eventRepository.findAllByVenueId_LocationAndEventTypeId_EventTypeName(location, eventTypeName);
-        return listEvent.stream().map(this::convertEventToEventDTO).toList();
+        List<Event> eventList = eventRepository.findAllByVenueId_LocationAndEventTypeId_EventTypeName(location, eventTypeName);
+        return eventList.stream().map(this::convertEventToEventDTO).toList();
     }
 
     public List<EventDTO> getEventsDTOByName(String eventName) {
-        List<Event> listEvent = eventRepository.findAllByEventName(eventName);
-        return listEvent.stream().map(this::convertEventToEventDTO).toList();
+        List<Event> eventList = eventRepository.findAllByEventName(eventName);
+        return eventList.stream().map(this::convertEventToEventDTO).toList();
     }
 
     public List<EventDTO> getEventsDTOByLocation(String location) {
-        List<Event> listEvent = eventRepository.findAllByVenueId_Location(location);
-        return listEvent.stream().map(this::convertEventToEventDTO).toList();
+        List<Event> eventList = eventRepository.findAllByVenueId_Location(location);
+        return eventList.stream().map(this::convertEventToEventDTO).toList();
     }
 
-    public List<EventDTO> getEventsDTOByNameOrLocation(String eventName, String eventLocation) {
-        List<Event> listEvent = eventRepository.findAllByEventNameContainingIgnoreCaseOrVenueId_LocationContainingIgnoreCase(eventName, eventLocation);
-        return listEvent.stream().map(this::convertEventToEventDTO).toList();
+    public List<EventDTO> searchEventsDTOByNameOrLocation(String eventName, String eventLocation) {
+        List<Event> eventList = eventRepository.findAllByEventNameContainingIgnoreCaseOrVenueId_LocationContainingIgnoreCase(eventName, eventLocation);
+        return eventList.stream().map(this::convertEventToEventDTO).toList();
     }
 
     public List<EventDTO> getEventsDTOByStartDate(LocalDate startDate) {
-        List<Event> listEvent = eventRepository.findAllByStartDate(startDate);
-        return listEvent.stream().map(this::convertEventToEventDTO).toList();
+        List<Event> eventList = eventRepository.findAllByStartDate(startDate);
+        return eventList.stream().map(this::convertEventToEventDTO).toList();
     }
 
-    public List<EventDTO> getEventsDTOByStartDateBetween(LocalDate startDateFrom, LocalDate startDateTo) {
-        List<Event> listEvent;
+    public List<EventDTO> filterEventsDTOByStartDateRange(LocalDate startDateFrom, LocalDate startDateTo) {
+        List<Event> eventList;
 
         if(startDateFrom != null && startDateTo != null) {
-            listEvent = eventRepository.findAllByStartDateBetween(startDateFrom, startDateTo);
+            eventList = eventRepository.findAllByStartDateBetween(startDateFrom, startDateTo);
         } else if (startDateFrom != null) {
-            listEvent = eventRepository.findAllByStartDateAfter(startDateFrom);
+            eventList = eventRepository.findAllByStartDateAfter(startDateFrom);
         } else if (startDateTo !=null) {
-            listEvent = eventRepository.findAllByStartDateBefore(startDateTo);
+            eventList = eventRepository.findAllByStartDateBefore(startDateTo);
         } else {
-            listEvent = eventRepository.findAll();
+            eventList = eventRepository.findAll();
         }
-        return listEvent.stream().map(this::convertEventToEventDTO).toList();
+        return eventList.stream().map(this::convertEventToEventDTO).toList();
     }
 
+    public List<EventDTO> filterEventsDTOByPriceRange(long priceFrom, long priceTo) {
+        List<Event> eventList;
+
+        if(priceFrom != 0 && priceTo != 0) {
+            eventList = eventRepository.findAllByListTicketCategory_PriceBetween(priceFrom, priceTo);
+        } else if (priceFrom != 0) {
+            eventList = eventRepository.findAllByListTicketCategory_PriceGreaterThanEqual(priceFrom);
+        } else if (priceTo != 0) {
+            eventList = eventRepository.findAllByListTicketCategory_PriceLessThanEqual(priceTo);
+        } else {
+            eventList = eventRepository.findAll();
+        }
+        return eventList.stream().map(this::convertEventToEventDTO).toList();
+    }
+
+    public List<EventDTO> filterEventsDTOByCategory(String category) {
+        List<Event> eventList = eventRepository.findAllByListTicketCategory_DescriptionContainingIgnoreCase(category);
+        return eventList.stream().map(this::convertEventToEventDTO).toList();
+    }
 
 }
