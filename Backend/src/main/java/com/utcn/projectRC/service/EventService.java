@@ -7,9 +7,11 @@ import com.utcn.projectRC.model.Event;
 import com.utcn.projectRC.model.EventType;
 import com.utcn.projectRC.model.TicketCategory;
 import com.utcn.projectRC.repository.EventRepository;
+import com.utcn.projectRC.repository.TicketCategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,11 +20,13 @@ import java.util.stream.Collectors;
 public class EventService {
     private final EventRepository eventRepository;
 
+
     @Autowired
 
     public EventService(EventRepository eventRepository) {
         this.eventRepository = eventRepository;
     }
+
 
     public EventDTO convertEventToEventDTO(Event event) {
         EventDTO eventDTO = new EventDTO();
@@ -88,13 +92,29 @@ public class EventService {
     }
 
     public List<EventDTO> getEventsDTOByNameOrLocation(String eventName, String eventLocation) {
-        List<Event> listEvent = new ArrayList<>();
-        if(eventName != null) {
-             listEvent = eventRepository.findAllByEventName(eventName);
-        }
-        if (eventLocation != null) {
-             listEvent = eventRepository.findAllByVenueId_Location(eventLocation);
+        List<Event> listEvent = eventRepository.findAllByEventNameContainingIgnoreCaseOrVenueId_LocationContainingIgnoreCase(eventName, eventLocation);
+        return listEvent.stream().map(this::convertEventToEventDTO).toList();
+    }
+
+    public List<EventDTO> getEventsDTOByStartDate(LocalDate startDate) {
+        List<Event> listEvent = eventRepository.findAllByStartDate(startDate);
+        return listEvent.stream().map(this::convertEventToEventDTO).toList();
+    }
+
+    public List<EventDTO> getEventsDTOByStartDateBetween(LocalDate startDateFrom, LocalDate startDateTo) {
+        List<Event> listEvent;
+
+        if(startDateFrom != null && startDateTo != null) {
+            listEvent = eventRepository.findAllByStartDateBetween(startDateFrom, startDateTo);
+        } else if (startDateFrom != null) {
+            listEvent = eventRepository.findAllByStartDateAfter(startDateFrom);
+        } else if (startDateTo !=null) {
+            listEvent = eventRepository.findAllByStartDateBefore(startDateTo);
+        } else {
+            listEvent = eventRepository.findAll();
         }
         return listEvent.stream().map(this::convertEventToEventDTO).toList();
     }
+
+
 }

@@ -3,8 +3,10 @@ package com.utcn.projectRC.controller;
 import com.utcn.projectRC.DTO.EventDTO;
 import com.utcn.projectRC.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @CrossOrigin
@@ -43,5 +45,17 @@ public class EventController {
     @GetMapping("searchEventByNameOrLocation")
     public List<EventDTO> getEventsByNameOrLocation(@RequestParam String eventName, @RequestParam String eventLocation) {
         return eventService.getEventsDTOByNameOrLocation(eventName, eventLocation);
+    }
+
+    @GetMapping("filterEventsByStartDate")
+    public List<EventDTO> getEventsByStartDate(@RequestParam LocalDate startDate) {
+        return eventService.getEventsDTOByStartDate(startDate);
+    }
+
+    @GetMapping("filterEventsByStartDateBetween")
+    public List<EventDTO> getEventsByStartDateBetween(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDateFrom,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDateTo) {
+        return eventService.getEventsDTOByStartDateBetween(startDateFrom, startDateTo);
     }
 }
