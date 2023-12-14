@@ -10,6 +10,7 @@ import com.utcn.projectRC.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -83,6 +84,17 @@ public class EventService {
 
     public List<EventDTO> getEventsDTOByLocation(String location) {
         List<Event> listEvent = eventRepository.findAllByVenueId_Location(location);
+        return listEvent.stream().map(this::convertEventToEventDTO).toList();
+    }
+
+    public List<EventDTO> getEventsDTOByNameOrLocation(String eventName, String eventLocation) {
+        List<Event> listEvent = new ArrayList<>();
+        if(eventName != null) {
+             listEvent = eventRepository.findAllByEventName(eventName);
+        }
+        if (eventLocation != null) {
+             listEvent = eventRepository.findAllByVenueId_Location(eventLocation);
+        }
         return listEvent.stream().map(this::convertEventToEventDTO).toList();
     }
 }
