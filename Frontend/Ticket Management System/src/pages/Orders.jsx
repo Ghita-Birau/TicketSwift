@@ -1,4 +1,5 @@
 import DateFilter from "../features/Events/DateFilter&Style/DateFilter";
+import PriceFilter from "../features/Events/PriceFilter";
 import Heading from "../ui/Heading";
 
 function Orders() {
@@ -6,6 +7,7 @@ function Orders() {
     <div>
       <Heading as="h2">Orders</Heading>
       <DateFilter />
+      <PriceFilter />
     </div>
   );
 }

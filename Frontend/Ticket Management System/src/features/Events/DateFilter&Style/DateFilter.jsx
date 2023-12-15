@@ -52,7 +52,8 @@ const DateContaier = styled.div`
   color: var(--color-gray-500);
 
   & > label {
-    font-size: 1.4rem;
+    color: ${(props) => props.isactive === "true" && "var(--color-brand-500)"};
+    font-size: 1.6rem;
     cursor: pointer;
   }
 `;
@@ -71,7 +72,7 @@ function DateFilter() {
 
   const handleEndDateChange = (newDate) => {
     const formattedDate = newDate.toISOString().split("T")[0];
-    if (formattedDate > startDate) {
+    if (formattedDate >= startDate) {
       dispatch(addEndDate(formattedDate));
     } else {
       toast.error("The endDate should be higher than startDate");
@@ -88,7 +89,7 @@ function DateFilter() {
 
       {isOpen && (
         <div>
-          <DateContaier>
+          <DateContaier isactive={(startDate !== null).toString()}>
             <label htmlFor="startDate">Start Date</label>
             <ReactDatePicker
               selected={startDate ? new Date(startDate) : null}
@@ -97,7 +98,7 @@ function DateFilter() {
               id="startDate"
             />
           </DateContaier>
-          <DateContaier>
+          <DateContaier isactive={(endDate !== null).toString()}>
             <label htmlFor="endDate">End Date</label>
             <ReactDatePicker
               selected={endDate ? new Date(endDate) : null}

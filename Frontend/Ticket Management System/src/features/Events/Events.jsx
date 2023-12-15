@@ -1,11 +1,22 @@
 import { fakeData } from "../../utils/Constants";
 
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import EventCard from "./EventCard";
 import Filters from "./Filters";
 // import Searchbar from "../../ui/Searchbar";
 // import useEvents from "./useEvents";
 // import Loader from "../../ui/Loader";
+
+const HeaderTypes = {
+  filters: css`
+    background-color: var(--color-gray-400);
+    border-radius: 8px 0px 0px 0px;
+  `,
+  events: css`
+    background-color: var(--color-brand-600);
+    border-radius: 0px 8px 0px 0px;
+  `,
+};
 
 const StyledContainer = styled.div`
   background-color: var(--color-gray-100);
@@ -18,6 +29,7 @@ const StyledContainer = styled.div`
 
 const StyledFilters = styled.div`
   background-color: var(--color-gray-100);
+  padding: 1.2rem 0rem;
 `;
 
 const StyledTicketContainer = styled.div`
@@ -30,16 +42,15 @@ const StyledTicketContainer = styled.div`
 `;
 
 const EventsHeader = styled.header`
-  background-color: var(--color-brand-600);
   padding: 1.2rem 2.4rem;
-  border-radius: 8px 8px 0px 0px;
   text-align: center;
   color: var(--color-gray-0);
+
+  ${(props) => HeaderTypes[props.header]}
 `;
 
 function Events() {
   // const { events = {}, isLoading } = useEvents();
-
   // if (isLoading) return <Loader />
 
   return (
@@ -47,10 +58,11 @@ function Events() {
       {/* <Searchbar placeholder="Search" /> */}
       <StyledContainer>
         <StyledFilters>
+          <EventsHeader header="filters">Filters</EventsHeader>
           <Filters />
         </StyledFilters>
         <StyledTicketContainer>
-          <EventsHeader>All Events</EventsHeader>
+          <EventsHeader header="events">All Events</EventsHeader>
           {fakeData.map((event) => (
             <EventCard event={event} key={event.eventId} />
           ))}
