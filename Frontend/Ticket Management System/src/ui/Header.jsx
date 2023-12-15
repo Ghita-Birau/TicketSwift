@@ -79,9 +79,8 @@ function Header() {
 
         <Window.Container>
           <Window.Toggle name="cart-window">
-            <Button>
-              <HiOutlineShoppingCart />
-            </Button>
+            <Button variation="cart" icon={<HiOutlineShoppingCart />} />
+
             {currentPath !== "/cart" &&
               nrOfItems !== 0 &&
               nrOfItems === cartItems && (

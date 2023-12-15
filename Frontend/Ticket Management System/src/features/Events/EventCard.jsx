@@ -1,22 +1,23 @@
 import { GrLocationPin } from "react-icons/gr";
 import {
   HiCalendarDays,
-  HiChevronDown,
   HiChevronLeft,
   HiChevronRight,
-  HiChevronUp,
+  HiOutlineMicrophone,
   HiOutlineMusicalNote,
 } from "react-icons/hi2";
+
 import { MdOutlineSportsSoccer } from "react-icons/md";
 import { BiDrink } from "react-icons/bi";
 import { useRef, useState } from "react";
-import { formatCurrency, formatDate } from "../../utils/helpers";
+import { formatDate } from "../../utils/helpers";
 
 import styled, { css } from "styled-components";
 import Heading from "../../ui/Heading";
-import Button from "../../ui/Button";
 import TicketType from "./TicketType";
 import PropTypes from "prop-types";
+import EventDetail from "./EventDetail";
+import PriceDetail from "./PriceDetail";
 
 const Container = styled.div`
   background-color: var(--color-gray-200);
@@ -33,6 +34,8 @@ const ImgContainer = styled.div`
   padding: 1rem;
   background-color: var(--color-gray-100);
   transition: all 0.3s;
+  max-height: 16rem;
+  max-width: 20rem;
 
   & > img {
     width: 100%;
@@ -77,13 +80,6 @@ const InformationContainer = styled.div`
   & > p::after {
     bottom: 0.5rem;
   }
-`;
-
-const StyledLocation = styled.div`
-  font-size: 1.3rem;
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
 `;
 
 const Div = styled.div`
@@ -227,6 +223,12 @@ function EventCard({ event }) {
     case "Gastronomy":
       icon = <BiDrink />;
       break;
+    case "Comedy":
+      icon = <HiOutlineMicrophone />;
+      break;
+    case "Dance":
+      // icon = <FontAwesomeIcon icon={faDance} />;
+      break;
     default:
       icon = "";
       break;
@@ -249,33 +251,18 @@ function EventCard({ event }) {
           <p>{description}</p>
           <Div>
             <div>
-              <StyledLocation>
-                <GrLocationPin />
-                <span>{venue.location}</span>
-              </StyledLocation>
-              <StyledLocation>
-                <HiCalendarDays />
-                <span>
-                  {formatDate(startDate)} &mdash; {formatDate(endDate)}
-                </span>
-              </StyledLocation>
+              <EventDetail icon={<GrLocationPin />} detail={venue.location} />
+              <EventDetail
+                icon={<HiCalendarDays />}
+                detail={`${formatDate(startDate)} – ${formatDate(endDate)}`}
+              />
             </div>
-            <Div>
-              {!isOpen && (
-                <p>
-                  <span>{formatCurrency(minPrice, 0)}</span> &mdash;{" "}
-                  <span>{formatCurrency(maxPrice, 0)}</span>
-                </p>
-              )}
-
-              <Button
-                onClick={() => setIsOpen(!isOpen)}
-                variation={isOpen ? "secondary" : "primary"}
-              >
-                <span>{isOpen ? "Hide" : "Select"}</span>
-                {isOpen ? <HiChevronUp /> : <HiChevronDown />}
-              </Button>
-            </Div>
+            <PriceDetail
+              isOpen={isOpen}
+              minPrice={minPrice}
+              maxPrice={maxPrice}
+              toggleOpen={() => setIsOpen(!isOpen)}
+            />
           </Div>
         </InformationContainer>
       </StyledContainer>

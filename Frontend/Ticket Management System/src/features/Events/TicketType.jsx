@@ -11,6 +11,8 @@ import {
 import styled from "styled-components";
 import Button from "../../ui/Button";
 import PropTypes from "prop-types";
+import Modal from "../../ui/Modal";
+import ConfirmDelete from "../../ui/ConfirmDelete";
 
 const Container = styled.div`
   color: var(--color-gray-600);
@@ -165,25 +167,29 @@ function TicketType({ category, event }) {
     );
   }
 
-  function handleClick(e) {
+  function handleAdd(e) {
+    e.preventDefault();
+
+    dispatch(
+      addTicketToCart({
+        eventId,
+        name,
+        urlImage,
+        eventDescription,
+        description,
+        price,
+        sales,
+        numberOfTickets: 1,
+        ticketCategoryId,
+      })
+    );
+  }
+
+  function handleDelete(e) {
     e.preventDefault();
 
     if (foundItem) {
       dispatch(deleteTicket({ ticketCategoryId, eventId }));
-    } else {
-      dispatch(
-        addTicketToCart({
-          eventId,
-          name,
-          urlImage,
-          eventDescription,
-          description,
-          price,
-          sales,
-          numberOfTickets: 1,
-          ticketCategoryId,
-        })
-      );
     }
   }
 
@@ -215,14 +221,35 @@ function TicketType({ category, event }) {
         <ButtonsContainer>
           {foundItem !== undefined && (
             <div>
-              <StyledButton onClick={handleDecrement}>-</StyledButton>
+              <StyledButton onClick={handleDecrement} variation="quantity">
+                -
+              </StyledButton>
               <span>{foundItem.numberOfTickets}</span>
-              <StyledButton onClick={handleIncrement}>+</StyledButton>
+              <StyledButton onClick={handleIncrement} variation="quantity">
+                +
+              </StyledButton>
             </div>
           )}
-          <Button onClick={(e) => handleClick(e)}>
-            {foundItem !== undefined ? "Delete" : "+ Add to cart"}
-          </Button>
+
+          {foundItem !== undefined && (
+            <Modal>
+              <Modal.Opens name="delete-ticket">
+                <Button variation={"danger"}>Delete</Button>
+              </Modal.Opens>
+              <Modal.Window name="delete-ticket">
+                <ConfirmDelete
+                  resource="ticket"
+                  onClickDelete={(e) => handleDelete(e)}
+                />
+              </Modal.Window>
+            </Modal>
+          )}
+
+          {foundItem === undefined && (
+            <Button onClick={(e) => handleAdd(e)} variation={"primary"}>
+              + Add to cart
+            </Button>
+          )}
         </ButtonsContainer>
       </StyledFooter>
       {discountPercentage !== 0 && (

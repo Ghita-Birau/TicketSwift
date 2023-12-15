@@ -96,11 +96,18 @@ const GlobalStyles = createGlobalStyle`
 
   --color-error-600:#dc2626;
   
+  --color-danger-600:#dc2626;
+  --color-danger-700:#b91c1c;
+  
   --color-discount:#b91c1c;
 
   --color-success-600:#16a34a;
 
   --backdrop-color: rgba(255, 255, 255, 0.1);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0px 0.6rem 2.4rem rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 2.4rem 3.2rem rgba(0, 0, 0, 0.12);
 }
 
 *,

@@ -277,6 +277,141 @@ export const fakeData = [
     urlImage:
       "https://vinul.ro/wp-content/uploads/2023/07/COVER_EVENT_WINEFEST_2023-752x440.png",
   },
+  {
+    eventId: 5,
+    venue: {
+      venueId: 5,
+      location: "Sala Polivalenta BT Arena, Cluj-Napoca",
+      type: "Stadion",
+      capacity: 10000,
+      latitude: 46.7675,
+      longitude: 23.5725,
+    },
+    eventTypeName: "Music",
+    description: "Concert",
+    name: "Concert Aniversar de Craciun Stefan Banica",
+    startDate: "2023-12-16",
+    endDate: "2023-12-17",
+    ticketCategories: [],
+    urlImage:
+      "https://static.iabilet.ro/img/auto_resized/db/event/01/52/40/00000236852-f35b-800x800-n-426db434.jpg",
+  },
+  {
+    eventId: 6,
+    venue: {
+      venueId: 1,
+      location: "Aleea Stadionului 2, Cluj-Napoca",
+      type: "Stadion",
+      capacity: 1000,
+      latitude: 46.7675,
+      longitude: 23.5725,
+    },
+    eventTypeName: "Dance",
+    description: "The ultimate celebration of independence and good vibes",
+    name: "F**k Me I`m Single",
+    startDate: "2023-12-14",
+    endDate: "2023-12-15",
+    ticketCategories: [],
+    urlImage:
+      "https://static.iabilet.ro/img/auto_resized/db/event/01/69/40/00000247999-1378-800x800-n-cab429e2.jpg",
+  },
+  {
+    eventId: 7,
+    venue: {
+      venueId: 6,
+      location: "Sala Palatului, Bucuresti",
+      type: "Sala de concerte",
+      capacity: 20000,
+      latitude: 44.4389,
+      longitude: 26.0946,
+    },
+    eventTypeName: "Music",
+    description:
+      "Craciun Vienez cu Johann Strauss Ensemble si Russell McGregor",
+    name: "Craciun Vienez",
+    startDate: "2023-12-22",
+    endDate: "2023-12-23",
+    ticketCategories: [],
+    urlImage:
+      "https://static.iabilet.ro/img/auto_resized/db/event/01/3e/b0/00000205989-9bc3-800x800-n-8cfdd10a.jpg",
+  },
+  {
+    eventId: 8,
+    venue: {
+      venueId: 7,
+      location: "Sala Polivalenta, Bucuresti",
+      type: "Stadion",
+      capacity: 6000,
+      latitude: 44.4053,
+      longitude: 26.11,
+    },
+    eventTypeName: "Sport",
+    description:
+      "EHF Champions League, Runda9: CSM Bucuresti vs WHC Buducnost BEMAX",
+    name: "EHF Champions League",
+    startDate: "2024-01-07",
+    endDate: "2024-01-08",
+    ticketCategories: [],
+    urlImage:
+      "https://static.iabilet.ro/img/auto_resized/db/event/01/69/13/00000247840-a414-800x800-n-d091e0a2.png",
+  },
+  {
+    eventId: 9,
+    venue: {
+      venueId: 8,
+      location: "Casa de Cultura a Sindicatelor, Satu Mare",
+      type: "Casa de cultura",
+      capacity: 700,
+      latitude: 47.79,
+      longitude: 22.89,
+    },
+    eventTypeName: "Comedy",
+    description: "Stand-Up Comedy cu Bordea, Cortea si Teodora Nedelcu",
+    name: "A Doua Tinerete",
+    startDate: "2023-12-14",
+    endDate: "2023-12-15",
+    ticketCategories: [],
+    urlImage:
+      "https://static.iabilet.ro/img/auto_resized/db/event/01/61/b4/00000241224-556f-800x800-n-1570c223.jpg",
+  },
+  {
+    eventId: 10,
+    venue: {
+      venueId: 9,
+      location: "Glaspalast Sindelfingen, Stuttgart",
+      type: "Stadion",
+      capacity: 12000,
+      latitude: 48.7158,
+      longitude: 8.9836,
+    },
+    eventTypeName: "Music",
+    description: "Stuttgart: Concert Andra Traditional 2",
+    name: "Concert Andra",
+    startDate: "2024-04-06",
+    endDate: "2024-04-07",
+    ticketCategories: [],
+    urlImage:
+      "https://static.iabilet.ro/img/auto_resized/db/event/01/57/56/00000227946-ab41-800x800-n-a15e2aac.png",
+  },
+  {
+    eventId: 11,
+    venue: {
+      venueId: 10,
+      location: "AI GustoRestaurante, Zaragoza",
+      type: "Restaurant",
+      capacity: 2000,
+      latitude: 41.65,
+      longitude: -0.8833,
+    },
+    eventTypeName: "Comedy",
+    description: "Zaragoza: Stand up comedy cu Doru iVanov",
+    name: "One Man Show",
+    startDate: "2024-02-17",
+    endDate: "2024-02-18",
+    ticketCategories: [],
+    urlImage:
+      "https://static.iabilet.ro/img/auto_resized/db/event/01/69/3d/00000247987-5e7b-800x800-n-ebe575dd.png",
+  },
 ];
 
 function Events() {

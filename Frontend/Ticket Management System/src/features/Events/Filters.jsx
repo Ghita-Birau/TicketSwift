@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Heading from "../../ui/Heading";
 import Checkbox from "../../ui/Checkbox";
 import Searchbar from "../../ui/Searchbar";
+import DateFilter from "./DateFilter";
 
 const Container = styled.div`
   display: flex;
@@ -21,6 +22,8 @@ const StyledHeader = styled.div`
 const OptionsContainer = styled.div`
   display: flex;
   flex-direction: column;
+  max-height: 12rem;
+  overflow: scroll;
   padding: 0 1.2rem;
   gap: 1.2rem;
   color: var(--color-gray-500);
@@ -45,7 +48,7 @@ const StyledA = styled.a`
 `;
 
 function Filters() {
-  const categorys = ["Music", "Sport", "Gastronomy"];
+  const categorys = ["Music", "Sport", "Gastronomy", "Dance", "Comedy"];
 
   return (
     <Container>
@@ -59,6 +62,7 @@ function Filters() {
           <Checkbox key={categorys.indexOf(category)} label={category} />
         ))}
       </OptionsContainer>
+      <DateFilter />
     </Container>
   );
 }
