@@ -10,10 +10,10 @@ import java.util.List;
 public interface TicketCategoryRepository extends CrudRepository<TicketCategory, Integer> {
     //List<TicketCategory> findAllByTicketCategoryIdAndDescription(Integer id, String description);
 
-    List<TicketCategory> findAllByTicketCategoryId(Integer id);
-
-    TicketCategory findTicketCategoryByTicketCategoryId(Integer ticketCategoryId);
-
-    TicketCategory findTicketCategoryByDescriptionAndPrice(String description, Integer price);
+//    List<TicketCategory> findAllByTicketCategoryId(Integer id);
+//
+//    TicketCategory findTicketCategoryByTicketCategoryId(Integer ticketCategoryId);
+//
+//    TicketCategory findTicketCategoryByDescriptionAndPrice(String description, Integer price);
 
 }

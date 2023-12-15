@@ -10,11 +10,9 @@ public class VenueDTO {
     private long capacity;
     private Double latitude;
     private Double longitude;
-
     public VenueDTO() {
 
     }
-
     public VenueDTO(Integer venueId, String location, String type, long capacity, Double latitude, Double longitude) {
         this.venueId = venueId;
         this.location = location;

@@ -18,7 +18,6 @@ public class OrderDTO {
     public OrderDTO() {
 
     }
-
     public OrderDTO(Integer orderId, Event event, LocalDateTime orderedAt, long numberOfTickets, long totalPrice, List<TicketCategory> ticketCategories) {
         this.orderId = orderId;
         this.event = event;

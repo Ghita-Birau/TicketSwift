@@ -1,18 +1,16 @@
 package com.utcn.projectRC.service;
 
 import com.utcn.projectRC.DTO.EventDTO;
-import com.utcn.projectRC.DTO.TicketCategoryDTO;
+import com.utcn.projectRC.DTO.EventTicketCategoryDTO;
 import com.utcn.projectRC.DTO.VenueDTO;
 import com.utcn.projectRC.model.Event;
+import com.utcn.projectRC.model.EventTicketCategory;
 import com.utcn.projectRC.model.EventType;
-import com.utcn.projectRC.model.TicketCategory;
 import com.utcn.projectRC.repository.EventRepository;
-import com.utcn.projectRC.repository.TicketCategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,13 +18,11 @@ import java.util.stream.Collectors;
 public class EventService {
     private final EventRepository eventRepository;
 
-
     @Autowired
 
     public EventService(EventRepository eventRepository) {
         this.eventRepository = eventRepository;
     }
-
 
     public EventDTO convertEventToEventDTO(Event event) {
         EventDTO eventDTO = new EventDTO();
@@ -52,24 +48,25 @@ public class EventService {
         venueDTO.setLongitude(event.getVenueId().getLongitude());
         eventDTO.setVenue(venueDTO);
 
-        List<TicketCategoryDTO> ticketCategories = event.getListTicketCategory()
+        List<EventTicketCategoryDTO> ticketCategories = event.getListEventTicketCategory()
                 .stream()
-                .map(this::convertTicketCategoryToDTO)
+                .map(this::convertEventTicketCategoryToDTO)
                 .collect(Collectors.toList());
-        eventDTO.setTicketCategories(ticketCategories);
+        eventDTO.setListEventTicketCategories(ticketCategories);
         return eventDTO;
     }
 
-    private TicketCategoryDTO convertTicketCategoryToDTO(TicketCategory ticketCategory) {
-        TicketCategoryDTO ticketCategoryDTO = new TicketCategoryDTO();
-        ticketCategoryDTO.setTicketCategoryId(ticketCategory.getTicketCategoryId());
-        ticketCategoryDTO.setDescription(ticketCategory.getDescription());
-        ticketCategoryDTO.setPrice(ticketCategory.getPrice());
-        ticketCategoryDTO.setAccess(ticketCategory.getAccess());
-        ticketCategoryDTO.setAvaibleQuantity(ticketCategory.getAvaibleQuantity());
-        ticketCategoryDTO.setDiscountPercentage(ticketCategory.getDiscountPercentage());
-        ticketCategoryDTO.setSales(ticketCategory.getPrice() - (ticketCategoryDTO.getDiscountPercentage() / 100 * ticketCategory.getPrice()));
-        return ticketCategoryDTO;
+    private EventTicketCategoryDTO convertEventTicketCategoryToDTO(EventTicketCategory eventTicketCategory) {
+        EventTicketCategoryDTO eventTicketCategoryDTO = new EventTicketCategoryDTO();
+        eventTicketCategoryDTO.setEventTicketCategoryId(eventTicketCategory.getEventTicketCategoryId());
+        eventTicketCategoryDTO.setPrice(eventTicketCategory.getPrice());
+        eventTicketCategoryDTO.setAccess(eventTicketCategory.getAccess());
+        eventTicketCategoryDTO.setAvaibleQuantity(eventTicketCategory.getAvaibleQuantity());
+        eventTicketCategoryDTO.setDiscountPercentage(eventTicketCategory.getDiscountPercentage());
+        eventTicketCategoryDTO.setSales(eventTicketCategory.getPrice() - (eventTicketCategoryDTO.getDiscountPercentage() / 100 * eventTicketCategory.getPrice() ));
+        eventTicketCategoryDTO.setDescription(eventTicketCategory.getTicketCategory().getDescription());
+
+        return eventTicketCategoryDTO;
     }
     public List<EventDTO> getAllEventsDTO() {
         List<Event> eventList = eventRepository.findAll();
@@ -120,20 +117,20 @@ public class EventService {
         List<Event> eventList;
 
         if(priceFrom != 0 && priceTo != 0) {
-            eventList = eventRepository.findAllByListTicketCategory_PriceBetween(priceFrom, priceTo);
+            eventList = eventRepository.findAllByListEventTicketCategory_PriceBetween(priceFrom, priceTo);
         } else if (priceFrom != 0) {
-            eventList = eventRepository.findAllByListTicketCategory_PriceGreaterThanEqual(priceFrom);
+            eventList = eventRepository.findAllByListEventTicketCategory_PriceGreaterThanEqual(priceFrom);
         } else if (priceTo != 0) {
-            eventList = eventRepository.findAllByListTicketCategory_PriceLessThanEqual(priceTo);
+            eventList = eventRepository.findAllByListEventTicketCategory_PriceLessThanEqual(priceTo);
         } else {
             eventList = eventRepository.findAll();
         }
         return eventList.stream().map(this::convertEventToEventDTO).toList();
     }
 
-    public List<EventDTO> filterEventsDTOByCategory(String category) {
-        List<Event> eventList = eventRepository.findAllByListTicketCategory_DescriptionContainingIgnoreCase(category);
-        return eventList.stream().map(this::convertEventToEventDTO).toList();
-    }
+//    public List<EventDTO> filterEventsDTOByCategory(String category) {
+//        List<Event> eventList = eventRepository.findAllByListTicketCategory_DescriptionContainingIgnoreCase(category);
+//        return eventList.stream().map(this::convertEventToEventDTO).toList();
+//    }
 
 }

@@ -1,7 +1,5 @@
 package com.utcn.projectRC.DTO;
 
-import com.utcn.projectRC.model.TicketCategory;
-import com.utcn.projectRC.model.Venue;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -16,12 +14,12 @@ public class EventDTO {
     private String name;
     private LocalDate startDate;
     private LocalDate endDate;
-    private List<TicketCategoryDTO> ticketCategories;
+    private List<EventTicketCategoryDTO> listEventTicketCategories;
     private String urlImage;
     public EventDTO() {
 
     }
-    public EventDTO(Integer eventId, VenueDTO venue, String eventTypeName, String description, String name, LocalDate startDate, LocalDate endDate, List<TicketCategoryDTO> ticketCategories, String urlImage) {
+    public EventDTO(Integer eventId, VenueDTO venue, String eventTypeName, String description, String name, LocalDate startDate, LocalDate endDate, List<EventTicketCategoryDTO> listEventTicketCategories, String urlImage) {
         this.eventId = eventId;
         this.venue = venue;
         this.eventTypeName = eventTypeName;
@@ -29,7 +27,7 @@ public class EventDTO {
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.ticketCategories = ticketCategories;
+        this.listEventTicketCategories = listEventTicketCategories;
         this.urlImage = urlImage;
     }
 }

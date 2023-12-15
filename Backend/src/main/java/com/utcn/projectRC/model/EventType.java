@@ -16,11 +16,9 @@ public class EventType {
 
     private String eventTypeName;
 
-
     public EventType() {
 
     }
-
     public EventType(String eventTypeName) {
         this.eventTypeName = eventTypeName;
     }

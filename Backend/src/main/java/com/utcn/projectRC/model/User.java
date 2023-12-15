@@ -15,19 +15,12 @@ public class User {
     private Integer userId;
 
     private String userName;
-
     private String password;
-
     private String firstName;
-
     private String secondName;
-
     private String gender;
-
     private LocalDate dateOfBirth;
-
     private String userEmail;
-
     private String address;
 
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
@@ -39,11 +32,9 @@ public class User {
     @Transient
     private List<TicketCategory> shoppingCart;
 
-
     public User() {
 
     }
-
     public User(String userName, String userEmail, List<OrderEntity> orders, List<TicketCategory> shoppingCart) {
         this.userName = userName;
         this.userEmail = userEmail;

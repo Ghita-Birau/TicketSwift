@@ -24,7 +24,6 @@ public class Role {
     public Role() {
 
     }
-
     public Role(UserRole roleDescription) {
         this.roleDescription = roleDescription;
     }

@@ -14,25 +14,19 @@ public class Venue {
     private Integer venueId;
 
     private String location;
-
     private String type;
-
     private Integer capacity;
-
     private Double latitude;
-
     private Double longitude;
 
     public Venue() {
 
     }
-
     public Venue(String location, String type, Integer capacity) {
         this.location = location;
         this.type = type;
         this.capacity = capacity;
     }
-
     public Venue(String location, String type, Integer capacity, Double latitude, Double longitude) {
         this.location = location;
         this.type = type;

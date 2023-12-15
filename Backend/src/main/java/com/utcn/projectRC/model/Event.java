@@ -1,6 +1,5 @@
 package com.utcn.projectRC.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -19,39 +18,25 @@ public class Event {
     @JoinColumn(name = "venue_id")
     private Venue venueId;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "eventId", orphanRemoval = true)
-    @JsonIgnoreProperties("eventId")
-    List<TicketCategory> listTicketCategory;
+    @OneToMany(mappedBy = "event", orphanRemoval = true, cascade = CascadeType.ALL)
+    List<EventTicketCategory> listEventTicketCategory;
 
     @ManyToOne
     @JoinColumn(name = "event_type_id")
     private EventType eventTypeId;
 
     private String eventDescription;
-
     private String eventName;
-
     private LocalDate startDate;
-
     private LocalDate endDate;
-
     private String urlImage;
 
     public Event() {
 
     }
-
-    public Event(Venue venueId, EventType eventTypeId, String eventDescription, String eventName, LocalDate startDate, LocalDate endDate) {
+    public Event(Venue venueId, List<EventTicketCategory> listEventTicketCategory, EventType eventTypeId, String eventDescription, String eventName, LocalDate startDate, LocalDate endDate, String urlImage) {
         this.venueId = venueId;
-        this.eventTypeId = eventTypeId;
-        this.eventDescription = eventDescription;
-        this.eventName = eventName;
-        this.startDate = startDate;
-        this.endDate = endDate;
-    }
-
-    public Event(Venue venueId, EventType eventTypeId, String eventDescription, String eventName, LocalDate startDate, LocalDate endDate, String urlImage) {
-        this.venueId = venueId;
+        this.listEventTicketCategory = listEventTicketCategory;
         this.eventTypeId = eventTypeId;
         this.eventDescription = eventDescription;
         this.eventName = eventName;

@@ -21,11 +21,12 @@ public interface EventRepository extends JpaRepository <Event, Integer> {
     List<Event> findAllByStartDateAfter(LocalDate firstDate);
     List<Event> findAllByStartDateBefore(LocalDate secondDate);
 
-    List<Event> findAllByListTicketCategory_PriceBetween(long priceFrom, long priceTo);
-    List<Event> findAllByListTicketCategory_PriceGreaterThanEqual(long priceFrom);
-    List<Event> findAllByListTicketCategory_PriceLessThanEqual(long priceTo);
 
-    List<Event> findAllByListTicketCategory_DescriptionContainingIgnoreCase(String category);
 
+    List<Event> findAllByListEventTicketCategory_PriceBetween(long priceFrom, long priceTo);
+    List<Event> findAllByListEventTicketCategory_PriceGreaterThanEqual(long priceFrom);
+    List<Event> findAllByListEventTicketCategory_PriceLessThanEqual(long priceTo);
+
+    //List<Event> findAllByListEventTicketCategories_DescriptionContainingIgnoreCase(String category);
 
 }

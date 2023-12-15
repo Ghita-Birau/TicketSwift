@@ -2,24 +2,21 @@ package com.utcn.projectRC.DTO;
 
 import lombok.Data;
 
-import java.math.BigDecimal;
-
 @Data
-public class TicketCategoryDTO {
-    private Integer ticketCategoryId;
+public class EventTicketCategoryDTO {
+    private Integer eventTicketCategoryId;
     private String description;
     private long price;
     private String access;
     private int avaibleQuantity;
     private Double discountPercentage;
     private Double sales;
-
-    public TicketCategoryDTO() {
+    public EventTicketCategoryDTO() {
 
     }
 
-    public TicketCategoryDTO(Integer ticketCategoryId, String description, long price, String access, int avaibleQuantity, Double discountPercentage) {
-        this.ticketCategoryId = ticketCategoryId;
+    public EventTicketCategoryDTO(Integer eventTicketCategoryId, String description, long price, String access, int avaibleQuantity, Double discountPercentage) {
+        this.eventTicketCategoryId = eventTicketCategoryId;
         this.description = description;
         this.price = price;
         this.access = access;
