@@ -27,7 +27,7 @@ const StyledMain = styled.main`
 
   border-radius: 8px;
 
-  padding: 3.4rem 4.6rem;
+  padding: 3.4rem 2rem;
 `;
 
 function AppLayout() {

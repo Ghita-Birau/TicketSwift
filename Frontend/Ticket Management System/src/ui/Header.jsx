@@ -58,7 +58,7 @@ const Notification = styled.div`
 
 function Header() {
   const [nrOfItems, setNrOfItems] = useState(0);
-  const cart = useSelector((store) => store.cart);
+  const cart = useSelector((store) => store.cart.cart);
   const cartItems = cart.length;
   const location = useLocation();
   const currentPath = location.pathname;

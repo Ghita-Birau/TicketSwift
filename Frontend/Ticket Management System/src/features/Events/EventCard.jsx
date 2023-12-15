@@ -31,7 +31,7 @@ const StyledContainer = styled.div`
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 `;
 const ImgContainer = styled.div`
-  padding: 1rem;
+  padding: 1.2rem;
   background-color: var(--color-gray-100);
   transition: all 0.3s;
   max-height: 16rem;

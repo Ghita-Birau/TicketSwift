@@ -141,7 +141,7 @@ function TicketType({ category, event }) {
     access,
   } = category;
   const dispatch = useDispatch();
-  const cart = useSelector((store) => store.cart);
+  const cart = useSelector((store) => store.cart.cart);
 
   const foundItem = cart?.find(
     (el) => el.eventId === eventId && el.ticketCategoryId === ticketCategoryId

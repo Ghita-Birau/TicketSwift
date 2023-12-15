@@ -63,7 +63,7 @@ const Button = styled(NavLink)`
 `;
 
 function CartWindow() {
-  const cart = useSelector((store) => store.cart);
+  const cart = useSelector((store) => store.cart.cart);
   const totalPrice = useSelector(getTotalCartPrice);
   const totalPriceWithDisc = useSelector(getTotalPriceWithDiscount);
   const { close } = useContext(WindowContext);

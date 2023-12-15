@@ -60,14 +60,14 @@ const cartSlice = createSlice({
 });
 
 export const getTotalCartPrice = (store) => {
-  return store?.cart.reduce(
+  return store?.cart.cart.reduce(
     (acc, curr) => (acc += Number(curr.price * curr.numberOfTickets)),
     0
   );
 };
 
 export const getTotalPriceWithDiscount = (store) => {
-  return store?.cart.reduce(
+  return store?.cart.cart.reduce(
     (acc, curr) => (acc += Number(curr?.sales * curr.numberOfTickets)),
     0
   );

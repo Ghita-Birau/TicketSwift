@@ -1,4 +1,4 @@
-import { fakeData } from "../features/Events/Events";
+import { fakeData } from "../utils/Constants";
 import EventSwiperCard from "../features/Events/EventSwiperCard";
 
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
