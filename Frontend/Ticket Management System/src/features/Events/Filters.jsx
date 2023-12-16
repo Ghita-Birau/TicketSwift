@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import DateFilter from "./DateFilter&Style/DateFilter";
-import CategoryFilter from "./CategoryFilter";
-import PriceFilter from "./PriceFilter";
+import CategoryFilter from "./CategoryFilter&Option/CategoryFilter";
+import PriceFilter from "./PriceFilter&Style/PriceFilter";
 
 const Container = styled.div`
   display: flex;
@@ -16,9 +16,9 @@ function Filters() {
 
   return (
     <Container>
+      <PriceFilter />
       <CategoryFilter categories={categories} />
       <DateFilter />
-      <PriceFilter />
     </Container>
   );
 }

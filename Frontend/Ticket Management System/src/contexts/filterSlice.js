@@ -6,6 +6,10 @@ const initialState = {
     startDate: null,
     endDate: null,
   },
+  price: {
+    isOn: false,
+    range: [0, 100],
+  },
 };
 
 const filterSlice = createSlice({
@@ -28,12 +32,31 @@ const filterSlice = createSlice({
       state.categories = [];
     },
 
+    // Date Action Creators
     addStartDate(state, action) {
       state.dateRange.startDate = action.payload;
     },
 
     addEndDate(state, action) {
       state.dateRange.endDate = action.payload;
+    },
+
+    // Price Action Creators
+    setPriceRange(state, action) {
+      initialState.price.range = action.payload;
+    },
+
+    turnOnPrice(state, action) {
+      state.price.isOn = action.payload;
+      if (!state.price.isOn) {
+        state.price.range = initialState.price.range;
+      }
+    },
+
+    changeValues(state, action) {
+      if (state.price.isOn) {
+        state.price.range = action.payload;
+      }
     },
   },
 });
@@ -44,6 +67,9 @@ export const {
   deleteCategory,
   addStartDate,
   addEndDate,
+  changeValues,
+  turnOnPrice,
+  setPriceRange,
 } = filterSlice.actions;
 
 export default filterSlice.reducer;

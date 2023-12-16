@@ -1,6 +1,3 @@
-import { useDispatch, useSelector } from "react-redux";
-import { addCategoryFilter, deleteCategory } from "../contexts/filterSlice";
-
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
@@ -36,25 +33,13 @@ const StyledInput = styled.input`
   }
 `;
 
-function Checkbox({ label }) {
-  const { categories } = useSelector((store) => store.filters);
-  const dispatch = useDispatch();
-  const isChecked = categories.includes(label);
-
-  function handleChange() {
-    if (!isChecked) {
-      dispatch(addCategoryFilter(label));
-    } else {
-      dispatch(deleteCategory(label));
-    }
-  }
-
+function Checkbox({ label, isChecked = false, onChange }) {
   function handleCheckboxChange(event) {
     event.stopPropagation();
   }
 
   return (
-    <Container ischecked={isChecked.toString()} onClick={handleChange}>
+    <Container ischecked={isChecked.toString()} onClick={onChange}>
       <StyledInput
         type="checkbox"
         value={isChecked}
@@ -69,6 +54,8 @@ function Checkbox({ label }) {
 
 Checkbox.propTypes = {
   label: PropTypes.string,
+  onChange: PropTypes.func,
+  isChecked: PropTypes.bool,
 };
 
 export default Checkbox;

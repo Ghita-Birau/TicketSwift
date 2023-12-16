@@ -9,36 +9,15 @@ import styled from "styled-components";
 import Heading from "../../../ui/Heading";
 import "./index.css";
 import toast from "react-hot-toast";
+import HeaderRow from "../../../ui/HeaderRow";
+import FilterContainer from "../../../ui/FilterContainer";
 
-const Container = styled.div`
-  background-color: var(--color-gray-0);
-  padding: 1.2rem 2rem;
-  transition: all 0.2s;
-  color: var(--color-gray-600);
-
+const Container = styled(FilterContainer)`
   & > div {
-    margin-top: 1rem;
     display: flex;
     flex-direction: column;
     gap: 1.2rem;
-  }
-`;
-
-const Row = styled.main`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
-
-  & > span > svg {
-    width: 2rem;
-    height: 2rem;
-  }
-
-  &:hover {
-    & > span > svg {
-      color: var(--color-brand-500);
-    }
+    padding: 0rem 0rem 0.4rem 0rem;
   }
 `;
 
@@ -82,10 +61,10 @@ function DateFilter() {
 
   return (
     <Container>
-      <Row onClick={() => setIsOpen((o) => !o)}>
+      <HeaderRow onClick={() => setIsOpen((o) => !o)}>
         <Heading as="h5">Date</Heading>
         <span>{isOpen ? <HiChevronUp /> : <HiChevronDown />}</span>
-      </Row>
+      </HeaderRow>
 
       {isOpen && (
         <div>

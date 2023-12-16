@@ -9,7 +9,7 @@ import Filters from "./Filters";
 
 const HeaderTypes = {
   filters: css`
-    background-color: var(--color-gray-400);
+    background-color: var(--color-gray-500);
     border-radius: 8px 0px 0px 0px;
   `,
   events: css`
