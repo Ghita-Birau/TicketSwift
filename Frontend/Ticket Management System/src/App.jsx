@@ -12,6 +12,7 @@ import Signup from "./pages/Signup";
 import Cart from "../src/pages/Cart";
 import EventsPage from "./pages/EventsPage";
 import Window from "./ui/Window";
+import Map from "./pages/Map";
 
 const queryClient = new QueryClient();
 
@@ -56,6 +57,7 @@ function App() {
               <Route path="/orders" element={<Orders />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/events" element={<EventsPage />} />
+              <Route path="/map" element={<Map />} />
             </Route>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />

@@ -5,6 +5,10 @@ const FilterContainer = styled.div`
   padding: 0.6rem 2rem;
   transition: all 0.2s;
   color: var(--color-gray-600);
+
+  & > div {
+    margin-top: 0.6rem;
+  }
 `;
 
 export default FilterContainer;

@@ -10,6 +10,7 @@ const initialState = {
     isOn: false,
     range: [0, 100],
   },
+  sortBy: "name-asc",
 };
 
 const filterSlice = createSlice({
@@ -58,6 +59,12 @@ const filterSlice = createSlice({
         state.price.range = action.payload;
       }
     },
+
+    // SortBy Action Creator
+    changeSortByValue(state, action) {
+      // console.log(action.payload);
+      state.sortBy = action.payload;
+    },
   },
 });
 
@@ -70,6 +77,7 @@ export const {
   changeValues,
   turnOnPrice,
   setPriceRange,
+  changeSortByValue,
 } = filterSlice.actions;
 
 export default filterSlice.reducer;

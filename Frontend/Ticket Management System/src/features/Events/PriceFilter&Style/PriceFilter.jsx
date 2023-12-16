@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { turnOnPrice } from "../../../contexts/filterSlice";
 import { HiChevronDown, HiChevronUp } from "react-icons/hi2";
 
 import Heading from "../../../ui/Heading";
@@ -7,8 +9,6 @@ import Checkbox from "../../../ui/Checkbox";
 import HeaderRow from "../../../ui/HeaderRow";
 import FilterContainer from "../../../ui/FilterContainer";
 import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
-import { turnOnPrice } from "../../../contexts/filterSlice";
 
 const Container = styled(FilterContainer)`
   & > div {
@@ -31,7 +31,7 @@ function PriceFilter() {
   return (
     <Container>
       <HeaderRow onClick={() => setIsOpen((o) => !o)}>
-        <Heading as="h5">Price</Heading>
+        <Heading as="h4">Price</Heading>
         <span>{isOpen ? <HiChevronUp /> : <HiChevronDown />}</span>
       </HeaderRow>
 

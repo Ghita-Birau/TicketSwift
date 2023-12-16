@@ -24,7 +24,7 @@ function CategoryFilter({ categories }) {
   return (
     <FilterContainer>
       <HeaderRow onClick={() => setIsOpen((o) => !o)}>
-        <Heading as="h5">Category</Heading>
+        <Heading as="h4">Category</Heading>
 
         <span>{isOpen ? <HiChevronUp /> : <HiChevronDown />}</span>
       </HeaderRow>

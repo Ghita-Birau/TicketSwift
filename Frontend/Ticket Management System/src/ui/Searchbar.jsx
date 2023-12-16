@@ -5,8 +5,7 @@ import styled from "styled-components";
 
 const StyledInput = styled.input`
   padding: 0.4rem 1rem;
-  border: 1px solid var(--color-gray-600);
-  border-radius: 14px;
+  border: 1px solid var(--color-gray-400);
   transition: all 0.2s;
 
   &:focus {

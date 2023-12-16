@@ -62,7 +62,7 @@ function DateFilter() {
   return (
     <Container>
       <HeaderRow onClick={() => setIsOpen((o) => !o)}>
-        <Heading as="h5">Date</Heading>
+        <Heading as="h4">Date</Heading>
         <span>{isOpen ? <HiChevronUp /> : <HiChevronDown />}</span>
       </HeaderRow>
 

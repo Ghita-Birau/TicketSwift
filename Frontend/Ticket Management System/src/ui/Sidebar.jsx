@@ -2,6 +2,7 @@ import {
   HiClipboardDocumentList,
   HiOutlineTicket,
   HiHome,
+  HiOutlineMap,
 } from "react-icons/hi2";
 
 import { MdOutlineEventNote } from "react-icons/md";
@@ -42,6 +43,7 @@ function Sidebar() {
           icon={<HiClipboardDocumentList />}
           label="Orders"
         />
+        <NavItem to="/map" icon={<HiOutlineMap />} label="Map" />
       </MainNav>
     </StyledSidebar>
   );
