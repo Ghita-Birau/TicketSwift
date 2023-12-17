@@ -14,7 +14,8 @@ public interface EventRepository extends JpaRepository <Event, Integer> {
     List<Event> findAllByEventName(String eventName);
     List<Event> findAllByVenueId_Location(String location);
 
-    List<Event> findAllByEventNameContainingIgnoreCaseOrVenueId_LocationContainingIgnoreCase(String eventName, String eventLocation);
+    List<Event> findAllByEventNameContainingIgnoreCase(String searchTerm);
+    List<Event> findAllByVenueId_LocationContainingIgnoreCase(String searchTerm);
 
     List<Event> findAllByStartDate(LocalDate startDate);
     List<Event> findAllByStartDateBetween(LocalDate firstDate, LocalDate secondDate);

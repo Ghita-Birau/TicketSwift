@@ -42,11 +42,9 @@ public class EventController {
         return eventService.getEventsDTOByLocation(location);
     }
 
-    @GetMapping("searchEventByNameOrLocation")
-    public List<EventDTO> searchEventsByNameOrLocation(
-            @RequestParam(required = false) String eventName,
-            @RequestParam(required = false) String eventLocation) {
-        return eventService.searchEventsDTOByNameOrLocation(eventName, eventLocation);
+    @GetMapping("searchEventsByNameOrLocation")
+    public List<EventDTO> searchEventsByNameOrLocation(@RequestParam(required = false) String searchTerm) {
+        return eventService.searchEventsDTOByNameOrLocation(searchTerm);
     }
 
     @GetMapping("filterEventsByStartDate")

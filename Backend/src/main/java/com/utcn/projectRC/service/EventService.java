@@ -3,6 +3,8 @@ package com.utcn.projectRC.service;
 import com.utcn.projectRC.DTO.EventDTO;
 import com.utcn.projectRC.DTO.EventTicketCategoryDTO;
 import com.utcn.projectRC.DTO.VenueDTO;
+import com.utcn.projectRC.Exception.EventNotFoundException;
+import com.utcn.projectRC.Exception.InternalServerErrorException;
 import com.utcn.projectRC.model.Event;
 import com.utcn.projectRC.model.EventTicketCategory;
 import com.utcn.projectRC.model.EventType;
@@ -88,9 +90,38 @@ public class EventService {
         return eventList.stream().map(this::convertEventToEventDTO).toList();
     }
 
-    public List<EventDTO> searchEventsDTOByNameOrLocation(String eventName, String eventLocation) {
-        List<Event> eventList = eventRepository.findAllByEventNameContainingIgnoreCaseOrVenueId_LocationContainingIgnoreCase(eventName, eventLocation);
-        return eventList.stream().map(this::convertEventToEventDTO).toList();
+    public List<EventDTO> searchEventsDTOByNameOrLocation(String searchTerm) {
+        List<Event> eventList = null;
+
+        try {
+            if (searchTerm != null) {
+                eventList = eventRepository.findAllByEventNameContainingIgnoreCase(searchTerm);
+                if (eventList.isEmpty()) {
+                    eventList = eventRepository.findAllByVenueId_LocationContainingIgnoreCase(searchTerm);
+                    if (eventList.isEmpty()) {
+                        String errorMessage = "Nu am gasit evenimente dupa cerintele dumneavoastra";
+                        System.out.println(errorMessage);
+                        throw new EventNotFoundException(errorMessage);
+                    }
+                }
+            } else {
+                eventList = eventRepository.findAll();
+                if (eventList.isEmpty()) {
+                    String errorMessage = "Nu sunt evenimente disponibile";
+                    System.out.println(errorMessage);
+                    throw new EventNotFoundException(errorMessage);
+                }
+            }
+            return eventList.stream().map(this::convertEventToEventDTO).toList();
+        } catch (EventNotFoundException ex) {
+            String errorMessage = ex.getMessage();
+            System.out.println(errorMessage);
+            throw ex;
+        } catch (Exception ex) {
+            String errorMessage = "A apărut o eroare în timpul procesării cererii: " + ex.getMessage();
+            System.err.println(errorMessage);
+            throw new InternalServerErrorException(errorMessage);
+        }
     }
 
     public List<EventDTO> getEventsDTOByStartDate(LocalDate startDate) {
