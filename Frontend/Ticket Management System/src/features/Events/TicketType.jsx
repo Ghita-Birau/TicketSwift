@@ -2,9 +2,9 @@ import { formatCurrency } from "../../utils/helpers";
 import { HiMiniNoSymbol, HiOutlineKey } from "react-icons/hi2";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  deleteTicket,
   addTicketToCart,
   decrementTicketQuantity,
-  deleteTicket,
   incrementTicketQuantity,
 } from "../../contexts/cartSlice";
 
@@ -131,7 +131,14 @@ const StyledDiscount = styled.div`
 `;
 
 function TicketType({ category, event }) {
-  const { eventId, urlImage, description: eventDescription, name } = event;
+  const {
+    eventId,
+    urlImage,
+    description: eventDescription,
+    name,
+    eventTypeName,
+  } = event;
+
   const {
     description,
     price,
@@ -140,6 +147,7 @@ function TicketType({ category, event }) {
     discountPercentage,
     access,
   } = category;
+
   const dispatch = useDispatch();
   const cart = useSelector((store) => store.cart.cart);
 
@@ -181,6 +189,7 @@ function TicketType({ category, event }) {
         sales,
         numberOfTickets: 1,
         ticketCategoryId,
+        eventTypeName,
       })
     );
   }

@@ -1,5 +1,7 @@
+import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
+import { WindowContext } from "../../ui/Window";
 
 const StyledDiv = styled.main`
   display: flex;
@@ -22,10 +24,14 @@ const StyledNavLink = styled(NavLink)`
 `;
 
 function EmptyCart() {
+  const { close } = useContext(WindowContext);
+
   return (
     <StyledDiv>
       <p>Your cart is empty.</p>
-      <StyledNavLink to="/events">Keep shopping</StyledNavLink>
+      <StyledNavLink to="/events" onClick={() => close()}>
+        Keep shopping
+      </StyledNavLink>
     </StyledDiv>
   );
 }

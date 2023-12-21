@@ -9,8 +9,8 @@ const StyledSelect = styled.select`
   padding: 0.6rem 2rem;
   transition: all 0.2s;
   color: var(--color-gray-600);
-  border: 1px solid var(--color-gray-400);
-  border-radius: 0px 0px 0px 3px;
+  border: none;
+  font-size: 1.8rem;
 
   &:focus {
     outline: none;
@@ -26,7 +26,7 @@ function Select({ options, onChange, value, ...props }) {
     >
       {options.map((option) => (
         <option value={option.value} key={option.value}>
-          {option.label}
+          Sort By {option.label}
         </option>
       ))}
     </StyledSelect>

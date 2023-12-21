@@ -6,7 +6,6 @@ import {
   HiOutlineMicrophone,
   HiOutlineMusicalNote,
 } from "react-icons/hi2";
-
 import { MdOutlineSportsSoccer } from "react-icons/md";
 import { BiDrink } from "react-icons/bi";
 import { useRef, useState } from "react";
@@ -30,12 +29,12 @@ const StyledContainer = styled.div`
   font-size: 1.2rem;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 `;
+
 const ImgContainer = styled.div`
   padding: 1.2rem;
   background-color: var(--color-gray-100);
   transition: all 0.3s;
   max-height: 16rem;
-  max-width: 20rem;
 
   & > img {
     width: 100%;
@@ -62,23 +61,6 @@ const InformationContainer = styled.div`
     margin-bottom: 0.4rem;
     font-size: 1.6rem;
     border: 1px solid var(--color-gray-200);
-  }
-
-  & > p::before,
-  & > p::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    border-bottom: 1px solid var(--color-gray-400);
-  }
-
-  & > p::before {
-    top: 0.5rem;
-  }
-
-  & > p::after {
-    bottom: 0.5rem;
   }
 `;
 
@@ -117,10 +99,12 @@ const OptionsContainer = styled.div`
   padding: 1.4rem 2rem;
   gap: 1rem;
 
-  overflow-x: hidden;
+  overflow-x: auto;
   overscroll-behavior-inline: contain;
   scroll-behavior: smooth;
   white-space: nowrap;
+
+  max-width: 85rem;
 
   & > div {
     min-width: 30rem;
@@ -227,7 +211,6 @@ function EventCard({ event }) {
       icon = <HiOutlineMicrophone />;
       break;
     case "Dance":
-      // icon = <FontAwesomeIcon icon={faDance} />;
       break;
     default:
       icon = "";

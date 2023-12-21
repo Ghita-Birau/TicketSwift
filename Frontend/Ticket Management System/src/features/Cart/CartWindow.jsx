@@ -11,7 +11,7 @@ import { WindowContext } from "../../ui/Window";
 
 import styled from "styled-components";
 import EmptyCart from "./EmptyCart";
-import CartItem from "./CartItem";
+import CartWindowItem from "./CartWindowItem";
 
 const StyledMain = styled.main`
   padding: 1rem 1.4rem;
@@ -79,7 +79,7 @@ function CartWindow() {
         <EmptyCart />
       ) : (
         cart.map((cartItem) => (
-          <CartItem item={cartItem} key={cartItem.ticketCategoryId} />
+          <CartWindowItem item={cartItem} key={cartItem.ticketCategoryId} />
         ))
       )}
       {totalPrice !== 0 && (

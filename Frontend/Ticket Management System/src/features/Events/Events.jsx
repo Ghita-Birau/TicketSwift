@@ -19,8 +19,8 @@ const HeaderTypes = {
 };
 
 const StyledContainer = styled.div`
-  background-color: var(--color-gray-100);
   display: grid;
+  background-color: var(--color-gray-100);
   grid-template-columns: 0.8fr 2.2fr;
 
   min-height: 100vh;
@@ -38,7 +38,6 @@ const StyledTicketContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
-  max-width: 89rem;
 `;
 
 const EventsHeader = styled.header`

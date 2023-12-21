@@ -1,108 +1,184 @@
+import { formatCurrency } from "../../utils/helpers";
+import {
+  HiOutlineBookOpen,
+  HiOutlineMicrophone,
+  HiOutlineMusicalNote,
+  HiOutlineTicket,
+} from "react-icons/hi2";
+
+import PropTypes from "prop-types";
+import styled from "styled-components";
+import Heading from "../../ui/Heading";
+import { MdOutlineSportsSoccer } from "react-icons/md";
+import { BiDrink } from "react-icons/bi";
 import { useDispatch } from "react-redux";
 import { deleteTicket } from "../../contexts/cartSlice";
-import { formatCurrency } from "../../utils/helpers";
-import { IoMdClose } from "react-icons/io";
+// import { MdOutlineSportsSoccer } from "react-icons/md";
 
-import styled from "styled-components";
-import PropTypes from "prop-types";
-import Heading from "../../ui/Heading";
+const ContainerItem = styled.div`
+  border-top: 1px solid var(--color-gray-300);
+  padding: 1rem 1.2rem;
 
-const Container = styled.div`
   display: grid;
-  grid-template-columns: 12rem 1fr;
-  min-width: 30rem;
-  padding: 0.2rem;
-  position: relative;
+  grid-template-columns: 0.28fr 1fr;
+`;
+
+const ImgContainer = styled.div`
+  max-width: 15rem;
+  max-height: 15rem;
+  border-radius: 8px;
   overflow: hidden;
 
-  /* border: 1px solid blue; */
-
-  & > div:not(:last-child) {
-    padding: 0.6rem;
-
-    & > img {
-      width: 100%;
-      height: 100%;
-      border-radius: 8px;
-    }
+  & > img {
+    width: 100%;
+    height: 100%;
   }
+`;
+
+const InfoContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 0.3fr 0.3fr;
 `;
 
 const StyledHeading = styled(Heading)`
   text-transform: uppercase;
-  max-width: 12rem;
+  letter-spacing: 0.4px;
+  margin-bottom: 0.6rem;
 `;
 
-const InformationContainer = styled.div`
+const StyledTicketType = styled.p`
+  color: var(--color-gray-700);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  font-size: 1.3rem;
+  gap: 1.2rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  & > svg {
+    width: 2rem;
+    height: 2rem;
+    stroke: var(--color-brand-500);
+    color: var(--color-brand-500);
+  }
+
+  span {
+    flex: 1;
+    max-width: 30rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+`;
+
+const Details = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  gap: 0.1rem;
-  font-size: 1.2rem;
-  padding: 0.2rem;
 
-  & > div > p {
-    color: var(--color-gray-500);
-  }
-
-  & > span {
-    font-size: 1.3rem;
+  & > div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
   }
 `;
 
-const DeleteButton = styled.button`
-  position: absolute;
-  padding: 0.2rem 0.4rem;
-  background-color: var(--color-gray-100);
-  border: none;
-  right: 0;
-  top: 0;
+const Actions = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
 
-  &:focus {
-    outline: none;
+  & > input {
+    max-width: 4rem;
+  }
+`;
+
+const StyledLink = styled.a`
+  cursor: pointer;
+  color: var(--color-brand-600);
+
+  &:link,
+  &:hover {
+    color: var(--color-brand-700);
   }
 
-  &:hover {
-    color: var(--color-brand-600);
+  &:visited,
+  &:active {
   }
 `;
 
 function CartItem({ item }) {
+  const dispatch = useDispatch();
   const {
     eventId,
-    name,
-    urlImage,
-    eventDescription,
-    description,
-    price,
-    numberOfTickets,
     ticketCategoryId,
+    eventTypeName,
+    description,
+    urlImage,
+    name,
+    eventDescription,
+    numberOfTickets,
+    price,
   } = item;
-  const dispatch = useDispatch();
+  let icon;
+
+  switch (eventTypeName) {
+    case "Music":
+      icon = <HiOutlineMusicalNote />;
+      break;
+    case "Sport":
+      icon = <MdOutlineSportsSoccer />;
+      break;
+    case "Gastronomy":
+      icon = <BiDrink />;
+      break;
+    case "Comedy":
+      icon = <HiOutlineMicrophone />;
+      break;
+    case "Dance":
+      break;
+    default:
+      icon = "";
+      break;
+  }
 
   function handleDelete() {
-    dispatch(deleteTicket({ eventId, ticketCategoryId }));
+    dispatch(deleteTicket({ ticketCategoryId, eventId }));
   }
 
   return (
-    <Container>
-      <div>
-        <img src={urlImage} alt={`${eventDescription} `} />
-      </div>
-      <InformationContainer>
-        <div>
-          <StyledHeading as="h6">{name}</StyledHeading>
-          <p>Ticket-{description}</p>
-        </div>
-        <span>
-          <strong>{formatCurrency(price)}</strong> x{" "}
-          <strong>{numberOfTickets}</strong>
-        </span>
-      </InformationContainer>
-      <DeleteButton onClick={handleDelete}>
-        <IoMdClose />
-      </DeleteButton>
-    </Container>
+    <ContainerItem>
+      <ImgContainer>
+        <img src={urlImage} alt={`${description} ticket for ${name}`} />
+      </ImgContainer>
+      <InfoContainer>
+        <Details>
+          <StyledHeading as="h3">{name}</StyledHeading>
+          <div>
+            <StyledTicketType>
+              <HiOutlineBookOpen />
+              <span>Description: {eventDescription}</span>
+            </StyledTicketType>
+            <StyledTicketType>
+              {icon}
+              <span>Event Type: {eventTypeName}</span>
+            </StyledTicketType>
+            <StyledTicketType>
+              <HiOutlineTicket />
+              <span>Ticket Type: {description}</span>
+            </StyledTicketType>
+          </div>
+        </Details>
+        <Actions>
+          <StyledLink onClick={handleDelete}>Remove</StyledLink>
+          <input type="text" defaultValue={numberOfTickets} />
+        </Actions>
+        <p>USD {formatCurrency(price, 0)}</p>
+      </InfoContainer>
+    </ContainerItem>
   );
 }
 
