@@ -7,9 +7,9 @@ import java.time.LocalDate;
 
 @Data
 public class FilterRequest {
+    private String searchTearm;
     private LocalDate startDateFrom;
     private LocalDate startDateTo;
-
     private long priceFrom;
     private long priceTo;
     private String eventTypeName;

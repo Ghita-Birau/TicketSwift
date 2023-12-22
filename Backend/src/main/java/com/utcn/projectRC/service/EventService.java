@@ -29,6 +29,8 @@ public class EventService {
         this.eventRepository = eventRepository;
     }
 
+    private List<Event> filteredEvents;
+
     public EventDTO convertEventToEventDTO(Event event) {
         EventDTO eventDTO = new EventDTO();
         eventDTO.setEventId(event.getEventId());
@@ -75,41 +77,16 @@ public class EventService {
         return eventTicketCategoryDTO;
     }
 
-    /* Nu folosesc momentan
-    public List<EventDTO> getEventsDTOByLocationAndType(String location, String eventTypeName) {
-        List<Event> eventList = eventRepository.findAllByVenueId_LocationAndEventTypeId_EventTypeName(location, eventTypeName);
-        return eventList.stream().map(this::convertEventToEventDTO).toList();
-    }
-
-    public List<EventDTO> getEventsDTOByName(String eventName) {
-        List<Event> eventList = eventRepository.findAllByEventName(eventName);
-        return eventList.stream().map(this::convertEventToEventDTO).toList();
-    }
-
-    public List<EventDTO> getEventsDTOByLocation(String location) {
-        List<Event> eventList = eventRepository.findAllByVenueId_Location(location);
-        return eventList.stream().map(this::convertEventToEventDTO).toList();
-    }
-
-    public List<EventDTO> getEventsDTOByStartDate(LocalDate startDate) {
-        List<Event> eventList = eventRepository.findAllByStartDate(startDate);
-        if(eventList.isEmpty()) {
-            throw new NotFoundException("No event starts at this time");
-        } else {
-            return eventList.stream().map(this::convertEventToEventDTO).toList();
-        }
-    }*/
-
-    public List<EventDTO> getAllEventsDTO() {
+    public List<Event> getAllEvents() {
         List<Event> eventList = eventRepository.findAll();
         if(eventList.isEmpty()) {
             throw new NotFoundException("There are no events available");
         } else {
-            return eventList.stream().map(this::convertEventToEventDTO).toList();
+            return eventList.stream().toList();
         }
     }
 
-    public List<EventDTO> searchEventsDTOByNameOrLocation(String searchTerm) {
+    public List<Event> searchEventsByNameOrLocation(String searchTerm) {
         List<Event> eventList = null;
 
         try {
@@ -131,7 +108,7 @@ public class EventService {
                     throw new NotFoundException(errorMessage);
                 }
             }
-            return eventList.stream().map(this::convertEventToEventDTO).toList();
+            return eventList.stream().toList();
         } catch (NotFoundException ex) {
             String errorMessage = ex.getMessage();
             System.out.println(errorMessage);
@@ -144,7 +121,7 @@ public class EventService {
     }
 
 
-    public List<EventDTO> filterEventsDTOByStartDateRange(LocalDate startDateFrom, LocalDate startDateTo) {
+    public List<Event> filterEventsByStartDateRange(LocalDate startDateFrom, LocalDate startDateTo) {
         List<Event> eventList = null;
 
         if(startDateFrom != null && startDateTo != null) {
@@ -159,241 +136,166 @@ public class EventService {
         if(eventList.isEmpty()) {
             throw new NotFoundException("No event starts in the specified dates");
         } else {
-            return eventList.stream().map(this::convertEventToEventDTO).toList();
+            return eventList.stream().toList();
         }
     }
 
-    public List<EventDTO> filterEventsDTOByPriceRange(long priceFrom, long priceTo) {
-        List<Event> eventList;
+    public List<Event> filterEventsByPriceRange(long priceFrom, long priceTo) {
+        List<Event> eventListAllCategory;
 
         if (priceFrom != 0 && priceTo != 0) {
-            eventList = eventRepository.findAllByListEventTicketCategory_PriceBetween(priceFrom, priceTo);
+            eventListAllCategory = eventRepository.findAllByListEventTicketCategory_PriceBetween(priceFrom, priceTo);
         } else if (priceFrom != 0) {
-            eventList = eventRepository.findAllByListEventTicketCategory_PriceGreaterThanEqual(priceFrom);
+            eventListAllCategory = eventRepository.findAllByListEventTicketCategory_PriceGreaterThanEqual(priceFrom);
         } else if (priceTo != 0) {
-            eventList = eventRepository.findAllByListEventTicketCategory_PriceLessThanEqual(priceTo);
+            eventListAllCategory = eventRepository.findAllByListEventTicketCategory_PriceLessThanEqual(priceTo);
         } else {
-            eventList = eventRepository.findAll();
+            eventListAllCategory = eventRepository.findAll();
         }
 
-        List<EventDTO> eventDTOList = new ArrayList<>();
-        for (Event event : eventList) {
-            EventDTO eventDTO = convertEventToEventDTO(event);
-
-            List<EventTicketCategoryDTO> filteredCategories = eventDTO.getListEventTicketCategories()
+        List<Event> eventList = new ArrayList<>();
+        for (Event event : eventListAllCategory) {
+            List<EventTicketCategory> filteredCategories = event.getListEventTicketCategory()
                     .stream()
                     .filter(category -> category.getPrice() >= priceFrom && category.getPrice() <= priceTo)
                     .collect(Collectors.toList());
 
-            eventDTO.setListEventTicketCategories(filteredCategories);
-            eventDTOList.add(eventDTO);
+            event.setListEventTicketCategory(filteredCategories);
+            eventList.add(event);
         }
-        if(eventDTOList.isEmpty()) {
+        if(eventList.isEmpty()) {
             throw new NotFoundException("There are no tickets with the price in the specified range");
         } else {
-            return eventDTOList;
+            return eventList;
         }
     }
 
 
-    public List<EventDTO> filterEventsDTOByEventType(String eventTypeName) {
+    public List<Event> filterEventsByEventType(String eventTypeName) {
         List<Event> eventList = eventRepository.findAllByEventTypeId_EventTypeNameContainingIgnoreCase(eventTypeName);
         if(eventList.isEmpty()) {
             throw new NotFoundException("There are no events in the category you are looking for");
         } else {
-            return eventList.stream().map(this::convertEventToEventDTO).toList();
+            return eventList.stream().toList();
         }
     }
 
-    public List<EventDTO> filterEventsByTicketCategoryDesciption(String categoryDescription) {
-        List<Event> eventList = eventRepository.findAllByListEventTicketCategory_TicketCategory_DescriptionContainingIgnoreCase(categoryDescription);
+    public List<Event> filterEventsByTicketCategoryDesciption(String categoryDescription) {
+        List<Event> eventListAllCategory = eventRepository.findAllByListEventTicketCategory_TicketCategory_DescriptionContainingIgnoreCase(categoryDescription);
 
-        List<EventDTO> eventDTOList = new ArrayList<>();
-        for (Event event : eventList) {
-            EventDTO eventDTO = convertEventToEventDTO(event);
-
-            List<EventTicketCategoryDTO> filteredCategories = eventDTO.getListEventTicketCategories()
+        List<Event> eventList = new ArrayList<>();
+        for (Event event : eventListAllCategory) {
+            List<EventTicketCategory> filteredCategories = event.getListEventTicketCategory()
                     .stream()
-                    .filter(category -> category.getDescription().equals(categoryDescription))
+                    .filter(category -> category.getTicketCategory().getDescription().equals(categoryDescription))
                     .collect(Collectors.toList());
 
-            eventDTO.setListEventTicketCategories(filteredCategories);
-            eventDTOList.add(eventDTO);
+            event.setListEventTicketCategory(filteredCategories);
+            eventList.add(event);
         }
-        if(eventDTOList.isEmpty()) {
+        if(eventList.isEmpty()) {
             throw new NotFoundException("There are no events in the category you are looking for");
         } else {
-            return eventDTOList;
+            return eventList;
         }
     }
 
-    public List<EventDTO> filterEventsByTicketCategoryAccess(String access) {
-        List<Event> eventList = eventRepository.findAllByListEventTicketCategory_AccessContainingIgnoreCase(access);
+    public List<Event> filterEventsByTicketCategoryAccess(String access) {
+        List<Event> eventListAllCategory = eventRepository.findAllByListEventTicketCategory_AccessContainingIgnoreCase(access);
 
-        List<EventDTO> eventDTOList = new ArrayList<>();
-        for (Event event : eventList) {
-            EventDTO eventDTO = convertEventToEventDTO(event);
-
-            List<EventTicketCategoryDTO> filteredCategories = eventDTO.getListEventTicketCategories()
+        List<Event> eventList = new ArrayList<>();
+        for (Event event : eventListAllCategory) {
+            List<EventTicketCategory> filteredCategories = event.getListEventTicketCategory()
                     .stream()
                     .filter(category -> category.getAccess().equals(access))
                     .collect(Collectors.toList());
 
-            eventDTO.setListEventTicketCategories(filteredCategories);
-            eventDTOList.add(eventDTO);
+            event.setListEventTicketCategory(filteredCategories);
+            eventList.add(event);
         }
-        if(eventDTOList.isEmpty()) {
+        if(eventList.isEmpty()) {
             throw new NotFoundException("There are no tickets for the selected category");
         } else {
-            return eventDTOList;
+            return eventList;
         }
     }
 
-    public List<EventDTO> filterEventsByDiscountedTickets(boolean hasDicount) {
+    public List<Event> filterEventsByDiscountedTickets(boolean hasDicount) {
         if(hasDicount) {
-            List<Event> eventList = eventRepository.findAllByListEventTicketCategory_DiscountPercentageGreaterThan(0.0);
+            List<Event> eventListAllCategory = eventRepository.findAllByListEventTicketCategory_DiscountPercentageGreaterThan(0.0);
 
-            List<EventDTO> eventDTOList = new ArrayList<>();
-            for (Event event : eventList) {
-                EventDTO eventDTO = convertEventToEventDTO(event);
-
-                List<EventTicketCategoryDTO> filteredCategories = eventDTO.getListEventTicketCategories()
+            List<Event> eventList = new ArrayList<>();
+            for (Event event : eventListAllCategory) {
+                List<EventTicketCategory> filteredCategories = event.getListEventTicketCategory()
                         .stream()
                         .filter(category -> category.getDiscountPercentage() > 0.0)
                         .collect(Collectors.toList());
 
-                eventDTO.setListEventTicketCategories(filteredCategories);
-                eventDTOList.add(eventDTO);
+                event.setListEventTicketCategory(filteredCategories);
+                eventList.add(event);
             }
-            if(eventDTOList.isEmpty()) {
+            if(eventList.isEmpty()) {
                 throw new NotFoundException("There are no discounted tickets");
             } else {
-                return eventDTOList;
+                return eventList;
             }
         } else {
             List<Event> eventList = eventRepository.findAll();
             if(eventList.isEmpty()) {
                 throw new NotFoundException("There are no events available");
             } else {
-                return eventList.stream().map(this::convertEventToEventDTO).toList();
+                return eventList.stream().toList();
             }
         }
     }
 
-    public List<EventDTO> filterEventsDTO(FilterRequest filterRequest) {
-        List<EventDTO> filteredEvents = getAllEventsDTO();
+    public List<EventDTO> filterEvents(FilterRequest filterRequest) {
+        filteredEvents = getAllEvents();
+
+        if(filterRequest.getSearchTearm() != null) {
+            filteredEvents = searchEventsByNameOrLocation(filterRequest.getSearchTearm());
+        }
 
         if (filterRequest.getStartDateFrom() != null || filterRequest.getStartDateTo() != null) {
-            filteredEvents = filterEventsDTOByStartDateRange(filteredEvents, filterRequest.getStartDateFrom(), filterRequest.getStartDateTo());
+            filteredEvents = filterEventsByStartDateRange(filterRequest.getStartDateFrom(), filterRequest.getStartDateTo());
         }
 
         if (filterRequest.getPriceFrom() != 0 || filterRequest.getPriceTo() != 0) {
-            filteredEvents = filterEventsDTOByPriceRange(filteredEvents, filterRequest.getPriceFrom(), filterRequest.getPriceTo());
+            filteredEvents = filterEventsByPriceRange(filterRequest.getPriceFrom(), filterRequest.getPriceTo());
         }
 
         if (filterRequest.getEventTypeName() != null) {
-            filteredEvents = filterEventsDTOByEventType(filteredEvents, filterRequest.getEventTypeName());
+            filteredEvents = filterEventsByEventType(filterRequest.getEventTypeName());
         }
 
         if (filterRequest.getTicketCategoryDescription() != null) {
-            filteredEvents = filterEventsByTicketCategoryDesciption(filteredEvents, filterRequest.getTicketCategoryDescription());
+            filteredEvents = filterEventsByTicketCategoryDesciption(filterRequest.getTicketCategoryDescription());
         }
 
         if (filterRequest.getTicketCategoryAccess() != null) {
-            filteredEvents = filterEventsByTicketCategoryAccess(filteredEvents, filterRequest.getTicketCategoryAccess());
+            filteredEvents = filterEventsByTicketCategoryAccess(filterRequest.getTicketCategoryAccess());
         }
 
         if (filterRequest.isHasDiscount()) {
-            filteredEvents = filterEventsByDiscountedTickets(filteredEvents);
+            filteredEvents = filterEventsByDiscountedTickets(filterRequest.isHasDiscount());
         }
 
-        filteredEvents = filteredEvents.stream()
-                .filter(eventDTO -> eventDTO.getListEventTicketCategories() != null)
-                .collect(Collectors.toList());
+        List<Event> filteredEventsFinalList = new ArrayList<>();
 
-        return filteredEvents;
+        for (Event event : filteredEvents) {
+            List<EventTicketCategory> filteredCategories = event.getListEventTicketCategory()
+                    .stream()
+                    .collect(Collectors.toList());
+
+            if(!filteredCategories.isEmpty()) {
+                filteredEventsFinalList.add(event);
+            }
+        }
+
+        if(filteredEventsFinalList.isEmpty()) {
+            throw new NotFoundException("There are no tickets for the selected option");
+        } else {
+            return filteredEventsFinalList.stream().map(this::convertEventToEventDTO).toList();
+        }
     }
-
-    private List<EventDTO> filterEventsDTOByStartDateRange(List<EventDTO> events, LocalDate startDateFrom, LocalDate startDateTo) {
-        return events.stream()
-                .filter(event -> isEventInStartDateRange(event, startDateFrom, startDateTo))
-                .collect(Collectors.toList());
-    }
-
-    private boolean isEventInStartDateRange(EventDTO event, LocalDate startDateFrom, LocalDate startDateTo) {
-        LocalDate eventStartDate = event.getStartDate();
-        return (startDateFrom == null || eventStartDate.isAfter(startDateFrom) || eventStartDate.isEqual(startDateFrom)) &&
-                (startDateTo == null || eventStartDate.isBefore(startDateTo) || eventStartDate.isEqual(startDateTo));
-    }
-
-    private List<EventDTO> filterEventsDTOByPriceRange(List<EventDTO> events, long priceFrom, long priceTo) {
-        return events.stream()
-                .map(event -> filterEventDTOByPriceRange(event, priceFrom, priceTo))
-                .collect(Collectors.toList());
-    }
-
-    private EventDTO filterEventDTOByPriceRange(EventDTO event, long priceFrom, long priceTo) {
-        List<EventTicketCategoryDTO> filteredCategories = event.getListEventTicketCategories()
-                .stream()
-                .filter(category -> category.getPrice() >= priceFrom && category.getPrice() <= priceTo)
-                .collect(Collectors.toList());
-
-        event.setListEventTicketCategories(filteredCategories);
-        return event;
-    }
-
-    private List<EventDTO> filterEventsDTOByEventType(List<EventDTO> events, String eventTypeName) {
-        return events.stream()
-                .filter(event -> event.getEventTypeName().contains(eventTypeName))
-                .collect(Collectors.toList());
-    }
-
-    private List<EventDTO> filterEventsByTicketCategoryDesciption(List<EventDTO> events, String categoryDescription) {
-        return events.stream()
-                .map(event -> filterEventByTicketCategoryDesciption(event, categoryDescription))
-                .collect(Collectors.toList());
-    }
-
-    private EventDTO filterEventByTicketCategoryDesciption(EventDTO event, String categoryDescription) {
-        List<EventTicketCategoryDTO> filteredCategories = event.getListEventTicketCategories()
-                .stream()
-                .filter(category -> category.getDescription().contains(categoryDescription))
-                .collect(Collectors.toList());
-
-        event.setListEventTicketCategories(filteredCategories);
-        return event;
-    }
-
-    private List<EventDTO> filterEventsByTicketCategoryAccess(List<EventDTO> events, String access) {
-        return events.stream()
-                .map(event -> filterEventByTicketCategoryAccess(event, access))
-                .collect(Collectors.toList());
-    }
-
-    private EventDTO filterEventByTicketCategoryAccess(EventDTO event, String access) {
-        List<EventTicketCategoryDTO> filteredCategories = event.getListEventTicketCategories()
-                .stream()
-                .filter(category -> category.getAccess().contains(access))
-                .collect(Collectors.toList());
-
-        event.setListEventTicketCategories(filteredCategories);
-        return event;
-    }
-
-    private List<EventDTO> filterEventsByDiscountedTickets(List<EventDTO> events) {
-        return events.stream()
-                .map(event -> filterEventByDiscountedTickets(event))
-                .collect(Collectors.toList());
-    }
-
-    private EventDTO filterEventByDiscountedTickets(EventDTO event) {
-        List<EventTicketCategoryDTO> filteredCategories = event.getListEventTicketCategories()
-                .stream()
-                .filter(category -> category.getDiscountPercentage() > 0.0)
-                .collect(Collectors.toList());
-
-        event.setListEventTicketCategories(filteredCategories);
-        return event;
-    }
-
 }
