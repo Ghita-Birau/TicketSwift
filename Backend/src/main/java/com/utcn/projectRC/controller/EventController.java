@@ -1,6 +1,7 @@
 package com.utcn.projectRC.controller;
 
 import com.utcn.projectRC.DTO.EventDTO;
+import com.utcn.projectRC.model.Event;
 import com.utcn.projectRC.model.Filter.FilterRequest;
 import com.utcn.projectRC.model.Filter.FilterResponse;
 import com.utcn.projectRC.service.EventService;
@@ -26,10 +27,15 @@ public class EventController {
     }
 
 
-    @PostMapping("/filterEvents")
-    public ResponseEntity<FilterResponse> filterEvents(@RequestBody FilterRequest filterRequest) {
-        List<EventDTO> filteredEvents = eventService.filterEvents(filterRequest);
-        FilterResponse response = new FilterResponse("Success", filteredEvents);
+    @PostMapping("/filterAndSortEvents")
+    public ResponseEntity<FilterResponse> filterAndSortEvents(@RequestBody FilterRequest filterRequest) {
+        List<EventDTO> filteredAndSortedEvents = eventService.filterAndSortEvents(filterRequest);
+        FilterResponse response = new FilterResponse("Success", filteredAndSortedEvents);
         return ResponseEntity.ok(response);
+    }
+
+        @GetMapping("/filterByEventTypeName")
+    public List<Event> filterEventsByEventType(@RequestParam String eventTypeName) {
+        return eventService.filterEventsByEventType(eventTypeName).stream().toList();
     }
 }

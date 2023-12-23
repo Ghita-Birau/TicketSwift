@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -79,45 +80,21 @@ public class EventService {
 
     public List<Event> getAllEvents() {
         List<Event> eventList = eventRepository.findAll();
-        if(eventList.isEmpty()) {
-            throw new NotFoundException("There are no events available");
-        } else {
-            return eventList.stream().toList();
-        }
+        return eventList.stream().toList();
     }
 
     public List<Event> searchEventsByNameOrLocation(String searchTerm) {
         List<Event> eventList = null;
 
-        try {
-            if (searchTerm != null) {
-                eventList = eventRepository.findAllByEventNameContainingIgnoreCase(searchTerm);
-                if (eventList.isEmpty()) {
-                    eventList = eventRepository.findAllByVenueId_LocationContainingIgnoreCase(searchTerm);
-                    if (eventList.isEmpty()) {
-                        String errorMessage = "We did not find any events according to your requirements";
-                        System.out.println(errorMessage);
-                        throw new NotFoundException(errorMessage);
-                    }
-                }
-            } else {
-                eventList = eventRepository.findAll();
-                if (eventList.isEmpty()) {
-                    String errorMessage = "There are no events available";
-                    System.out.println(errorMessage);
-                    throw new NotFoundException(errorMessage);
-                }
+        if (searchTerm != null) {
+            eventList = eventRepository.findAllByEventNameContainingIgnoreCase(searchTerm);
+            if (eventList.isEmpty()) {
+                eventList = eventRepository.findAllByVenueId_LocationContainingIgnoreCase(searchTerm);
             }
-            return eventList.stream().toList();
-        } catch (NotFoundException ex) {
-            String errorMessage = ex.getMessage();
-            System.out.println(errorMessage);
-            throw ex;
-        } catch (Exception ex) {
-            String errorMessage = "An error occurred while processing the request: " + ex.getMessage();
-            System.err.println(errorMessage);
-            throw new InternalServerErrorException(errorMessage);
+        } else {
+            eventList = eventRepository.findAll();
         }
+        return eventList.stream().toList();
     }
 
 
@@ -133,11 +110,7 @@ public class EventService {
         } else {
             eventList = eventRepository.findAll();
         }
-        if(eventList.isEmpty()) {
-            throw new NotFoundException("No event starts in the specified dates");
-        } else {
-            return eventList.stream().toList();
-        }
+        return eventList.stream().toList();
     }
 
     public List<Event> filterEventsByPriceRange(long priceFrom, long priceTo) {
@@ -163,21 +136,13 @@ public class EventService {
             event.setListEventTicketCategory(filteredCategories);
             eventList.add(event);
         }
-        if(eventList.isEmpty()) {
-            throw new NotFoundException("There are no tickets with the price in the specified range");
-        } else {
-            return eventList;
-        }
+        return eventList;
     }
 
 
     public List<Event> filterEventsByEventType(String eventTypeName) {
         List<Event> eventList = eventRepository.findAllByEventTypeId_EventTypeNameContainingIgnoreCase(eventTypeName);
-        if(eventList.isEmpty()) {
-            throw new NotFoundException("There are no events in the category you are looking for");
-        } else {
-            return eventList.stream().toList();
-        }
+        return eventList.stream().toList();
     }
 
     public List<Event> filterEventsByTicketCategoryDesciption(String categoryDescription) {
@@ -193,11 +158,7 @@ public class EventService {
             event.setListEventTicketCategory(filteredCategories);
             eventList.add(event);
         }
-        if(eventList.isEmpty()) {
-            throw new NotFoundException("There are no events in the category you are looking for");
-        } else {
-            return eventList;
-        }
+        return eventList;
     }
 
     public List<Event> filterEventsByTicketCategoryAccess(String access) {
@@ -213,18 +174,14 @@ public class EventService {
             event.setListEventTicketCategory(filteredCategories);
             eventList.add(event);
         }
-        if(eventList.isEmpty()) {
-            throw new NotFoundException("There are no tickets for the selected category");
-        } else {
-            return eventList;
-        }
+        return eventList;
     }
 
     public List<Event> filterEventsByDiscountedTickets(boolean hasDicount) {
+        List<Event> eventList = new ArrayList<>();
         if(hasDicount) {
             List<Event> eventListAllCategory = eventRepository.findAllByListEventTicketCategory_DiscountPercentageGreaterThan(0.0);
 
-            List<Event> eventList = new ArrayList<>();
             for (Event event : eventListAllCategory) {
                 List<EventTicketCategory> filteredCategories = event.getListEventTicketCategory()
                         .stream()
@@ -234,33 +191,22 @@ public class EventService {
                 event.setListEventTicketCategory(filteredCategories);
                 eventList.add(event);
             }
-            if(eventList.isEmpty()) {
-                throw new NotFoundException("There are no discounted tickets");
-            } else {
-                return eventList;
-            }
-        } else {
-            List<Event> eventList = eventRepository.findAll();
-            if(eventList.isEmpty()) {
-                throw new NotFoundException("There are no events available");
-            } else {
-                return eventList.stream().toList();
-            }
         }
+        return eventList;
     }
 
-    public List<EventDTO> filterEvents(FilterRequest filterRequest) {
+    public List<EventDTO> filterAndSortEvents(FilterRequest filterRequest) {
         filteredEvents = getAllEvents();
 
-        if(filterRequest.getSearchTearm() != null) {
-            filteredEvents = searchEventsByNameOrLocation(filterRequest.getSearchTearm());
+        if(filterRequest.getSearchTerm() != null) {
+            filteredEvents = searchEventsByNameOrLocation(filterRequest.getSearchTerm());
         }
 
         if (filterRequest.getStartDateFrom() != null || filterRequest.getStartDateTo() != null) {
             filteredEvents = filterEventsByStartDateRange(filterRequest.getStartDateFrom(), filterRequest.getStartDateTo());
         }
 
-        if (filterRequest.getPriceFrom() != 0 || filterRequest.getPriceTo() != 0) {
+        if (filterRequest.getPriceFrom() != 0 || filterRequest.getPriceTo() != 10000) {
             filteredEvents = filterEventsByPriceRange(filterRequest.getPriceFrom(), filterRequest.getPriceTo());
         }
 
@@ -280,7 +226,7 @@ public class EventService {
             filteredEvents = filterEventsByDiscountedTickets(filterRequest.isHasDiscount());
         }
 
-        List<Event> filteredEventsFinalList = new ArrayList<>();
+        List<Event> filteredAndSortedEventsFinalList = new ArrayList<>();
 
         for (Event event : filteredEvents) {
             List<EventTicketCategory> filteredCategories = event.getListEventTicketCategory()
@@ -288,14 +234,54 @@ public class EventService {
                     .collect(Collectors.toList());
 
             if(!filteredCategories.isEmpty()) {
-                filteredEventsFinalList.add(event);
+                filteredAndSortedEventsFinalList.add(event);
             }
         }
 
-        if(filteredEventsFinalList.isEmpty()) {
+        if(filterRequest.isShouldSortByNameAscending()) {
+            Collections.sort(filteredAndSortedEventsFinalList, Comparator.comparing(Event::getEventName));
+        }
+
+        if(filterRequest.isShouldSortByNameDescending()) {
+            Collections.sort(filteredAndSortedEventsFinalList, Comparator.comparing(Event::getEventName).reversed());
+        }
+
+        if(filterRequest.isShouldSortByPriceAscending()) {
+            Collections.sort(filteredAndSortedEventsFinalList, Comparator.comparing((Event event) -> {
+                long minPrice = event.getListEventTicketCategory()
+                        .stream()
+                        .mapToLong(EventTicketCategory::getPrice)
+                        .min()
+                        .orElse(0);
+                return minPrice;
+            }));
+        }
+
+        if(filterRequest.isShouldSortByPriceDescending()) {
+            Collections.sort(filteredAndSortedEventsFinalList, Comparator.comparing((Event event) -> {
+                long maxPrice = event.getListEventTicketCategory()
+                        .stream()
+                        .mapToLong(EventTicketCategory::getPrice)
+                        .max()
+                        .orElse(0);
+                return maxPrice;
+            }).reversed());
+        }
+
+        if(filterRequest.isShouldSortByStartDateAscending()) {
+            Collections.sort(filteredAndSortedEventsFinalList, Comparator.comparing(Event::getStartDate));
+        }
+
+        if(filterRequest.isShouldSortByStartDateDescending()) {
+            Collections.sort(filteredAndSortedEventsFinalList, Comparator.comparing(Event::getStartDate).reversed());
+        }
+
+
+        if(filteredAndSortedEventsFinalList.isEmpty()) {
             throw new NotFoundException("There are no tickets for the selected option");
         } else {
-            return filteredEventsFinalList.stream().map(this::convertEventToEventDTO).toList();
+            return filteredAndSortedEventsFinalList.stream().map(this::convertEventToEventDTO).toList();
         }
     }
+
 }

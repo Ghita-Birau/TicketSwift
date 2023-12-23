@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 @Data
 public class FilterRequest {
-    private String searchTearm;
+    private String searchTerm;
     private LocalDate startDateFrom;
     private LocalDate startDateTo;
     private long priceFrom;
@@ -16,4 +16,11 @@ public class FilterRequest {
     private String ticketCategoryDescription;
     private String ticketCategoryAccess;
     private boolean hasDiscount;
+
+    private boolean shouldSortByNameAscending;
+    private boolean shouldSortByNameDescending;
+    private boolean shouldSortByPriceAscending;
+    private boolean shouldSortByPriceDescending;
+    private boolean shouldSortByStartDateAscending;
+    private boolean shouldSortByStartDateDescending;
 }
