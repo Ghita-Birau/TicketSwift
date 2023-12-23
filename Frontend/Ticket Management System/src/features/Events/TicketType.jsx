@@ -142,7 +142,7 @@ function TicketType({ category, event }) {
   const {
     description,
     price,
-    ticketCategoryId,
+    eventTicketCategoryId,
     sales,
     discountPercentage,
     access,
@@ -152,7 +152,9 @@ function TicketType({ category, event }) {
   const cart = useSelector((store) => store.cart.cart);
 
   const foundItem = cart?.find(
-    (el) => el.eventId === eventId && el.ticketCategoryId === ticketCategoryId
+    (el) =>
+      el.eventId === eventId &&
+      el.eventTicketCategoryId === eventTicketCategoryId
   );
 
   function handleIncrement(e) {
@@ -160,7 +162,7 @@ function TicketType({ category, event }) {
     dispatch(
       incrementTicketQuantity({
         eventId,
-        ticketCategoryId,
+        eventTicketCategoryId,
       })
     );
   }
@@ -170,7 +172,7 @@ function TicketType({ category, event }) {
     dispatch(
       decrementTicketQuantity({
         eventId,
-        ticketCategoryId,
+        eventTicketCategoryId,
       })
     );
   }
@@ -188,7 +190,7 @@ function TicketType({ category, event }) {
         price,
         sales,
         numberOfTickets: 1,
-        ticketCategoryId,
+        eventTicketCategoryId,
         eventTypeName,
       })
     );
@@ -198,7 +200,7 @@ function TicketType({ category, event }) {
     e.preventDefault();
 
     if (foundItem) {
-      dispatch(deleteTicket({ ticketCategoryId, eventId }));
+      dispatch(deleteTicket({ eventTicketCategoryId, eventId }));
     }
   }
 

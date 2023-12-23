@@ -1,3 +1,6 @@
+import { useDispatch, useSelector } from "react-redux";
+import { setSearchTerm } from "../../contexts/filterSlice";
+
 import styled from "styled-components";
 import DateFilter from "./DateFilter&Style/DateFilter";
 import CategoryFilter from "./CategoryFilter&Option/CategoryFilter";
@@ -15,10 +18,20 @@ const Container = styled.div`
 
 function Filters() {
   const categories = ["Music", "Sport", "Gastronomy", "Dance", "Comedy"];
+  const searchTerm = useSelector((state) => state.filters.searchTerm);
+  const dispatch = useDispatch();
+
+  const handleSearchTermChange = (newSearchTerm) => {
+    dispatch(setSearchTerm(newSearchTerm));
+  };
 
   return (
     <Container>
-      <Searchbar placeholder="Search" />
+      <Searchbar
+        value={searchTerm}
+        onChange={(e) => handleSearchTermChange(e.target.value)}
+        placeholder="Search"
+      />
       <PriceFilter />
       <CategoryFilter categories={categories} />
       <DateFilter />

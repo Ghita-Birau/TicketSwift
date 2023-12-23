@@ -19,6 +19,15 @@ const StyledMain = styled.main`
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
+  max-height: 30rem;
+
+  &::-webkit-scrollbar {
+    width: 0;
+  }
+
+  & > main {
+    overflow-y: auto;
+  }
 
   & > div:not(:last-child) {
     border-bottom: 1px solid var(--color-gray-300);
@@ -35,8 +44,6 @@ const StyledMain = styled.main`
       text-decoration: line-through;
     }
   }
-
-  overflow: scroll;
 `;
 
 const StyledDiv = styled.div`
@@ -78,9 +85,14 @@ function CartWindow() {
       {cart.length === 0 ? (
         <EmptyCart />
       ) : (
-        cart.map((cartItem) => (
-          <CartWindowItem item={cartItem} key={cartItem.ticketCategoryId} />
-        ))
+        <main>
+          {cart.map((cartItem) => (
+            <CartWindowItem
+              item={cartItem}
+              key={cartItem.eventTicketCategoryId}
+            />
+          ))}
+        </main>
       )}
       {totalPrice !== 0 && (
         <>

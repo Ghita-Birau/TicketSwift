@@ -19,7 +19,7 @@ function Searchbar({ value, onChange, placeholder }) {
   return (
     <StyledInput
       type="text"
-      value={value}
+      value={value === null ? "" : value}
       onChange={onChange}
       placeholder={placeholder}
       onFocus={() => setIsFocused(true)}

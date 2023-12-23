@@ -76,12 +76,12 @@ function CartWindowItem({ item }) {
     description,
     price,
     numberOfTickets,
-    ticketCategoryId,
+    eventTicketCategoryId,
   } = item;
   const dispatch = useDispatch();
 
   function handleDelete() {
-    dispatch(deleteTicket({ eventId, ticketCategoryId }));
+    dispatch(deleteTicket({ eventId, eventTicketCategoryId }));
   }
 
   return (

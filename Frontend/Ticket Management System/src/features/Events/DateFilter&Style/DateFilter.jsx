@@ -1,5 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
-import { addEndDate, addStartDate } from "../../../contexts/filterSlice";
+import {
+  activateDate,
+  addEndDate,
+  addStartDate,
+} from "../../../contexts/filterSlice";
 import { HiChevronDown, HiChevronUp } from "react-icons/hi2";
 import { useState } from "react";
 
@@ -11,13 +15,18 @@ import "./index.css";
 import toast from "react-hot-toast";
 import HeaderRow from "../../../ui/HeaderRow";
 import FilterContainer from "../../../ui/FilterContainer";
+import Checkbox from "../../../ui/Checkbox";
 
 const Container = styled(FilterContainer)`
   & > div {
     display: flex;
     flex-direction: column;
     gap: 1.2rem;
-    padding: 0rem 0rem 0.4rem 0rem;
+    padding: 0rem 1.2rem 0.4rem 1.2rem;
+
+    & > div:first-child {
+      margin-bottom: -0.6rem;
+    }
   }
 `;
 
@@ -42,7 +51,12 @@ function DateFilter() {
   const { startDate, endDate } = useSelector(
     (store) => store.filters.dateRange
   );
+  const isOn = useSelector((store) => store.filters.dateRange.isOn);
   const dispatch = useDispatch();
+
+  function handleChange() {
+    dispatch(activateDate(!isOn));
+  }
 
   const handleStartDateChange = (newDate) => {
     const formattedDate = newDate.toISOString().split("T")[0];
@@ -68,6 +82,7 @@ function DateFilter() {
 
       {isOpen && (
         <div>
+          <Checkbox label="Date" isChecked={isOn} onChange={handleChange} />
           <DateContaier isactive={(startDate !== null).toString()}>
             <label htmlFor="startDate">Start Date</label>
             <ReactDatePicker

@@ -110,12 +110,6 @@ const OptionsContainer = styled.div`
     min-width: 30rem;
     flex: 0 0 auto;
   }
-
-  &::-webkit-scrollbar {
-    width: 0;
-    height: 0;
-    display: none;
-  }
 `;
 
 const ButtonScroll = styled.button`
@@ -187,12 +181,12 @@ function EventCard({ event }) {
     eventTypeName,
     name,
     startDate,
-    ticketCategories = [],
+    listEventTicketCategories = [],
     venue,
     urlImage,
   } = event;
 
-  const prices = ticketCategories.map((category) => category.price);
+  const prices = listEventTicketCategories?.map((category) => category.price);
 
   const minPrice = Math.min(...prices);
   const maxPrice = Math.max(...prices);
@@ -253,11 +247,11 @@ function EventCard({ event }) {
       {isOpen && (
         <BackgroundContainer>
           <OptionsContainer ref={containerRef}>
-            {ticketCategories?.map((category) => (
+            {listEventTicketCategories?.map((category, index) => (
               <TicketType
                 category={category}
                 event={event}
-                key={category.ticketCategoryId}
+                key={category.eventTicketCategoryId}
               />
             ))}
           </OptionsContainer>

@@ -1,14 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  searchTerm: null,
   categories: [],
   dateRange: {
+    isOn: false,
     startDate: null,
     endDate: null,
   },
   price: {
     isOn: false,
-    range: [0, 100],
+    range: [0, 10000],
   },
   sortBy: "name-asc",
 };
@@ -35,11 +37,22 @@ const filterSlice = createSlice({
 
     // Date Action Creators
     addStartDate(state, action) {
-      state.dateRange.startDate = action.payload;
+      if (state.dateRange.isOn) {
+        state.dateRange.startDate = action.payload;
+      }
     },
 
     addEndDate(state, action) {
-      state.dateRange.endDate = action.payload;
+      if (state.dateRange.isOn) {
+        state.dateRange.endDate = action.payload;
+      }
+    },
+
+    activateDate(state, action) {
+      state.dateRange.isOn = action.payload;
+      if (!state.dateRange.isOn) {
+        state.dateRange = initialState.dateRange;
+      }
     },
 
     // Price Action Creators
@@ -62,8 +75,12 @@ const filterSlice = createSlice({
 
     // SortBy Action Creator
     changeSortByValue(state, action) {
-      // console.log(action.payload);
       state.sortBy = action.payload;
+    },
+
+    // Search Action Creator
+    setSearchTerm(state, action) {
+      state.searchTerm = action.payload;
     },
   },
 });
@@ -78,6 +95,8 @@ export const {
   turnOnPrice,
   setPriceRange,
   changeSortByValue,
+  setSearchTerm,
+  activateDate,
 } = filterSlice.actions;
 
 export default filterSlice.reducer;

@@ -18,7 +18,7 @@ const cartSlice = createSlice({
       const item = state.cart?.find(
         (item) =>
           item.eventId === action.payload.eventId &&
-          item.ticketCategoryId === action.payload.ticketCategoryId
+          item.eventTicketCategoryId === action.payload.eventTicketCategoryId
       );
       item.numberOfTickets++;
     },
@@ -27,14 +27,14 @@ const cartSlice = createSlice({
       const itemCart = state.cart?.find(
         (item) =>
           item.eventId === action.payload.eventId &&
-          item.ticketCategoryId === action.payload.ticketCategoryId
+          item.eventTicketCategoryId === action.payload.eventTicketCategoryId
       );
 
       if (itemCart.numberOfTickets === 1) {
         state.cart = state.cart.filter(
           (item) =>
             item.eventId !== action.payload.eventId ||
-            item.ticketCategoryId !== action.payload.ticketCategoryId
+            item.eventTicketCategoryId !== action.payload.eventTicketCategoryId
         );
       } else {
         itemCart.numberOfTickets--;
@@ -46,7 +46,7 @@ const cartSlice = createSlice({
         (item) =>
           !(
             item.eventId === action.payload.eventId &&
-            item.ticketCategoryId === action.payload.ticketCategoryId
+            item.eventTicketCategoryId === action.payload.eventTicketCategoryId
           )
       );
       toast.success("Item succesfully removed");

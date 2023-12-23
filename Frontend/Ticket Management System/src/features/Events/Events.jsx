@@ -1,11 +1,12 @@
-import { fakeData } from "../../utils/Constants";
+// import { fakeData } from "../../utils/Constants";
+import { idkGhitaDAta } from "../../utils/Constants";
 
 import styled, { css } from "styled-components";
+import useEventsFilters from "./useEventsFilters";
+import Loader from "../../ui/Loader";
 import EventCard from "./EventCard";
 import Filters from "./Filters";
-// import Searchbar from "../../ui/Searchbar";
-// import useEvents from "./useEvents";
-// import Loader from "../../ui/Loader";
+import Empty from "../../ui/Empty";
 
 const HeaderTypes = {
   filters: css`
@@ -49,8 +50,12 @@ const EventsHeader = styled.header`
 `;
 
 function Events() {
-  // const { events = {}, isLoading } = useEvents();
-  // if (isLoading) return <Loader />
+  const { events = [], isLoading } = useEventsFilters();
+  let { filteredEvents = [] } = events;
+
+  filteredEvents = filteredEvents.length === 0 ? idkGhitaDAta : filteredEvents;
+
+  if (isLoading) return <Loader />;
 
   return (
     <div>
@@ -62,9 +67,12 @@ function Events() {
         </StyledFilters>
         <StyledTicketContainer>
           <EventsHeader header="events">All Events</EventsHeader>
-          {fakeData.map((event) => (
+          {filteredEvents.map((event) => (
             <EventCard event={event} key={event.eventId} />
           ))}
+          {filteredEvents.length === 0 && (
+            <Empty resource="tickets" message="We're currently out of items." />
+          )}
         </StyledTicketContainer>
       </StyledContainer>
     </div>
