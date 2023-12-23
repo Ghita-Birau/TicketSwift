@@ -5,15 +5,15 @@ import {
   HiOutlineMusicalNote,
   HiOutlineTicket,
 } from "react-icons/hi2";
+import { MdOutlineSportsSoccer } from "react-icons/md";
+import { BiDrink } from "react-icons/bi";
+import { useDispatch } from "react-redux";
+import { deleteTicket, updateNrOfTickets } from "../../contexts/cartSlice";
 
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import Heading from "../../ui/Heading";
-import { MdOutlineSportsSoccer } from "react-icons/md";
-import { BiDrink } from "react-icons/bi";
-import { useDispatch } from "react-redux";
-import { deleteTicket } from "../../contexts/cartSlice";
-// import { MdOutlineSportsSoccer } from "react-icons/md";
+import toast from "react-hot-toast";
 
 const ContainerItem = styled.div`
   border-top: 1px solid var(--color-gray-300);
@@ -93,6 +93,31 @@ const Actions = styled.div`
 
   & > input {
     max-width: 4rem;
+    text-align: center;
+  }
+`;
+
+const Price = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  & > p {
+    color: var(--color-brand-500);
+    font-size: 1.6rem;
+    font-weight: bold;
+  }
+
+  & > p:last-child {
+    text-decoration: line-through;
+    color: var(--color-gray-400);
+  }
+
+  & > p:first-child:last-child {
+    text-decoration: none;
+    font-size: 1.6rem;
+    color: var(--color-brand-500);
   }
 `;
 
@@ -111,16 +136,19 @@ const StyledLink = styled.a`
 `;
 
 function CartItem({ item }) {
+  const regex = /^\d+$/;
+
   const dispatch = useDispatch();
   const {
     eventId,
-    ticketCategoryId,
+    eventTicketCategoryId,
     eventTypeName,
     description,
     urlImage,
     name,
     eventDescription,
     numberOfTickets,
+    sales,
     price,
   } = item;
   let icon;
@@ -146,7 +174,17 @@ function CartItem({ item }) {
   }
 
   function handleDelete() {
-    dispatch(deleteTicket({ ticketCategoryId, eventId }));
+    dispatch(deleteTicket({ eventTicketCategoryId, eventId }));
+  }
+
+  function handleUpdateNrOfTickets(e) {
+    const inputVal = e.target.value.trim();
+
+    if (inputVal !== "" && regex.test(inputVal) && Number(inputVal) !== 0) {
+      dispatch(updateNrOfTickets({ eventTicketCategoryId, eventId, inputVal }));
+    } else {
+      toast.error("Please enter a valid non-zero number");
+    }
   }
 
   return (
@@ -174,9 +212,16 @@ function CartItem({ item }) {
         </Details>
         <Actions>
           <StyledLink onClick={handleDelete}>Remove</StyledLink>
-          <input type="text" defaultValue={numberOfTickets} />
+          <input
+            type="text"
+            defaultValue={numberOfTickets}
+            onBlur={handleUpdateNrOfTickets}
+          />
         </Actions>
-        <p>USD {formatCurrency(price, 0)}</p>
+        <Price>
+          {sales !== price && <p>USD {formatCurrency(sales, 0)}</p>}
+          <p>USD {formatCurrency(price, 0)}</p>
+        </Price>
       </InfoContainer>
     </ContainerItem>
   );

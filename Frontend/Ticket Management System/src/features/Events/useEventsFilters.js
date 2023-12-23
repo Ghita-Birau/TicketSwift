@@ -23,6 +23,12 @@ function useEventsFilters() {
       ticketCategoryDescription: null,
       ticketCategoryAccess: null,
       hasDiscount: false,
+      shouldSortByNameAscending: false,
+      shouldSortByNameDescending: false,
+      shouldSortByPriceAscending: false,
+      shouldSortByPriceDescending: false,
+      shouldSortByStartDateAscending: false,
+      shouldSortByStartDateDescending: false,
     }),
     [categories, startDate, endDate, range, searchTerm]
   );

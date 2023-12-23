@@ -1,3 +1,8 @@
+import { formatCurrency } from "../../utils/helpers";
+import {
+  getTotalCartPrice,
+  getTotalPriceWithDiscount,
+} from "../../contexts/cartSlice";
 import { useSelector } from "react-redux";
 
 import styled from "styled-components";
@@ -47,13 +52,84 @@ const LeftSide = styled.div`
 const RightSide = styled.div`
   background-color: var(--color-gray-50);
   border-radius: 8px;
-  padding: 1rem;
+  padding: 1.2rem 1.8rem;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+  max-height: 26rem;
+`;
+
+const StyledHeader = styled.h2`
+  font-size: 2.2rem;
+  font-weight: bold;
+`;
+
+const StyledMainRight = styled.div`
+  margin-top: 3rem;
+  font-size: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+const PriceSection = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &:nth-child(2) {
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid var(--color-gray-300);
+  }
+`;
+
+const StyledPrice = styled.p`
+  font-size: 1.8rem;
+  color: var(--color-brand-600);
+`;
+
+const StyledButton = styled.button`
+  background-color: var(--color-brand-600);
+  color: var(--color-gray-100);
+  border: none;
+  border-radius: 7px;
+
+  &:hover {
+    background-color: var(--color-brand-700);
+  }
+  text-align: center;
+
+  font-weight: 600;
+  font-size: 1.4rem;
+
+  padding: 1rem 1.6rem;
+
+  text-transform: uppercase;
+  transition: all 0.2s;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+
+  &:focus {
+    outline: none;
+  }
+
+  & > svg {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  border-radius: 0px;
+  margin-top: 1rem;
 `;
 
 function CartDetails() {
   const cart = useSelector((store) => store.cart.cart);
+  const store = useSelector((store) => store);
   const nrOfTickets = cart.length;
+  const totalPrice = getTotalCartPrice(store);
+  const totalDiscounts = getTotalPriceWithDiscount(store);
+  console.log(totalPrice);
 
   if (nrOfTickets === 0) return <EmptyCart />;
 
@@ -65,12 +141,29 @@ function CartDetails() {
           <MainHeader>{nrOfTickets} Tickets in Cart</MainHeader>
           <ItemsContainer>
             {cart?.map((item) => (
-              <CartItem item={item} key={item.ticketCategoryId} />
+              <CartItem item={item} key={item.eventTicketCategoryId} />
             ))}
           </ItemsContainer>
         </LeftSide>
         <RightSide>
-          <h4>Summary</h4>
+          <StyledHeader>Summary</StyledHeader>
+          <StyledMainRight>
+            <PriceSection>
+              <p>Original price:</p>
+              <p>USD {formatCurrency(totalPrice, 0)}</p>
+            </PriceSection>
+            <PriceSection>
+              <p>Discounts:</p>
+              <p>-USD {formatCurrency(totalPrice - totalDiscounts, 0)}</p>
+            </PriceSection>
+            <PriceSection>
+              <p>
+                <strong>Total:</strong>
+              </p>
+              <StyledPrice>USD {formatCurrency(totalDiscounts, 0)}</StyledPrice>
+            </PriceSection>
+            <StyledButton>Checkout</StyledButton>
+          </StyledMainRight>
         </RightSide>
       </StyledMain>
     </Container>

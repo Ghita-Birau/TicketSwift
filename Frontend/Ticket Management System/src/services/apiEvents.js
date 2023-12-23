@@ -17,7 +17,7 @@ export async function getAllEvents() {
 
 export async function getAllFilteredEvents(filterData) {
   try {
-    const response = await fetch(`${springUrl}/filterEvents`, {
+    const response = await fetch(`${springUrl}/filterAndSortEvents`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -52,6 +52,15 @@ const cartSlice = createSlice({
       toast.success("Item succesfully removed");
     },
 
+    updateNrOfTickets(state, action) {
+      const itemCart = state.cart?.find(
+        (item) =>
+          item.eventId === action.payload.eventId &&
+          item.eventTicketCategoryId === action.payload.eventTicketCategoryId
+      );
+      itemCart.numberOfTickets = Number(action.payload.inputVal);
+    },
+
     clearCart(state, action) {
       state.cart = [];
       toast.success("The cart has been cleared");
@@ -79,6 +88,7 @@ export const {
   deleteTicket,
   decrementTicketQuantity,
   clearCart,
+  updateNrOfTickets,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;
