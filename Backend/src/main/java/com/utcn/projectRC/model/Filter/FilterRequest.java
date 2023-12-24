@@ -21,6 +21,6 @@ public class FilterRequest {
     private String SortBy;
     private boolean ascending;
 
-//    private Integer page;
-//    private Integer size;
+    private Integer page;
+    private Integer size;
 }

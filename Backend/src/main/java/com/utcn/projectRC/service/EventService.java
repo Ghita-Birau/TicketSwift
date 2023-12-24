@@ -10,6 +10,7 @@ import com.utcn.projectRC.model.EventTicketCategory;
 import com.utcn.projectRC.model.EventType;
 import com.utcn.projectRC.model.Filter.FilterRequest;
 import com.utcn.projectRC.repository.EventRepository;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -317,6 +318,14 @@ public class EventService {
         }
 
         filteredAndSortedEventsFinalList = sortEvents(filteredAndSortedEventsFinalList, filterRequest.getSortBy(), filterRequest.isAscending());
+
+        if(filterRequest.getPage() != null && filterRequest.getSize() != null) {
+            Integer page = filterRequest.getPage();
+            Integer size = filterRequest.getSize();
+            Integer start = page * size;
+            Integer end = Math.min((start + size), filteredAndSortedEventsFinalList.size());
+            filteredAndSortedEventsFinalList = filteredAndSortedEventsFinalList.subList(start, end);
+        }
 
         if(filteredAndSortedEventsFinalList.isEmpty()) {
             throw new NotFoundException("There are no tickets for the selected option");
