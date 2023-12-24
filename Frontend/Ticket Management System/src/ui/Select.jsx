@@ -11,6 +11,7 @@ const StyledSelect = styled.select`
   color: var(--color-gray-600);
   border: none;
   font-size: 1.8rem;
+  font-weight: 600;
 
   &:focus {
     outline: none;

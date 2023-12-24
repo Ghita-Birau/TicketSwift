@@ -16,6 +16,16 @@ const Container = styled.div`
   padding: 1rem 0rem;
 `;
 
+const Footer = styled.footer`
+  background-color: var(--color-gray-50);
+  text-align: center;
+  border-radius: 0px 0px 0px 8px;
+  padding: 1.2rem 2rem;
+  font-weight: 600;
+  font-size: 1.6rem;
+  color: var(--color-gray-600);
+`;
+
 function Filters() {
   const categories = ["Music", "Sport", "Gastronomy", "Dance", "Comedy"];
   const searchTerm = useSelector((state) => state.filters.searchTerm);
@@ -55,6 +65,7 @@ function Filters() {
           },
         ]}
       />
+      <Footer>Sort</Footer>
     </Container>
   );
 }

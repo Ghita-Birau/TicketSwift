@@ -7,6 +7,7 @@ import Loader from "../../ui/Loader";
 import EventCard from "./EventCard";
 import Filters from "./Filters";
 import Empty from "../../ui/Empty";
+import Footer from "../../ui/Footer";
 
 const HeaderTypes = {
   filters: css`
@@ -73,6 +74,7 @@ function Events() {
           {filteredEvents.length === 0 && (
             <Empty resource="tickets" message="We're currently out of items." />
           )}
+          <Footer />
         </StyledTicketContainer>
       </StyledContainer>
     </div>

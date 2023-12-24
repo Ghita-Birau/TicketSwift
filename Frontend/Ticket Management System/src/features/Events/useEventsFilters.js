@@ -6,11 +6,15 @@ import { useEffect, useMemo } from "react";
 function useEventsFilters() {
   const filters = useSelector((store) => store.filters);
   const {
+    sortBy: sortByFilter,
     searchTerm,
     categories,
     price: { range },
     dateRange: { startDate, endDate },
   } = filters;
+
+  const sortingVal = sortByFilter.slice().split("-")[0];
+  const actualVal = sortByFilter.slice().split("-")[1] === "asc";
 
   const filtersAPI = useMemo(
     () => ({
@@ -19,18 +23,14 @@ function useEventsFilters() {
       startDateTo: endDate,
       priceFrom: range[0],
       priceTo: range[1],
-      eventTypeName: categories.length > 0 ? categories[0] : null,
+      eventTypeNames: categories,
       ticketCategoryDescription: null,
       ticketCategoryAccess: null,
       hasDiscount: false,
-      shouldSortByNameAscending: false,
-      shouldSortByNameDescending: false,
-      shouldSortByPriceAscending: false,
-      shouldSortByPriceDescending: false,
-      shouldSortByStartDateAscending: false,
-      shouldSortByStartDateDescending: false,
+      sortBy: sortingVal,
+      ascending: actualVal,
     }),
-    [categories, startDate, endDate, range, searchTerm]
+    [categories, startDate, endDate, range, searchTerm, actualVal, sortingVal]
   );
 
   const {

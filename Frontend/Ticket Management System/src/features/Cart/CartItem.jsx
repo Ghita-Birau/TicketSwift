@@ -219,8 +219,10 @@ function CartItem({ item }) {
           />
         </Actions>
         <Price>
-          {sales !== price && <p>USD {formatCurrency(sales, 0)}</p>}
-          <p>USD {formatCurrency(price, 0)}</p>
+          {sales !== price && (
+            <p>USD {formatCurrency(sales * numberOfTickets, 0)}</p>
+          )}
+          <p>USD {formatCurrency(price * numberOfTickets, 0)}</p>
         </Price>
       </InfoContainer>
     </ContainerItem>

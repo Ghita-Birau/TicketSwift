@@ -9,6 +9,7 @@ import styled from "styled-components";
 import Heading from "../../ui/Heading";
 import CartItem from "./CartItem";
 import EmptyCart from "./EmptyCart";
+import toast from "react-hot-toast";
 
 const Container = styled.div`
   width: 100%;
@@ -133,6 +134,11 @@ function CartDetails() {
 
   if (nrOfTickets === 0) return <EmptyCart />;
 
+  function handleClick(e) {
+    e.preventDefault();
+    toast.success("You've successfully placed an order");
+  }
+
   return (
     <Container>
       <StyledHeading as="h1">Shopping Cart</StyledHeading>
@@ -162,7 +168,9 @@ function CartDetails() {
               </p>
               <StyledPrice>USD {formatCurrency(totalDiscounts, 0)}</StyledPrice>
             </PriceSection>
-            <StyledButton>Checkout</StyledButton>
+            <StyledButton onClick={(e) => handleClick(e)}>
+              Checkout
+            </StyledButton>
           </StyledMainRight>
         </RightSide>
       </StyledMain>
