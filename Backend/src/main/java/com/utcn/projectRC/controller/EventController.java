@@ -33,9 +33,4 @@ public class EventController {
         FilterResponse response = new FilterResponse("Success", filteredAndSortedEvents);
         return ResponseEntity.ok(response);
     }
-
-        @GetMapping("/filterByEventTypeName")
-    public List<Event> filterEventsByEventType(@RequestParam String eventTypeName) {
-        return eventService.filterEventsByEventType(eventTypeName).stream().toList();
-    }
 }

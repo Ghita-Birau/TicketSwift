@@ -30,8 +30,6 @@ public class EventService {
         this.eventRepository = eventRepository;
     }
 
-    private List<Event> filteredEvents;
-
     public EventDTO convertEventToEventDTO(Event event) {
         EventDTO eventDTO = new EventDTO();
         eventDTO.setEventId(event.getEventId());
@@ -140,9 +138,16 @@ public class EventService {
     }
 
 
-    public List<Event> filterEventsByEventType(String eventTypeName) {
-        List<Event> eventList = eventRepository.findAllByEventTypeId_EventTypeNameContainingIgnoreCase(eventTypeName);
-        return eventList.stream().toList();
+    public List<Event> filterEventsByEventType(List<String> eventTypeNames) {
+        if(eventTypeNames.isEmpty()) {
+            return eventRepository.findAll();
+        }
+        List<Event> eventList = new ArrayList<>();
+        for (String eventTypeName : eventTypeNames) {
+            List<Event> events = eventRepository.findAllByEventTypeId_EventTypeNameContainingIgnoreCase(eventTypeName);
+            eventList.addAll(events);
+        }
+        return eventList.stream().distinct().toList();
     }
 
     public List<Event> filterEventsByTicketCategoryDesciption(String categoryDescription) {
@@ -195,35 +200,108 @@ public class EventService {
         return eventList;
     }
 
+    public List<Event> sortEvents(List<Event> events, String sortBy, boolean ascending) {
+        if(events.isEmpty()) {
+            throw new NotFoundException("There are no events to sort!");
+        } else {
+            List<Event> sortedEvents = events.stream().collect(Collectors.toList());
+            if(sortBy != null) {
+                switch (sortBy.toLowerCase()) {
+                    case "name":
+                        sortedEvents.sort(Comparator.comparing(Event::getEventName));
+                        break;
+                    case "price":
+                        sortedEvents.sort(Comparator.comparing(event -> {
+                            long minPrice = event.getListEventTicketCategory()
+                                    .stream()
+                                    .mapToLong(EventTicketCategory::getPrice)
+                                    .min()
+                                    .orElse(0);
+                            return minPrice;
+                        }));
+
+                        sortedEvents.forEach(event -> {
+                            List<EventTicketCategory> sortedCategories = event.getListEventTicketCategory()
+                                    .stream()
+                                    .sorted(Comparator.comparing(EventTicketCategory::getPrice))
+                                    .collect(Collectors.toList());
+                            event.setListEventTicketCategory(sortedCategories);
+                        });
+                        break;
+                    case "startdate":
+                        sortedEvents.sort(Comparator.comparing(Event::getStartDate));
+                        break;
+                    default:
+                        throw new NotFoundException("Sorting criteria unknown: " + sortBy);
+                }
+            }
+            if(!ascending) {
+                Collections.reverse(sortedEvents);
+
+                if(sortBy.toLowerCase().equals("price")) {
+                    sortedEvents.forEach(event -> {
+                        List<EventTicketCategory> sortedCategories = event.getListEventTicketCategory()
+                                .stream()
+                                .sorted(Comparator.comparing(EventTicketCategory::getPrice).reversed())
+                                .collect(Collectors.toList());
+                        event.setListEventTicketCategory(sortedCategories);
+                    });
+                }
+            }
+            return sortedEvents;
+        }
+     }
+
     public List<EventDTO> filterAndSortEvents(FilterRequest filterRequest) {
-        filteredEvents = getAllEvents();
+        List<Event> filteredEvents = getAllEvents();
 
         if(filterRequest.getSearchTerm() != null) {
-            filteredEvents = searchEventsByNameOrLocation(filterRequest.getSearchTerm());
+            List<Event> list = searchEventsByNameOrLocation(filterRequest.getSearchTerm());
+            filteredEvents = filteredEvents.stream()
+                    .filter(list::contains)
+                    .collect(Collectors.toList());
         }
 
         if (filterRequest.getStartDateFrom() != null || filterRequest.getStartDateTo() != null) {
-            filteredEvents = filterEventsByStartDateRange(filterRequest.getStartDateFrom(), filterRequest.getStartDateTo());
+            List<Event> list = filterEventsByStartDateRange(filterRequest.getStartDateFrom(), filterRequest.getStartDateTo());
+            filteredEvents = filteredEvents.stream()
+                    .filter(list::contains)
+                    .collect(Collectors.toList());
         }
 
         if (filterRequest.getPriceFrom() != 0 || filterRequest.getPriceTo() != 10000) {
-            filteredEvents = filterEventsByPriceRange(filterRequest.getPriceFrom(), filterRequest.getPriceTo());
+            List<Event> list = filterEventsByPriceRange(filterRequest.getPriceFrom(), filterRequest.getPriceTo());
+            filteredEvents = filteredEvents.stream()
+                    .filter(list::contains)
+                    .collect(Collectors.toList());
         }
 
-        if (filterRequest.getEventTypeName() != null) {
-            filteredEvents = filterEventsByEventType(filterRequest.getEventTypeName());
+        if ( !filterRequest.getEventTypeNames().isEmpty()) {
+            List<Event> list = filterEventsByEventType(filterRequest.getEventTypeNames());
+            filteredEvents = filteredEvents.stream()
+                    .filter(list::contains)
+                    .collect(Collectors.toList());
         }
 
         if (filterRequest.getTicketCategoryDescription() != null) {
-            filteredEvents = filterEventsByTicketCategoryDesciption(filterRequest.getTicketCategoryDescription());
+            List<Event> list = filterEventsByTicketCategoryDesciption(filterRequest.getTicketCategoryDescription());
+            filteredEvents = filteredEvents.stream()
+                    .filter(list::contains)
+                    .collect(Collectors.toList());
         }
 
         if (filterRequest.getTicketCategoryAccess() != null) {
-            filteredEvents = filterEventsByTicketCategoryAccess(filterRequest.getTicketCategoryAccess());
+            List <Event> list = filterEventsByTicketCategoryAccess(filterRequest.getTicketCategoryAccess());
+            filteredEvents = filteredEvents.stream()
+                    .filter(list::contains)
+                    .collect(Collectors.toList());
         }
 
         if (filterRequest.isHasDiscount()) {
-            filteredEvents = filterEventsByDiscountedTickets(filterRequest.isHasDiscount());
+            List<Event> list = filterEventsByDiscountedTickets(filterRequest.isHasDiscount());
+            filteredEvents = filteredEvents.stream()
+                    .filter(list::contains)
+                    .collect(Collectors.toList());
         }
 
         List<Event> filteredAndSortedEventsFinalList = new ArrayList<>();
@@ -233,49 +311,12 @@ public class EventService {
                     .stream()
                     .collect(Collectors.toList());
 
-            if(!filteredCategories.isEmpty()) {
+            if(!filteredCategories.isEmpty() && !filteredAndSortedEventsFinalList.contains(event)) {
                 filteredAndSortedEventsFinalList.add(event);
             }
         }
 
-        if(filterRequest.isShouldSortByNameAscending()) {
-            Collections.sort(filteredAndSortedEventsFinalList, Comparator.comparing(Event::getEventName));
-        }
-
-        if(filterRequest.isShouldSortByNameDescending()) {
-            Collections.sort(filteredAndSortedEventsFinalList, Comparator.comparing(Event::getEventName).reversed());
-        }
-
-        if(filterRequest.isShouldSortByPriceAscending()) {
-            Collections.sort(filteredAndSortedEventsFinalList, Comparator.comparing((Event event) -> {
-                long minPrice = event.getListEventTicketCategory()
-                        .stream()
-                        .mapToLong(EventTicketCategory::getPrice)
-                        .min()
-                        .orElse(0);
-                return minPrice;
-            }));
-        }
-
-        if(filterRequest.isShouldSortByPriceDescending()) {
-            Collections.sort(filteredAndSortedEventsFinalList, Comparator.comparing((Event event) -> {
-                long maxPrice = event.getListEventTicketCategory()
-                        .stream()
-                        .mapToLong(EventTicketCategory::getPrice)
-                        .max()
-                        .orElse(0);
-                return maxPrice;
-            }).reversed());
-        }
-
-        if(filterRequest.isShouldSortByStartDateAscending()) {
-            Collections.sort(filteredAndSortedEventsFinalList, Comparator.comparing(Event::getStartDate));
-        }
-
-        if(filterRequest.isShouldSortByStartDateDescending()) {
-            Collections.sort(filteredAndSortedEventsFinalList, Comparator.comparing(Event::getStartDate).reversed());
-        }
-
+        filteredAndSortedEventsFinalList = sortEvents(filteredAndSortedEventsFinalList, filterRequest.getSortBy(), filterRequest.isAscending());
 
         if(filteredAndSortedEventsFinalList.isEmpty()) {
             throw new NotFoundException("There are no tickets for the selected option");

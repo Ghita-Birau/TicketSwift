@@ -4,6 +4,7 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 public class FilterRequest {
@@ -12,15 +13,14 @@ public class FilterRequest {
     private LocalDate startDateTo;
     private long priceFrom;
     private long priceTo;
-    private String eventTypeName;
+    private List<String> eventTypeNames;
     private String ticketCategoryDescription;
     private String ticketCategoryAccess;
     private boolean hasDiscount;
 
-    private boolean shouldSortByNameAscending;
-    private boolean shouldSortByNameDescending;
-    private boolean shouldSortByPriceAscending;
-    private boolean shouldSortByPriceDescending;
-    private boolean shouldSortByStartDateAscending;
-    private boolean shouldSortByStartDateDescending;
+    private String SortBy;
+    private boolean ascending;
+
+//    private Integer page;
+//    private Integer size;
 }
