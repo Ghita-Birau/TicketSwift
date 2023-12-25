@@ -79,6 +79,17 @@ const buttonTypes = {
       background-color: var(--color-gray-50);
     }
   `,
+
+  clearAllFilters: css`
+    background-color: var(--color-brand-600);
+    color: var(--color-gray-100);
+    border: none;
+    border-radius: 0px;
+
+    &:hover {
+      background-color: var(--color-brand-700);
+    }
+  `,
 };
 
 const StyledButton = styled.button`

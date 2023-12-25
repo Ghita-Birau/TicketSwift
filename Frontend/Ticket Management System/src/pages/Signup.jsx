@@ -12,36 +12,45 @@ const StyledDiv = styled.div`
   color: var(--color-gray-700);
 
   max-width: 90rem;
-  min-height: 58rem;
 
   margin: auto;
   margin-top: 6rem;
-  padding: 1rem;
 
   display: grid;
-  grid-template-columns: 2fr 1.5fr;
+  grid-template-columns: 1.8fr 1.5fr;
   column-gap: 2.8rem;
 
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.05);
 `;
 
 const ImageContainer = styled.div`
-  background-color: var(--color-brand-700);
-  border-radius: 8px;
+  display: flex;
+  justify-content: flex-end;
+
+  & > div {
+    width: 90%;
+    background-color: var(--color-gray-200);
+  }
+
+  & > img {
+    align-content: flex-end;
+    height: 100%;
+    width: 80%;
+  }
 `;
 
 const FormContainer = styled.div`
   padding: 1.5rem 2.4rem;
   letter-spacing: -0.5px;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   display: flex;
   flex-direction: column;
-  gap: 2.4rem;
+  gap: 1.2rem;
 `;
 
 const StyledButtons = styled.button`
   background-color: var(--color-gray-50);
-  border: 1px solid var(--color-gray-900);
+  /* border: 1px solid var(--color-gray-900); */
   border-radius: 10px;
   padding: 1rem 1.4rem;
   font-size: 1rem;
@@ -58,7 +67,7 @@ const StyledButtons = styled.button`
   }
 
   &:hover {
-    background-color: var(--color-gray-700);
+    background-color: var(--color-brand-600);
     color: var(--color-gray-0);
   }
 `;
@@ -99,14 +108,26 @@ const Footer = styled.div`
 `;
 
 const StyledNavlink = styled(NavLink)`
-  text-decoration: underline;
-  color: var(--color-brand-600);
+  &:link,
+  &:visited {
+    text-decoration: none;
+    color: var(--color-brand-600);
+  }
+
+  &:hover,
+  &:active {
+    text-decoration: underline;
+  }
 `;
 
 function Signup() {
   return (
     <StyledDiv>
-      <ImageContainer>Image</ImageContainer>
+      <ImageContainer>
+        <div>
+          <img alt="idk" />
+        </div>
+      </ImageContainer>
       <FormContainer>
         <div>
           <Heading as="h4">Get Started Now</Heading>

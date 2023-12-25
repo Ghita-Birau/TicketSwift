@@ -1,4 +1,6 @@
+import { NavLink } from "react-router-dom";
 import styled, { css } from "styled-components";
+
 import PropTypes from "prop-types";
 
 const SidebarHeader = styled.header`
@@ -28,10 +30,12 @@ const SidebarHeader = styled.header`
 
 function Logo({ icon, name }) {
   return (
-    <SidebarHeader>
-      {icon}
-      <span>{name}</span>
-    </SidebarHeader>
+    <NavLink to="/">
+      <SidebarHeader>
+        {icon}
+        <span>{name}</span>
+      </SidebarHeader>
+    </NavLink>
   );
 }
 

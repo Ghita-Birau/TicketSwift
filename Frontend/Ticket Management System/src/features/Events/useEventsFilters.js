@@ -11,6 +11,8 @@ function useEventsFilters() {
     categories,
     price: { range },
     dateRange: { startDate, endDate },
+    hasDiscount,
+    ticketCategories,
   } = filters;
 
   const sortingVal = sortByFilter.slice().split("-")[0];
@@ -24,13 +26,26 @@ function useEventsFilters() {
       priceFrom: range[0],
       priceTo: range[1],
       eventTypeNames: categories,
-      ticketCategoryDescription: null,
+      ticketCategoryDescription:
+        ticketCategories.length === 0 ? null : ticketCategories[0],
       ticketCategoryAccess: null,
-      hasDiscount: false,
+      hasDiscount,
       sortBy: sortingVal,
       ascending: actualVal,
+      page: null,
+      size: null,
     }),
-    [categories, startDate, endDate, range, searchTerm, actualVal, sortingVal]
+    [
+      categories,
+      startDate,
+      endDate,
+      range,
+      searchTerm,
+      actualVal,
+      sortingVal,
+      hasDiscount,
+      ticketCategories,
+    ]
   );
 
   const {

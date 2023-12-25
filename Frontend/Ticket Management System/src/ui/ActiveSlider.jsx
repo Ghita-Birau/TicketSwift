@@ -22,7 +22,7 @@ const StyledSwiperContainer = styled.div`
   }
 
   .swiper-slide {
-    width: 30rem; // Adjust the slide width as needed
+    width: 30rem;
     flex-shrink: 0;
   }
 `;

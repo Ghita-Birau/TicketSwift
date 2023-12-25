@@ -33,7 +33,7 @@ const Container = styled.div`
 
 const IconContainer = styled.div`
   background-color: var(--color-gray-200);
-  border-radius: 50%;
+  border-radius: 45%;
   min-width: 6rem;
   min-height: 5rem;
   position: relative;

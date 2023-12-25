@@ -18,13 +18,13 @@ const OptionsContainer = styled.div`
   color: var(--color-gray-500);
 `;
 
-function CategoryFilter({ categories }) {
+function CategoryFilter({ categories, header, data, onAdd, onDelete }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <FilterContainer>
       <HeaderRow onClick={() => setIsOpen((o) => !o)}>
-        <Heading as="h4">Category</Heading>
+        <Heading as="h4">{header}</Heading>
 
         <span>{isOpen ? <HiChevronUp /> : <HiChevronDown />}</span>
       </HeaderRow>
@@ -34,6 +34,9 @@ function CategoryFilter({ categories }) {
             <CategoryOption
               key={categories.indexOf(category)}
               label={category}
+              data={data}
+              onAdd={onAdd}
+              onDelete={onDelete}
             />
           ))}
         </OptionsContainer>
@@ -44,6 +47,10 @@ function CategoryFilter({ categories }) {
 
 CategoryFilter.propTypes = {
   categories: PropTypes.array,
+  data: PropTypes.array,
+  header: PropTypes.string,
+  onAdd: PropTypes.func,
+  onDelete: PropTypes.func,
 };
 
 export default CategoryFilter;

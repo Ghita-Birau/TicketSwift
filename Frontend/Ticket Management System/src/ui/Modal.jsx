@@ -41,6 +41,13 @@ const StyledButton = styled.button`
     }
   }
 
+  & > svg {
+    margin-top: 0.2rem;
+    margin-right: 0.2rem;
+    width: 2.4rem;
+    height: 2.4rem;
+  }
+
   &:focus {
     outline: none;
   }

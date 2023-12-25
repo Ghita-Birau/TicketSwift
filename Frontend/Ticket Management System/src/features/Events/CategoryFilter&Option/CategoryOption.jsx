@@ -1,21 +1,14 @@
-import { useDispatch, useSelector } from "react-redux";
-import {
-  addCategoryFilter,
-  deleteCategory,
-} from "../../../contexts/filterSlice";
 import PropTypes from "prop-types";
 import Checkbox from "../../../ui/Checkbox";
 
-function CategoryOption({ label }) {
-  const { categories } = useSelector((store) => store.filters);
-  const dispatch = useDispatch();
-  const isChecked = categories.includes(label);
+function CategoryOption({ label, data, onAdd, onDelete }) {
+  const isChecked = data.includes(label);
 
   function handleChange() {
     if (!isChecked) {
-      dispatch(addCategoryFilter(label));
+      onAdd(label);
     } else {
-      dispatch(deleteCategory(label));
+      onDelete(label);
     }
   }
   return (
@@ -25,6 +18,9 @@ function CategoryOption({ label }) {
 
 CategoryOption.propTypes = {
   label: PropTypes.string,
+  data: PropTypes.array,
+  onAdd: PropTypes.func,
+  onDelete: PropTypes.func,
 };
 
 export default CategoryOption;

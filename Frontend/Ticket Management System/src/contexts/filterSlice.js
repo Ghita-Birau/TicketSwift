@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+export const initialState = {
   searchTerm: null,
   categories: [],
   dateRange: {
@@ -12,6 +12,8 @@ const initialState = {
     isOn: false,
     range: [0, 10000],
   },
+  hasDiscount: false,
+  ticketCategories: [],
   sortBy: "name-asc",
 };
 
@@ -31,8 +33,8 @@ const filterSlice = createSlice({
       }
     },
 
-    clearAllFilters(state, action) {
-      state.categories = [];
+    clearAllFilters(state) {
+      return { ...initialState };
     },
 
     // Date Action Creators
@@ -82,6 +84,23 @@ const filterSlice = createSlice({
     setSearchTerm(state, action) {
       state.searchTerm = action.payload;
     },
+
+    // hasDiscount Action Creator
+    toggleHasDiscount(state, action) {
+      state.hasDiscount = action.payload;
+    },
+
+    // TicketCategories Action Creator
+    addTicketCategory(state, action) {
+      state.ticketCategories.push(action.payload);
+    },
+
+    deleteTicketCategory(state, action) {
+      const indexToRemove = state.ticketCategories.indexOf(action.payload);
+      if (indexToRemove !== -1) {
+        state.ticketCategories.splice(indexToRemove, 1);
+      }
+    },
   },
 });
 
@@ -97,6 +116,9 @@ export const {
   changeSortByValue,
   setSearchTerm,
   activateDate,
+  toggleHasDiscount,
+  addTicketCategory,
+  deleteTicketCategory,
 } = filterSlice.actions;
 
 export default filterSlice.reducer;

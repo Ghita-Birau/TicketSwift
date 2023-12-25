@@ -130,7 +130,6 @@ function CartDetails() {
   const nrOfTickets = cart.length;
   const totalPrice = getTotalCartPrice(store);
   const totalDiscounts = getTotalPriceWithDiscount(store);
-  console.log(totalPrice);
 
   if (nrOfTickets === 0) return <EmptyCart />;
 

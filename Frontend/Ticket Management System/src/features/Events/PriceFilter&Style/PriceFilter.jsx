@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { turnOnPrice } from "../../../contexts/filterSlice";
+import { toggleHasDiscount, turnOnPrice } from "../../../contexts/filterSlice";
 import { HiChevronDown, HiChevronUp } from "react-icons/hi2";
 
 import Heading from "../../../ui/Heading";
@@ -22,10 +22,15 @@ const Container = styled(FilterContainer)`
 function PriceFilter() {
   const [isOpen, setIsOpen] = useState(false);
   const isOn = useSelector((store) => store.filters.price.isOn);
+  const hasDiscount = useSelector((store) => store.filters.hasDiscount);
   const dispatch = useDispatch();
 
   function handleChange() {
     dispatch(turnOnPrice(!isOn));
+  }
+
+  function handleDiscountChange() {
+    dispatch(toggleHasDiscount(!hasDiscount));
   }
 
   return (
@@ -37,6 +42,11 @@ function PriceFilter() {
 
       {isOpen && (
         <div>
+          <Checkbox
+            label="Discount"
+            isChecked={hasDiscount}
+            onChange={handleDiscountChange}
+          />
           <Checkbox label="Interval" isChecked={isOn} onChange={handleChange} />
           <PriceSlider />
         </div>
