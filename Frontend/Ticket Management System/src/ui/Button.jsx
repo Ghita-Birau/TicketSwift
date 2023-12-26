@@ -16,7 +16,6 @@ const buttonTypes = {
   secondary: css`
     background-color: var(--color-gray-0);
     color: var(--color-gray-500);
-    /* border: 1px solid var(--color-gray-300); */
     border-radius: 7px;
     border: 1px solid var(--color-gray-200);
     text-transform: none;
@@ -88,6 +87,29 @@ const buttonTypes = {
 
     &:hover {
       background-color: var(--color-brand-700);
+    }
+  `,
+
+  authButtons: css`
+    background-color: var(--color-gray-50);
+    border-radius: 10px;
+    padding: 1rem 1.4rem;
+    font-size: 1rem;
+    transition: all 0.2s;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+
+    & > svg {
+      height: 1.8rem;
+      width: 1.8rem;
+    }
+
+    &:hover {
+      background-color: var(--color-brand-600);
+      color: var(--color-gray-0);
     }
   `,
 };

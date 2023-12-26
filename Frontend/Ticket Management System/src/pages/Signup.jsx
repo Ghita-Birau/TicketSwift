@@ -1,56 +1,13 @@
-import { FaFacebook, FaGoogle } from "react-icons/fa6";
 import { NavLink } from "react-router-dom";
+import { FaFacebook, FaGoogle } from "react-icons/fa6";
 
 import styled from "styled-components";
+import AuthWrapper from "../ui/AuthWrapper";
 import Heading from "../ui/Heading";
 import RegisterForm from "../features/authentication/RegisterForm";
 
-const StyledDiv = styled.div`
-  font-family: "Poppins";
-  background-color: var(--color-gray-50);
-  border-radius: 10px;
-  color: var(--color-gray-700);
-
-  max-width: 90rem;
-
-  margin: auto;
-  margin-top: 6rem;
-
-  display: grid;
-  grid-template-columns: 1.8fr 1.5fr;
-  column-gap: 2.8rem;
-
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.05);
-`;
-
-const ImageContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-
-  & > div {
-    width: 90%;
-    background-color: var(--color-gray-200);
-  }
-
-  & > img {
-    align-content: flex-end;
-    height: 100%;
-    width: 80%;
-  }
-`;
-
-const FormContainer = styled.div`
-  padding: 1.5rem 2.4rem;
-  letter-spacing: -0.5px;
-  font-size: 1.4rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-`;
-
 const StyledButtons = styled.button`
   background-color: var(--color-gray-50);
-  /* border: 1px solid var(--color-gray-900); */
   border-radius: 10px;
   padding: 1rem 1.4rem;
   font-size: 1rem;
@@ -119,40 +76,39 @@ const StyledNavlink = styled(NavLink)`
     text-decoration: underline;
   }
 `;
-
 function Signup() {
   return (
-    <StyledDiv>
-      <ImageContainer>
+    <AuthWrapper
+      imageContent={
         <div>
           <img alt="idk" />
         </div>
-      </ImageContainer>
-      <FormContainer>
-        <div>
-          <Heading as="h4">Get Started Now</Heading>
-          <p>Enter your credentials to access your account</p>
-        </div>
-        <ButtonContainer>
-          <StyledButtons>
-            <FaGoogle />
-            <span>Login with Google</span>
-          </StyledButtons>
-          <StyledButtons>
-            <FaFacebook />
-            <span>Log in with Facebook</span>
-          </StyledButtons>
-        </ButtonContainer>
-        <Divider>
-          <DividerText>or</DividerText>
-        </Divider>
-        <RegisterForm />
-        <Footer>
-          <span>Already a member? </span>
-          <StyledNavlink to="/login">Login</StyledNavlink>
-        </Footer>
-      </FormContainer>
-    </StyledDiv>
+      }
+      contentPosition="right"
+    >
+      <div>
+        <Heading as="h4">Get Started Now</Heading>
+        <p>Enter your credentials to access your account</p>
+      </div>
+      <ButtonContainer>
+        <StyledButtons>
+          <FaGoogle />
+          <span>Register with Google</span>
+        </StyledButtons>
+        <StyledButtons>
+          <FaFacebook />
+          <span>Register with Facebook</span>
+        </StyledButtons>
+      </ButtonContainer>
+      <Divider>
+        <DividerText>or</DividerText>
+      </Divider>
+      <RegisterForm />
+      <Footer>
+        <span>Already a member? </span>
+        <StyledNavlink to="/login">Login</StyledNavlink>
+      </Footer>
+    </AuthWrapper>
   );
 }
 

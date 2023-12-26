@@ -4,7 +4,6 @@ import {
   HiOutlineEye,
   HiOutlineEyeSlash,
   HiOutlineLockClosed,
-  HiOutlineUserCircle,
 } from "react-icons/hi2";
 import { useState } from "react";
 
@@ -38,7 +37,7 @@ const StyledButton = styled.button`
 
 const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 
-function RegisterForm() {
+function LoginForm() {
   const [isShowing, setIsShowing] = useState(false);
   const { reset } = useForm();
 
@@ -60,16 +59,6 @@ function RegisterForm() {
           value: emailRegex,
           message: "Invalid email address",
         },
-      },
-    },
-    {
-      label: "Username",
-      name: "username",
-      type: "text",
-      placeholder: "username",
-      icon: <HiOutlineUserCircle />,
-      validation: {
-        required: "This field is required",
       },
     },
     {
@@ -105,9 +94,9 @@ function RegisterForm() {
     <AuthContentForm
       onSubmit={onSubmit}
       elements={elements}
-      buttonLabel="Register"
+      buttonLabel="Login"
     />
   );
 }
 
-export default RegisterForm;
+export default LoginForm;

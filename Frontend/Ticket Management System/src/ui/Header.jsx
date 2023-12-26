@@ -76,7 +76,6 @@ function Header() {
     <StyledHeader>
       <Container>
         <span>Header</span>
-        <Button>Log in</Button>
 
         <Window.Container>
           <Window.Toggle name="cart-window">
