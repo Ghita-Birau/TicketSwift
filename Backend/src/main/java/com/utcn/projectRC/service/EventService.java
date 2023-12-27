@@ -9,7 +9,9 @@ import com.utcn.projectRC.model.Event;
 import com.utcn.projectRC.model.EventTicketCategory;
 import com.utcn.projectRC.model.EventType;
 import com.utcn.projectRC.model.Filter.FilterRequest;
+import com.utcn.projectRC.model.TicketCategory;
 import com.utcn.projectRC.repository.EventRepository;
+import com.utcn.projectRC.repository.TicketCategoryRepository;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,7 @@ import java.util.stream.Collectors;
 @Service
 public class EventService {
     private final EventRepository eventRepository;
+
 
     @Autowired
 
@@ -151,18 +154,30 @@ public class EventService {
         return eventList.stream().distinct().toList();
     }
 
-    public List<Event> filterEventsByTicketCategoryDesciption(String categoryDescription) {
-        List<Event> eventListAllCategory = eventRepository.findAllByListEventTicketCategory_TicketCategory_DescriptionContainingIgnoreCase(categoryDescription);
+    public List<Event> filterEventsByTicketCategoryDescription(List<String> categoryDescriptions) {
+        if(categoryDescriptions.isEmpty()) {
+            return eventRepository.findAll();
+        }
 
+        List<Event> eventListAllCategory = eventRepository.findAllByListEventTicketCategory_TicketCategory_DescriptionInIgnoreCase(categoryDescriptions);
+
+        System.out.println(eventListAllCategory.size());
         List<Event> eventList = new ArrayList<>();
-        for (Event event : eventListAllCategory) {
-            List<EventTicketCategory> filteredCategories = event.getListEventTicketCategory()
-                    .stream()
-                    .filter(category -> category.getTicketCategory().getDescription().equals(categoryDescription))
-                    .collect(Collectors.toList());
+        for(Event event : eventListAllCategory) {
+            List<EventTicketCategory> filterCategoriesForEvent = new ArrayList<>();
 
-            event.setListEventTicketCategory(filteredCategories);
-            eventList.add(event);
+            for(String description : categoryDescriptions) {
+                List<EventTicketCategory> filteredCategories = event.getListEventTicketCategory().stream()
+                        .filter(category -> category.getTicketCategory().getDescription().equals(description))
+                        .collect(Collectors.toList());
+                if(!filteredCategories.isEmpty()) {
+                    filterCategoriesForEvent.addAll(filteredCategories);
+                }
+            }
+            if(!filterCategoriesForEvent.isEmpty()) {
+                event.setListEventTicketCategory(filterCategoriesForEvent);
+                eventList.add(event);
+            }
         }
         return eventList;
     }
@@ -253,10 +268,10 @@ public class EventService {
         }
      }
 
-    public List<EventDTO> filterAndSortEvents(FilterRequest filterRequest) {
+    public List<Event> filterEvents(FilterRequest filterRequest) {
         List<Event> filteredEvents = getAllEvents();
 
-        if(filterRequest.getSearchTerm() != null) {
+        if (filterRequest.getSearchTerm() != null) {
             List<Event> list = searchEventsByNameOrLocation(filterRequest.getSearchTerm());
             filteredEvents = filteredEvents.stream()
                     .filter(list::contains)
@@ -277,22 +292,22 @@ public class EventService {
                     .collect(Collectors.toList());
         }
 
-        if ( !filterRequest.getEventTypeNames().isEmpty()) {
+        if (!filterRequest.getEventTypeNames().isEmpty()) {
             List<Event> list = filterEventsByEventType(filterRequest.getEventTypeNames());
             filteredEvents = filteredEvents.stream()
                     .filter(list::contains)
                     .collect(Collectors.toList());
         }
 
-        if (filterRequest.getTicketCategoryDescription() != null) {
-            List<Event> list = filterEventsByTicketCategoryDesciption(filterRequest.getTicketCategoryDescription());
+        if (!filterRequest.getTicketCategoryDescriptions().isEmpty()) {
+            List<Event> list = filterEventsByTicketCategoryDescription(filterRequest.getTicketCategoryDescriptions());
             filteredEvents = filteredEvents.stream()
                     .filter(list::contains)
                     .collect(Collectors.toList());
         }
 
         if (filterRequest.getTicketCategoryAccess() != null) {
-            List <Event> list = filterEventsByTicketCategoryAccess(filterRequest.getTicketCategoryAccess());
+            List<Event> list = filterEventsByTicketCategoryAccess(filterRequest.getTicketCategoryAccess());
             filteredEvents = filteredEvents.stream()
                     .filter(list::contains)
                     .collect(Collectors.toList());
@@ -304,34 +319,48 @@ public class EventService {
                     .filter(list::contains)
                     .collect(Collectors.toList());
         }
+        return filteredEvents;
+    }
 
-        List<Event> filteredAndSortedEventsFinalList = new ArrayList<>();
+    public List<Event> sortFilterEvents(List<Event> eventList, FilterRequest filterRequest) {
+        List<Event> sortedEvents = new ArrayList<>();
 
-        for (Event event : filteredEvents) {
+        for (Event event : eventList) {
             List<EventTicketCategory> filteredCategories = event.getListEventTicketCategory()
                     .stream()
                     .collect(Collectors.toList());
 
-            if(!filteredCategories.isEmpty() && !filteredAndSortedEventsFinalList.contains(event)) {
-                filteredAndSortedEventsFinalList.add(event);
+            if(!filteredCategories.isEmpty() && !sortedEvents.contains(event)) {
+                sortedEvents.add(event);
             }
         }
 
-        filteredAndSortedEventsFinalList = sortEvents(filteredAndSortedEventsFinalList, filterRequest.getSortBy(), filterRequest.isAscending());
+        sortedEvents = sortEvents(sortedEvents, filterRequest.getSortBy(), filterRequest.isAscending());
+        return sortedEvents;
+    }
 
+    public List<Event> paginateEvents (List<Event> filteredAndSortedEvents, FilterRequest filterRequest) {
         if(filterRequest.getPage() != null && filterRequest.getSize() != null) {
             Integer page = filterRequest.getPage();
             Integer size = filterRequest.getSize();
             Integer start = page * size;
-            Integer end = Math.min((start + size), filteredAndSortedEventsFinalList.size());
-            filteredAndSortedEventsFinalList = filteredAndSortedEventsFinalList.subList(start, end);
+            Integer end = Math.min((start + size), filteredAndSortedEvents.size());
+            filteredAndSortedEvents = filteredAndSortedEvents.subList(start, end);
         }
-
-        if(filteredAndSortedEventsFinalList.isEmpty()) {
-            throw new NotFoundException("There are no tickets for the selected option");
-        } else {
-            return filteredAndSortedEventsFinalList.stream().map(this::convertEventToEventDTO).toList();
-        }
+        return filteredAndSortedEvents;
     }
 
+    public List<EventDTO> filtrateSortAndPaginateEvents(FilterRequest filterRequest) {
+        List<Event> filteredEvents = filterEvents(filterRequest);
+
+        List<Event> sortedEvents = sortFilterEvents(filteredEvents, filterRequest);
+
+        List<Event> paginatedEvents = paginateEvents(sortedEvents, filterRequest);
+
+        if(paginatedEvents.isEmpty()) {
+            throw new NotFoundException("There are no tickets for the selected option");
+        } else {
+            return paginatedEvents.stream().map(this::convertEventToEventDTO).toList();
+        }
+    }
 }

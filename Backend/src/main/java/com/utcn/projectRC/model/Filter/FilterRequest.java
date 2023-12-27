@@ -14,7 +14,7 @@ public class FilterRequest {
     private long priceFrom;
     private long priceTo;
     private List<String> eventTypeNames;
-    private String ticketCategoryDescription;
+    private List<String> ticketCategoryDescriptions;
     private String ticketCategoryAccess;
     private boolean hasDiscount;
 

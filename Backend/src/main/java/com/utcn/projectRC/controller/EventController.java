@@ -27,10 +27,11 @@ public class EventController {
     }
 
 
-    @PostMapping("/filterAndSortEvents")
-    public ResponseEntity<FilterResponse> filterAndSortEvents(@RequestBody FilterRequest filterRequest) {
-        List<EventDTO> filteredAndSortedEvents = eventService.filterAndSortEvents(filterRequest);
-        FilterResponse response = new FilterResponse("Success", filteredAndSortedEvents);
+    @PostMapping("/filter/Sort/And/Paginate/Events")
+    public ResponseEntity<FilterResponse> filterSortAndPaginateEvents(@RequestBody FilterRequest filterRequest) {
+        List<EventDTO> filteredSortedAndPaginatedEvents = eventService.filtrateSortAndPaginateEvents(filterRequest);
+        List<Event> filteredEvens = eventService.filterEvents(filterRequest);
+        FilterResponse response = new FilterResponse("Success", filteredSortedAndPaginatedEvents, filteredEvens.size());
         return ResponseEntity.ok(response);
     }
 }

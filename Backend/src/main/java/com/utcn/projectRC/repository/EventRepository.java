@@ -23,7 +23,8 @@ public interface EventRepository extends JpaRepository <Event, Integer> {
 
     List<Event> findAllByEventTypeId_EventTypeNameContainingIgnoreCase(String eventTypeName);
 
-    List<Event> findAllByListEventTicketCategory_TicketCategory_DescriptionContainingIgnoreCase(String categoryDescription);
+    List<Event> findAllByListEventTicketCategory_TicketCategory_DescriptionInIgnoreCase(List<String> categoryDescriptions);
+
 
     List<Event> findAllByListEventTicketCategory_AccessContainingIgnoreCase(String access);
 

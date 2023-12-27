@@ -31,6 +31,7 @@ public class Event {
     private LocalDate endDate;
     private String urlImage;
 
+
     public Event() {
 
     }
