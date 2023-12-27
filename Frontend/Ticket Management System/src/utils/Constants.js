@@ -1,5 +1,7 @@
 export const springUrl = "http://localhost:8083/api";
 
+export const PAGE_SIZE = 2;
+
 export const idkGhitaDAta = [
   {
     eventId: 1,

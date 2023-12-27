@@ -95,6 +95,7 @@ function LoginForm() {
       onSubmit={onSubmit}
       elements={elements}
       buttonLabel="Login"
+      elementsPerPage={2}
     />
   );
 }

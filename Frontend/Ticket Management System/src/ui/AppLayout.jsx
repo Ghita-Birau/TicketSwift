@@ -25,7 +25,7 @@ const StyledMain = styled.main`
   overflow: scroll;
   border: 1px solid var(--color-gray-200);
 
-  border-radius: 8px;
+  /* border-radius: 8px; */
 
   padding: 1.2rem 2rem;
 `;

@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import AppLayout from "./ui/AppLayout";
-import Dashboard from "./pages/Dashboard";
+import Home from "./pages/Home";
 import Orders from "./pages/Orders";
 import GlobalStyles from "../src/styles/GlobalStyles";
 import Login from "./pages/Login";
@@ -53,7 +53,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<AppLayout />}>
-              <Route path="/" element={<Dashboard />} />
+              <Route path="/" element={<Home />} />
               <Route path="/orders" element={<Orders />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/events" element={<EventsPage />} />

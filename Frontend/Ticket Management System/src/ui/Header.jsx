@@ -11,6 +11,7 @@ import StyledButton from "./Button";
 const StyledHeader = styled.header`
   background-color: var(--color-gray-50);
   padding: 1rem 4rem;
+  border-left: 1px solid var(--color-gray-200);
 `;
 
 const Container = styled.div`

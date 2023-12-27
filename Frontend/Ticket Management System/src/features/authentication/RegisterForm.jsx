@@ -1,12 +1,14 @@
 import { useForm } from "react-hook-form";
-import { HiOutlineMail } from "react-icons/hi";
+import { HiCalendar, HiOutlineMail } from "react-icons/hi";
 import {
+  HiDevicePhoneMobile,
   HiOutlineEye,
   HiOutlineEyeSlash,
   HiOutlineLockClosed,
   HiOutlineUserCircle,
 } from "react-icons/hi2";
 import { useState } from "react";
+import { GrLocationPin } from "react-icons/gr";
 
 import AuthContentForm from "./AuthContentForm";
 import styled from "styled-components";
@@ -93,6 +95,65 @@ function RegisterForm() {
         </StyledButton>
       ),
     },
+    {
+      label: "Address",
+      name: "address",
+      type: "text",
+      placeholder: "City Street Postal Code....",
+      icon: <GrLocationPin />,
+      validation: {
+        required: "This field is required",
+      },
+    },
+
+    {
+      label: "Birth Date",
+      name: "birthdate",
+      type: "text",
+      placeholder: "dd/mm/yyyy",
+      icon: <HiCalendar />,
+      validation: {
+        required: "This field is required",
+        validate: (value) => {
+          const dateRegex = /^\d{2}\/\d{2}\/\d{4}$/;
+          if (!dateRegex.test(value)) {
+            return "Invalid date format. Please use dd/mm/yyyy";
+          }
+
+          const [day, month, year] = value.split("/");
+          const parsedDate = new Date(`${year}-${month}-${day}T00:00:00`);
+
+          if (isNaN(parsedDate.getTime())) {
+            return "Invalid date. Please enter a valid date.";
+          }
+
+          const currentDate = new Date();
+          if (parsedDate > currentDate) {
+            return "Date of birth cannot be in the future.";
+          }
+
+          return true;
+        },
+      },
+    },
+    {
+      label: "Phone",
+      name: "phone",
+      type: "text",
+      placeholder: "12345678910",
+      icon: <HiDevicePhoneMobile />,
+      validation: {
+        required: "This field is required",
+        validate: (value) => {
+          const phoneRegex = /^\d{10}$/;
+          if (!phoneRegex.test(value)) {
+            return "Invalid phone number. Please enter 10 digits.";
+          }
+          return true;
+        },
+      },
+      maxLength: 10,
+    },
   ];
 
   function onSubmit(data, e) {
@@ -106,6 +167,7 @@ function RegisterForm() {
       onSubmit={onSubmit}
       elements={elements}
       buttonLabel="Register"
+      elementsPerPage={3}
     />
   );
 }

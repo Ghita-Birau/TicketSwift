@@ -1,9 +1,15 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { getAllFilteredEvents } from "../../services/apiEvents";
 import { useSelector } from "react-redux";
 import { useEffect, useMemo } from "react";
+import { PAGE_SIZE } from "../../utils/Constants";
+import { useSearchParams } from "react-router-dom";
 
 function useEventsFilters() {
+  const queryClient = useQueryClient();
+  const [searchParams] = useSearchParams();
+  const currentPage = searchParams.get("page") || 0;
+
   const filters = useSelector((store) => store.filters);
   const {
     sortBy: sortByFilter,
@@ -26,14 +32,13 @@ function useEventsFilters() {
       priceFrom: range[0],
       priceTo: range[1],
       eventTypeNames: categories,
-      ticketCategoryDescription:
-        ticketCategories.length === 0 ? null : ticketCategories[0],
+      ticketCategoryDescriptions: ticketCategories,
       ticketCategoryAccess: null,
       hasDiscount,
       sortBy: sortingVal,
       ascending: actualVal,
-      page: null,
-      size: null,
+      page: Number(currentPage),
+      size: PAGE_SIZE,
     }),
     [
       categories,
@@ -45,6 +50,7 @@ function useEventsFilters() {
       sortingVal,
       hasDiscount,
       ticketCategories,
+      currentPage,
     ]
   );
 
@@ -54,6 +60,29 @@ function useEventsFilters() {
     mutate,
   } = useMutation({
     mutationFn: () => getAllFilteredEvents(filtersAPI),
+    onSuccess: (data) => {
+      if (data && data.numberOfEvents > PAGE_SIZE * (Number(currentPage) + 1)) {
+        queryClient.prefetchQuery(
+          ["events", filtersAPI, Number(currentPage) + 1],
+          () =>
+            getAllFilteredEvents({
+              ...filtersAPI,
+              page: Number(currentPage) + 1,
+            })
+        );
+      }
+
+      if (data && Number(currentPage) > 0) {
+        queryClient.prefetchQuery(
+          ["events", filtersAPI, Number(currentPage) - 1],
+          () =>
+            getAllFilteredEvents({
+              ...filtersAPI,
+              page: Number(currentPage) - 1,
+            })
+        );
+      }
+    },
   });
 
   useEffect(() => {
@@ -64,7 +93,7 @@ function useEventsFilters() {
     };
 
     fetchData();
-  }, [filtersAPI, mutate, isLoading]);
+  }, [filtersAPI, mutate, isLoading, currentPage]);
 
   return {
     events,

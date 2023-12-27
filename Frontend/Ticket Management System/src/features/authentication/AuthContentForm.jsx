@@ -1,9 +1,12 @@
 import { useForm } from "react-hook-form";
+import { useState } from "react";
 
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import FormRow from "../../ui/FormRow";
 import Button from "../../ui/Button";
+import { HiArrowLeft } from "react-icons/hi";
+import { useNavigate } from "react-router-dom";
 
 const StyledForm = styled.form`
   display: flex;
@@ -31,18 +34,44 @@ const InputContainer = styled.div`
   }
 `;
 
-function AuthContentForm({ onSubmit, elements, buttonLabel }) {
+const ButtonsContainer = styled.div`
+  display: flex;
+  gap: 0.5rem;
+`;
+
+function AuthContentForm({ onSubmit, elements, buttonLabel, elementsPerPage }) {
   const { register, handleSubmit, formState, reset } = useForm();
   const { errors } = formState;
+  const [currentPage, setCurrentPage] = useState(1);
+  const [visibleElements, setVisibleElements] = useState(
+    elements.slice(0, elementsPerPage)
+  );
+  const navigate = useNavigate();
+
+  function handleBack() {
+    setCurrentPage(1);
+    setVisibleElements(elements.slice(0, elementsPerPage));
+  }
 
   function onSubmitFinal(data, e) {
-    onSubmit(data, e);
-    reset();
+    const allowNext = Object.values(data).every((value) => value !== null);
+    if (currentPage * elementsPerPage >= elements.length) {
+      onSubmit(data, e);
+      reset();
+      navigate("/");
+    }
+
+    if (allowNext && currentPage * elementsPerPage < elements.length) {
+      setCurrentPage(currentPage + 1);
+      const start = currentPage * elementsPerPage;
+      const end = start + elementsPerPage;
+      setVisibleElements(elements.slice(start, end));
+    }
   }
 
   return (
     <StyledForm onSubmit={handleSubmit(onSubmitFinal)}>
-      {elements.map((element) => {
+      {visibleElements.map((element) => {
         return (
           <FormRow
             label={element.label}
@@ -54,6 +83,7 @@ function AuthContentForm({ onSubmit, elements, buttonLabel }) {
                 type={element.type}
                 placeholder={element.placeholder}
                 {...register(element.name.toLowerCase(), element.validation)}
+                maxLength={element?.maxLength}
               />
               {element.icon}
             </InputContainer>
@@ -61,7 +91,26 @@ function AuthContentForm({ onSubmit, elements, buttonLabel }) {
           </FormRow>
         );
       })}
-      <Button variation="primary">{buttonLabel}</Button>
+      {currentPage * elementsPerPage < elements.length &&
+        elementsPerPage > 2 && <Button type="button">Next Step</Button>}
+      {currentPage * elementsPerPage >= elements.length &&
+        elementsPerPage > 2 && (
+          <ButtonsContainer>
+            <Button
+              variation="secondary"
+              icon={<HiArrowLeft />}
+              onClick={handleBack}
+            />
+            <Button type="submit" variation="primaryW100">
+              {buttonLabel}
+            </Button>
+          </ButtonsContainer>
+        )}
+      {elementsPerPage === 2 && (
+        <Button type="submit" variation="primary">
+          {buttonLabel}
+        </Button>
+      )}
     </StyledForm>
   );
 }
@@ -71,6 +120,7 @@ AuthContentForm.propTypes = {
   register: PropTypes.func,
   elements: PropTypes.array,
   buttonLabel: PropTypes.string,
+  elementsPerPage: PropTypes.number,
 };
 
 export default AuthContentForm;

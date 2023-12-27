@@ -17,13 +17,16 @@ export async function getAllEvents() {
 
 export async function getAllFilteredEvents(filterData) {
   try {
-    const response = await fetch(`${springUrl}/filterAndSortEvents`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(filterData),
-    });
+    const response = await fetch(
+      `${springUrl}/filter/Sort/And/Paginate/Events`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(filterData),
+      }
+    );
 
     const data = await response.json();
 

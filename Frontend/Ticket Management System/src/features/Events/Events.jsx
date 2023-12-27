@@ -2,8 +2,8 @@
 import { idkGhitaDAta } from "../../utils/Constants";
 
 import styled, { css } from "styled-components";
-// import useEventsFilters from "./useEventsFilters";
-// import Loader from "../../ui/Loader";
+import useEventsFilters from "./useEventsFilters";
+import Loader from "../../ui/Loader";
 import EventCard from "./EventCard";
 import Filters from "./Filters";
 import Empty from "../../ui/Empty";
@@ -51,12 +51,12 @@ const EventsHeader = styled.header`
 `;
 
 function Events() {
-  // const { events = [], isLoading } = useEventsFilters();
-  // let { filteredEvents = [] } = events;
+  const { events = [], isLoading } = useEventsFilters();
+  let { filteredEvents = [], numberOfEvents } = events;
 
-  // filteredEvents = filteredEvents.length === 0 ? idkGhitaDAta : filteredEvents;
+  filteredEvents = filteredEvents.length === 0 ? idkGhitaDAta : filteredEvents;
 
-  // if (isLoading) return <Loader />;
+  if (isLoading) return <Loader />;
 
   return (
     <div>
@@ -68,13 +68,13 @@ function Events() {
         </StyledFilters>
         <StyledTicketContainer>
           <EventsHeader header="events">All Events</EventsHeader>
-          {idkGhitaDAta.map((event) => (
+          {filteredEvents.map((event) => (
             <EventCard event={event} key={event.eventId} />
           ))}
-          {idkGhitaDAta.length === 0 && (
+          {filteredEvents.length === 0 && (
             <Empty resource="tickets" message="We're currently out of items." />
           )}
-          <Footer />
+          <Footer count={numberOfEvents} />
         </StyledTicketContainer>
       </StyledContainer>
     </div>

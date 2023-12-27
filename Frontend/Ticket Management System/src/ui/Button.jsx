@@ -13,6 +13,18 @@ const buttonTypes = {
     }
   `,
 
+  primaryW100: css`
+    background-color: var(--color-brand-600);
+    color: var(--color-gray-100);
+    border: none;
+    border-radius: 7px;
+    width: 100%;
+
+    &:hover {
+      background-color: var(--color-brand-700);
+    }
+  `,
+
   secondary: css`
     background-color: var(--color-gray-0);
     color: var(--color-gray-500);

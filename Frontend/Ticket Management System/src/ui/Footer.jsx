@@ -1,5 +1,9 @@
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
+import { useSearchParams } from "react-router-dom";
+import { PAGE_SIZE } from "../utils/Constants";
+
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 const Container = styled.div`
   background-color: var(--color-gray-50);
@@ -34,16 +38,54 @@ const StyledButton = styled.button`
   }
 `;
 
-function Footer() {
+function Footer({ count = 0 }) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentPage = searchParams.get("page") || 0;
+
+  const pageCount = Math.ceil(count / PAGE_SIZE);
+
+  function handleNext() {
+    searchParams.set(
+      "page",
+      Number(currentPage) === pageCount - 1
+        ? pageCount
+        : Number(currentPage) + 1
+    );
+    setSearchParams(searchParams);
+  }
+
+  function handlePrevious() {
+    searchParams.set(
+      "page",
+      Number(currentPage) === 0 ? 0 : Number(currentPage) - 1
+    );
+    setSearchParams(searchParams);
+  }
+
+  // if (count < PAGE_SIZE) return null;
+
   return (
     <Container>
       <p>
-        Showing <strong>1</strong> to <strong>10</strong> of <strong>24</strong>{" "}
-        results
+        Showing <span>{Number(currentPage) * PAGE_SIZE + 1}</span> to{" "}
+        <span>
+          {Number(currentPage) + 1 * PAGE_SIZE > count
+            ? count
+            : (Number(currentPage) + 1) * PAGE_SIZE}
+        </span>{" "}
+        of <span>{count}</span> results
       </p>
       <ButtonContainer>
-        <StyledButton>{<HiChevronLeft />} Previous</StyledButton>
-        <StyledButton>
+        <StyledButton
+          onClick={handlePrevious}
+          disabled={Number(currentPage) === 0}
+        >
+          {<HiChevronLeft />} Previous
+        </StyledButton>
+        <StyledButton
+          onClick={handleNext}
+          disabled={Number(currentPage) === pageCount - 1}
+        >
           Next
           {<HiChevronRight />}
         </StyledButton>
@@ -51,5 +93,9 @@ function Footer() {
     </Container>
   );
 }
+
+Footer.propTypes = {
+  count: PropTypes.number,
+};
 
 export default Footer;

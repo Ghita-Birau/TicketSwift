@@ -1,0 +1,7 @@
+.sample-slider {
+  width: 100%;
+}
+
+.sample-slider .swiper-wrapper {
+  transition-timing-function: linear;
+}
