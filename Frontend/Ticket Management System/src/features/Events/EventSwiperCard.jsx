@@ -1,26 +1,55 @@
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { setSearchTerm } from "../../contexts/filterSlice";
+import { useState } from "react";
+// import { useNavigate } from "react-router-dom";
+// import { useDispatch } from "react-redux";
+// import { setSearchTerm } from "../../contexts/filterSlice";
 
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
 const Container = styled.div`
+  position: relative;
+  padding: 0.6rem 1rem;
+
   display: flex;
   flex-direction: column;
   align-items: center;
+
   max-width: 28rem;
-  border-radius: 8px;
-  background-color: var(--color-gray-50);
   overflow: hidden;
+
   font-size: 1.4rem;
+  background-color: var(--color-gray-200);
+  /* background-color: red; */
+
   cursor: pointer;
+
+  ${(props) =>
+    props.isactive === "true" &&
+    `
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1;
+      transition: background 0.3s ease;
+    }
+
+    & > p {
+      color: var(--color-white);
+    }
+  `}
 
   & > p {
     text-transform: uppercase;
+    z-index: 2;
+    position: relative;
+    transition: color 0.3s ease;
   }
 `;
-
 const ImageContainer = styled.div`
   width: 100%;
   height: 25rem;
@@ -33,21 +62,25 @@ const ImageContainer = styled.div`
   }
   &:hover {
     & > img {
-      transform: scale(1.1);
+      transform: scale(0.95);
     }
   }
 `;
 
 function EventSwiperCard({ event }) {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const [isActive, setIsActive] = useState(false);
+
+  // const navigate = useNavigate();
+  // const dispatch = useDispatch();
 
   function handleClick() {
-    dispatch(setSearchTerm(event.name));
-    navigate("/events");
+    setIsActive(!isActive);
+    // dispatch(setSearchTerm(event.name));
+    // navigate("/events");
   }
+
   return (
-    <Container onClick={handleClick}>
+    <Container isactive={isActive.toString()} onClick={handleClick}>
       <ImageContainer>
         <img src={event.urlImage} alt={`${event.urlImage}`} />
       </ImageContainer>

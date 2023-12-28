@@ -5,7 +5,7 @@ import {
   HiOutlineEyeSlash,
   HiOutlineLockClosed,
 } from "react-icons/hi2";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 import AuthContentForm from "./AuthContentForm";
 import styled from "styled-components";
@@ -41,10 +41,10 @@ function LoginForm() {
   const [isShowing, setIsShowing] = useState(false);
   const { reset } = useForm();
 
-  function togglePassword(e) {
+  const togglePassword = useCallback((e) => {
     e.preventDefault();
-    setIsShowing((is) => !is);
-  }
+    setIsShowing((prevIsShowing) => !prevIsShowing);
+  }, []);
 
   const elements = [
     {
@@ -78,7 +78,7 @@ function LoginForm() {
       },
       otherChildren: (
         <StyledButton onClick={togglePassword}>
-          {isShowing ? <HiOutlineEye /> : <HiOutlineEyeSlash />}
+          {isShowing ? <HiOutlineEyeSlash /> : <HiOutlineEye />}
         </StyledButton>
       ),
     },

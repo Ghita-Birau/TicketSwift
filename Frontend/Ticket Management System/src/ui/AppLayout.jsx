@@ -2,6 +2,9 @@ import { Outlet } from "react-router-dom";
 import styled, { css } from "styled-components";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
+import Modal from "./Modal";
+import Login from "../pages/Login";
+import Signup from "../pages/Signup";
 
 const StyledDiv = styled.div`
   height: 100vh;
@@ -37,6 +40,12 @@ function AppLayout() {
       <Sidebar />
       <StyledMain>
         <Outlet />
+        <Modal.Window name="login-form">
+          <Login />
+        </Modal.Window>
+        <Modal.Window name="signup-form">
+          <Signup />
+        </Modal.Window>
       </StyledMain>
     </StyledDiv>
   );

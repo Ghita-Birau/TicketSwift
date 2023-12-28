@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import { HiOutlineShoppingCart } from "react-icons/hi2";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import { useContext } from "react";
 
 import styled from "styled-components";
 import Window from "./Window";
 import CartWindow from "../features/Cart/CartWindow";
 import StyledButton from "./Button";
+import { ModalContext } from "./Modal";
 
 const StyledHeader = styled.header`
   background-color: var(--color-gray-50);
@@ -57,11 +59,19 @@ const Notification = styled.div`
   right: -3px;
 `;
 
+const ActionContainers = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+`;
+
 function Header() {
   const [nrOfItems, setNrOfItems] = useState(0);
+  const { open, close } = useContext(ModalContext);
   const cart = useSelector((store) => store.cart.cart);
-  const cartItems = cart.length;
   const location = useLocation();
+
+  const cartItems = cart.length;
   const currentPath = location.pathname;
 
   useEffect(
@@ -73,25 +83,35 @@ function Header() {
     [nrOfItems, setNrOfItems, cartItems]
   );
 
+  function handleClick() {
+    close();
+    open("login-form");
+  }
+
   return (
     <StyledHeader>
       <Container>
         <span>Header</span>
 
-        <Window.Container>
-          <Window.Toggle name="cart-window">
-            <Button variation="cart" icon={<HiOutlineShoppingCart />} />
+        <ActionContainers>
+          <Button variation="secondary" onClick={handleClick}>
+            Login
+          </Button>
+          <Window.Container>
+            <Window.Toggle name="cart-window">
+              <Button variation="cart" icon={<HiOutlineShoppingCart />} />
 
-            {currentPath !== "/cart" &&
-              nrOfItems !== 0 &&
-              nrOfItems === cartItems && (
-                <Notification>+{nrOfItems}</Notification>
-              )}
-          </Window.Toggle>
-          <Window.Body name="cart-window">
-            <CartWindow />
-          </Window.Body>
-        </Window.Container>
+              {currentPath !== "/cart" &&
+                nrOfItems !== 0 &&
+                nrOfItems === cartItems && (
+                  <Notification>+{nrOfItems}</Notification>
+                )}
+            </Window.Toggle>
+            <Window.Body name="cart-window">
+              <CartWindow />
+            </Window.Body>
+          </Window.Container>
+        </ActionContainers>
       </Container>
     </StyledHeader>
   );

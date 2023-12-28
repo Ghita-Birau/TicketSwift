@@ -34,6 +34,7 @@ const StyledList = styled.div`
   flex-direction: column;
   /* padding: 1rem 1.4rem; */
   position: fixed;
+  z-index: 1000;
 
   background-color: var(--color-gray-100);
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);

@@ -55,7 +55,7 @@ const DeleteButton = styled.button`
   padding: 0.2rem 0.4rem;
   background-color: var(--color-gray-100);
   border: none;
-  right: 0;
+  right: 0.6rem;
   top: 0;
 
   &:focus {

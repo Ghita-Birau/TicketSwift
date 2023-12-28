@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import styled from "styled-components";
 import PropTypes from "prop-types";
@@ -41,11 +41,11 @@ const ButtonsContainer = styled.div`
 
 function AuthContentForm({ onSubmit, elements, buttonLabel, elementsPerPage }) {
   const { register, handleSubmit, formState, reset } = useForm();
-  const { errors } = formState;
   const [currentPage, setCurrentPage] = useState(1);
   const [visibleElements, setVisibleElements] = useState(
     elements.slice(0, elementsPerPage)
   );
+  const { errors } = formState;
   const navigate = useNavigate();
 
   function handleBack() {
@@ -68,6 +68,11 @@ function AuthContentForm({ onSubmit, elements, buttonLabel, elementsPerPage }) {
       setVisibleElements(elements.slice(start, end));
     }
   }
+
+  useEffect(() => {
+    setCurrentPage(1);
+    setVisibleElements(elements.slice(0, elementsPerPage));
+  }, [elements, elementsPerPage]);
 
   return (
     <StyledForm onSubmit={handleSubmit(onSubmitFinal)}>

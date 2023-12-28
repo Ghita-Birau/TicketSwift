@@ -1,9 +1,10 @@
 import { formatCurrency } from "../../utils/helpers";
 import {
+  clearCart,
   getTotalCartPrice,
   getTotalPriceWithDiscount,
 } from "../../contexts/cartSlice";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import styled from "styled-components";
 import Heading from "../../ui/Heading";
@@ -130,11 +131,13 @@ function CartDetails() {
   const nrOfTickets = cart.length;
   const totalPrice = getTotalCartPrice(store);
   const totalDiscounts = getTotalPriceWithDiscount(store);
+  const dispatch = useDispatch();
 
   if (nrOfTickets === 0) return <EmptyCart />;
 
   function handleClick(e) {
     e.preventDefault();
+    dispatch(clearCart());
     toast.success("You've successfully placed an order");
   }
 

@@ -1,11 +1,11 @@
 import { HiMiniTrash } from "react-icons/hi2";
+import { useContext } from "react";
+import { ModalContext } from "./Modal";
 
 import PropTypes from "prop-types";
 import Heading from "./Heading";
 import Button from "./Button";
 import styled from "styled-components";
-import { useContext } from "react";
-import { ModalContext } from "./Modal";
 
 const Container = styled.div`
   background-color: var(--color-gray-50);
