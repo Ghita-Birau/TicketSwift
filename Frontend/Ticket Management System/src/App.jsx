@@ -10,8 +10,8 @@ import GlobalStyles from "../src/styles/GlobalStyles";
 import Cart from "../src/pages/Cart";
 import EventsPage from "./pages/EventsPage";
 import Window from "./ui/Window";
-import Map from "./pages/Map";
 import Modal from "./ui/Modal";
+import MapPage from "./pages/MapPage";
 
 const queryClient = new QueryClient();
 
@@ -57,7 +57,7 @@ function App() {
                 <Route path="/orders" element={<Orders />} />
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/events" element={<EventsPage />} />
-                <Route path="/map" element={<Map />} />
+                <Route path="/map" element={<MapPage />} />
               </Route>
             </Routes>
           </BrowserRouter>

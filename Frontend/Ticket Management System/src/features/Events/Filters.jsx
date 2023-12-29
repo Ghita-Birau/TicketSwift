@@ -6,17 +6,17 @@ import {
   deleteCategory,
   deleteTicketCategory,
   initialState,
-  setSearchTerm,
+  // setSearchTerm,
 } from "../../contexts/filterSlice";
+import { isEqual } from "lodash";
 
 import styled from "styled-components";
 import DateFilter from "./DateFilter&Style/DateFilter";
 import CategoryFilter from "./CategoryFilter&Option/CategoryFilter";
 import PriceFilter from "./PriceFilter&Style/PriceFilter";
-import Searchbar from "../../ui/Searchbar";
+// import Searchbar from "../../ui/Searchbar";
 import SortBy from "../../ui/SortBy";
 import Button from "../../ui/Button";
-import { isEqual } from "lodash";
 
 const Container = styled.div`
   display: flex;
@@ -45,14 +45,14 @@ function Filters() {
     "Family",
     "Last Minute",
   ];
-  const searchTerm = useSelector((state) => state.filters.searchTerm);
+  // const searchTerm = useSelector((state) => state.filters.searchTerm);
   const filters = useSelector((store) => store.filters);
   const { categories, ticketCategories } = filters;
   const dispatch = useDispatch();
 
-  const handleSearchTermChange = (newSearchTerm) => {
-    dispatch(setSearchTerm(newSearchTerm));
-  };
+  // const handleSearchTermChange = (newSearchTerm) => {
+  //   dispatch(setSearchTerm(newSearchTerm));
+  // };
 
   function onAddEventCategory(value) {
     dispatch(addCategoryFilter(value));
@@ -69,11 +69,11 @@ function Filters() {
 
   return (
     <Container>
-      <Searchbar
+      {/* <Searchbar
         value={searchTerm}
         onChange={(e) => handleSearchTermChange(e.target.value)}
         placeholder="Search"
-      />
+      /> */}
       <PriceFilter />
       <CategoryFilter
         categories={eventCategories}

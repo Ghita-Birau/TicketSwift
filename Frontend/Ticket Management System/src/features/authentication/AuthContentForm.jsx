@@ -1,12 +1,12 @@
 import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { HiArrowLeft } from "react-icons/hi";
+import { ModalContext } from "../../ui/Modal";
 
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import FormRow from "../../ui/FormRow";
 import Button from "../../ui/Button";
-import { HiArrowLeft } from "react-icons/hi";
-import { useNavigate } from "react-router-dom";
 
 const StyledForm = styled.form`
   display: flex;
@@ -46,7 +46,7 @@ function AuthContentForm({ onSubmit, elements, buttonLabel, elementsPerPage }) {
     elements.slice(0, elementsPerPage)
   );
   const { errors } = formState;
-  const navigate = useNavigate();
+  const { close } = useContext(ModalContext);
 
   function handleBack() {
     setCurrentPage(1);
@@ -58,7 +58,7 @@ function AuthContentForm({ onSubmit, elements, buttonLabel, elementsPerPage }) {
     if (currentPage * elementsPerPage >= elements.length) {
       onSubmit(data, e);
       reset();
-      navigate("/");
+      close();
     }
 
     if (allowNext && currentPage * elementsPerPage < elements.length) {

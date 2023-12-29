@@ -624,3 +624,38 @@ export const fakeData = [
       "https://static.iabilet.ro/img/auto_resized/db/event/01/69/3d/00000247987-5e7b-800x800-n-ebe575dd.png",
   },
 ];
+
+export const locations = [
+  {
+    venueId: 1,
+    location: "Aleea Stadionului 2, Cluj-Napoca",
+    type: "Stadion",
+    capacity: 1000,
+    latitude: 46.7675,
+    longitude: 23.5725,
+  },
+  {
+    venueId: 2,
+    location: "Bontida Castle, Cluj-Napoca",
+    type: "Castle",
+    capacity: 4000,
+    latitude: 46.908861,
+    longitude: 23.808139,
+  },
+  {
+    venueId: 3,
+    location: "Central Park, Cluj-Napoca",
+    type: "Park",
+    capacity: 3000,
+    latitude: 46.770194,
+    longitude: 23.578278,
+  },
+  {
+    venueId: 4,
+    location: "Sala Polivalenta BT Arena, Cluj-Napoca",
+    type: "Stadion",
+    capacity: 10000,
+    latitude: 46.7675,
+    longitude: 23.5725,
+  },
+];

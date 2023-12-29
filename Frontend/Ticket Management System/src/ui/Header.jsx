@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 import { HiOutlineShoppingCart } from "react-icons/hi2";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { useContext } from "react";
+import { ModalContext } from "./Modal";
+import { setSearchTerm } from "../contexts/filterSlice";
 
 import styled from "styled-components";
 import Window from "./Window";
 import CartWindow from "../features/Cart/CartWindow";
 import StyledButton from "./Button";
-import { ModalContext } from "./Modal";
+import Searchbar from "./Searchbar";
 
 const StyledHeader = styled.header`
   background-color: var(--color-gray-50);
@@ -68,11 +70,17 @@ const ActionContainers = styled.div`
 function Header() {
   const [nrOfItems, setNrOfItems] = useState(0);
   const { open, close } = useContext(ModalContext);
+  const searchTerm = useSelector((state) => state.filters.searchTerm);
   const cart = useSelector((store) => store.cart.cart);
   const location = useLocation();
+  const dispatch = useDispatch();
 
   const cartItems = cart.length;
   const currentPath = location.pathname;
+
+  const handleSearchTermChange = (newSearchTerm) => {
+    dispatch(setSearchTerm(newSearchTerm));
+  };
 
   useEffect(
     function () {
@@ -91,7 +99,11 @@ function Header() {
   return (
     <StyledHeader>
       <Container>
-        <span>Header</span>
+        <Searchbar
+          value={searchTerm}
+          onChange={(e) => handleSearchTermChange(e.target.value)}
+          placeholder="Search"
+        />
 
         <ActionContainers>
           <Button variation="secondary" onClick={handleClick}>

@@ -19,9 +19,13 @@ const Container = styled.div`
 
   font-size: 1.4rem;
   background-color: var(--color-gray-200);
-  /* background-color: red; */
+  transition: all 0.2s;
 
   cursor: pointer;
+
+  &:hover {
+    transform: translateY(-1.2rem);
+  }
 
   ${(props) =>
     props.isactive === "true" &&
@@ -50,6 +54,7 @@ const Container = styled.div`
     transition: color 0.3s ease;
   }
 `;
+
 const ImageContainer = styled.div`
   width: 100%;
   height: 25rem;
@@ -59,11 +64,6 @@ const ImageContainer = styled.div`
     transition: all 0.3s;
     width: 100%;
     height: 100%;
-  }
-  &:hover {
-    & > img {
-      transform: scale(0.95);
-    }
   }
 `;
 

@@ -62,7 +62,7 @@ function Footer({ count = 0 }) {
     setSearchParams(searchParams);
   }
 
-  // if (count < PAGE_SIZE) return null;
+  if (count < PAGE_SIZE) return null;
 
   return (
     <Container>

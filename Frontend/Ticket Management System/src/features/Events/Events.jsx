@@ -60,7 +60,6 @@ function Events() {
 
   return (
     <div>
-      {/* <Searchbar placeholder="Search" /> */}
       <StyledContainer>
         <StyledFilters>
           <EventsHeader header="filters">Filters</EventsHeader>

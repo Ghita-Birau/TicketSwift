@@ -60,29 +60,6 @@ function useEventsFilters() {
     mutate,
   } = useMutation({
     mutationFn: () => getAllFilteredEvents(filtersAPI),
-    onSuccess: (data) => {
-      if (data && data.numberOfEvents > PAGE_SIZE * (Number(currentPage) + 1)) {
-        queryClient.prefetchQuery(
-          ["events", filtersAPI, Number(currentPage) + 1],
-          () =>
-            getAllFilteredEvents({
-              ...filtersAPI,
-              page: Number(currentPage) + 1,
-            })
-        );
-      }
-
-      if (data && Number(currentPage) > 0) {
-        queryClient.prefetchQuery(
-          ["events", filtersAPI, Number(currentPage) - 1],
-          () =>
-            getAllFilteredEvents({
-              ...filtersAPI,
-              page: Number(currentPage) - 1,
-            })
-        );
-      }
-    },
   });
 
   useEffect(() => {
