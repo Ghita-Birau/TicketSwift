@@ -1,11 +1,12 @@
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import { useGeoLocation } from "../../hooks/useGeoLocation";
-import { locations } from "../../utils/Constants";
 import { useEffect, useState } from "react";
+import Loader from "../../ui/Loader";
 
 import styles from "./Map.module.css";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import useMapLocations from "./useMapLocations";
 
 const StyledDiv = styled.div`
   height: 100%;
@@ -39,6 +40,7 @@ function Map() {
     position: geoLocationPosition,
     getPosition,
   } = useGeoLocation();
+  const { locations = [], isLoading } = useMapLocations();
 
   useEffect(
     function () {
@@ -48,6 +50,8 @@ function Map() {
     },
     [geoLocationPosition]
   );
+
+  if (isLoading) return <Loader />;
 
   return (
     <StyledDiv>
@@ -66,14 +70,14 @@ function Map() {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
         />
-        {locations.map((venue) => (
+        {locations.map((event) => (
           <Marker
-            position={[venue.latitude, venue.longitude]}
-            key={venue.venueId}
+            position={[event.venue.latitude, event.venue.longitude]}
+            key={event.eventId}
           >
             <Popup>
-              <span>{venue.type}</span>
-              <span>{venue.location}</span>
+              <span>{event.venue.type}</span>
+              <span>{event.venue.location}</span>
             </Popup>
           </Marker>
         ))}

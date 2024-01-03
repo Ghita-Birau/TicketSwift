@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { getAllFilteredEvents } from "../../services/apiEvents";
 import { useSelector } from "react-redux";
 import { useEffect, useMemo } from "react";
@@ -6,7 +6,6 @@ import { PAGE_SIZE } from "../../utils/Constants";
 import { useSearchParams } from "react-router-dom";
 
 function useEventsFilters() {
-  const queryClient = useQueryClient();
   const [searchParams] = useSearchParams();
   const currentPage = searchParams.get("page") || 0;
 

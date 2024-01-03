@@ -9,6 +9,8 @@ import { useCallback, useState } from "react";
 
 import AuthContentForm from "./AuthContentForm";
 import styled from "styled-components";
+import useLogin from "./useLogin";
+import Loader from "../../ui/Loader";
 
 const StyledButton = styled.button`
   background: none;
@@ -39,6 +41,7 @@ const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 
 function LoginForm() {
   const [isShowing, setIsShowing] = useState(false);
+  const { login, isLoading } = useLogin();
   const { reset } = useForm();
 
   const togglePassword = useCallback((e) => {
@@ -70,7 +73,7 @@ function LoginForm() {
       validation: {
         required: "This field is required",
         validate: (value) => {
-          if (value.length < 8) {
+          if (value.length < 2) {
             return "Invalid number of characters";
           }
           return true;
@@ -86,8 +89,12 @@ function LoginForm() {
 
   function onSubmit(data, e) {
     e.preventDefault();
-    console.log(data);
+    login({ email: data.email, password: data.password });
     reset();
+  }
+
+  if (isLoading) {
+    return <Loader />;
   }
 
   return (

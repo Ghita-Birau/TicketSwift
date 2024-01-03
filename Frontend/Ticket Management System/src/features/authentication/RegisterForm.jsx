@@ -12,6 +12,8 @@ import { GrLocationPin } from "react-icons/gr";
 
 import AuthContentForm from "./AuthContentForm";
 import styled from "styled-components";
+import useRegister from "./useRegister";
+import Loader from "../../ui/Loader";
 
 const StyledButton = styled.button`
   background: none;
@@ -42,6 +44,7 @@ const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 
 function RegisterForm() {
   const [isShowing, setIsShowing] = useState(false);
+  const { register, isLoading } = useRegister();
   const { reset } = useForm();
 
   function togglePassword(e) {
@@ -83,7 +86,7 @@ function RegisterForm() {
       validation: {
         required: "This field is required",
         validate: (value) => {
-          if (value.length < 8) {
+          if (value.length < 2) {
             return "Invalid number of characters";
           }
           return true;
@@ -158,9 +161,23 @@ function RegisterForm() {
 
   function onSubmit(data, e) {
     e.preventDefault();
-    console.log(data);
+
+    const parts = data.birthdate.split("/");
+    const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+
+    register({
+      name: data.username,
+      userEmail: data.email,
+      password: data.password,
+      dateOfBirth: formattedDate,
+      address: data.address,
+      phoneNumber: data.phone,
+    });
+
     reset();
   }
+
+  if (isLoading) return <Loader />;
 
   return (
     <AuthContentForm
