@@ -27,6 +27,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests()
                 .requestMatchers("/api/v1/auth/**").permitAll()
                 .requestMatchers("/api/user/**").permitAll()
+                .requestMatchers("/all/events/for/map").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

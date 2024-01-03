@@ -2,6 +2,7 @@ package com.utcn.projectRC.service;
 
 import com.utcn.projectRC.DTO.EventDTO;
 import com.utcn.projectRC.DTO.EventTicketCategoryDTO;
+import com.utcn.projectRC.DTO.MapEventDTO;
 import com.utcn.projectRC.DTO.VenueDTO;
 import com.utcn.projectRC.Exception.NotFoundException;
 import com.utcn.projectRC.model.Event;
@@ -63,6 +64,33 @@ public class EventService {
         return eventDTO;
     }
 
+    public MapEventDTO convertEventToMapEventDTO(Event event) {
+        MapEventDTO mapEventDTO = new MapEventDTO();
+        mapEventDTO.setEventId(event.getEventId());
+
+        EventType eventType = event.getEventTypeId();
+        if (eventType != null) {
+            mapEventDTO.setEventTypeName(eventType.getEventTypeName());
+        }
+
+        mapEventDTO.setDescription(event.getEventDescription());
+        mapEventDTO.setName(event.getEventName());
+        mapEventDTO.setStartDate(event.getStartDate());
+        mapEventDTO.setEndDate(event.getEndDate());
+        mapEventDTO.setUrlImage(event.getUrlImage());
+
+        VenueDTO venueDTO = new VenueDTO();
+        venueDTO.setVenueId(event.getVenueId().getVenueId());
+        venueDTO.setLocation(event.getVenueId().getLocation());
+        venueDTO.setType(event.getVenueId().getType());
+        venueDTO.setCapacity(event.getVenueId().getCapacity());
+        venueDTO.setLatitude(event.getVenueId().getLatitude());
+        venueDTO.setLongitude(event.getVenueId().getLongitude());
+        mapEventDTO.setVenue(venueDTO);
+
+        return mapEventDTO;
+    }
+
     private EventTicketCategoryDTO convertEventTicketCategoryToDTO(EventTicketCategory eventTicketCategory) {
         EventTicketCategoryDTO eventTicketCategoryDTO = new EventTicketCategoryDTO();
         eventTicketCategoryDTO.setEventTicketCategoryId(eventTicketCategory.getEventTicketCategoryId());
@@ -74,6 +102,11 @@ public class EventService {
         eventTicketCategoryDTO.setDescription(eventTicketCategory.getTicketCategory().getDescription());
 
         return eventTicketCategoryDTO;
+    }
+
+    public List<MapEventDTO> getAllMapEvents() {
+        List<Event> eventList = eventRepository.findAll();
+        return eventList.stream().map(this::convertEventToMapEventDTO).toList();
     }
 
     public List<Event> getAllEvents() {
