@@ -1,4 +1,4 @@
-package com.utcn.projectRC.model.Filter;
+package com.utcn.projectRC.Response;
 
 import com.utcn.projectRC.DTO.EventDTO;
 import lombok.Data;

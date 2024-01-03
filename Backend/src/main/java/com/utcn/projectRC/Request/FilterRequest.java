@@ -1,4 +1,4 @@
-package com.utcn.projectRC.model.Filter;
+package com.utcn.projectRC.Request;
 
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
