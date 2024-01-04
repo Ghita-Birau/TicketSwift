@@ -1,95 +1,24 @@
 //package com.utcn.projectRC.service;
 //
-//import com.utcn.projectRC.DTO.OrderDTO;
-//import com.utcn.projectRC.DTO.OrderUpdateDTO;
-//import com.utcn.projectRC.model.*;
-//import com.utcn.projectRC.repository.EventTicketCategoryAssociationRepository;
+//import com.utcn.projectRC.model.Event;
+//import com.utcn.projectRC.model.OrderEntity;
 //import com.utcn.projectRC.repository.OrderRepository;
-//import com.utcn.projectRC.repository.TicketCategoryRepository;
-//import com.utcn.projectRC.repository.UserRepository;
-//import org.springframework.beans.factory.annotation.Autowired;
+//import lombok.AllArgsConstructor;
+//import lombok.RequiredArgsConstructor;
 //import org.springframework.stereotype.Service;
 //
-//import java.time.LocalDateTime;
 //import java.util.List;
 //
 //@Service
+//@RequiredArgsConstructor
+//
 //public class OrderService {
+//
 //    private final OrderRepository orderRepository;
-//    private final TicketCategoryRepository ticketCategoryRepository;
 //
-//    private final EventTicketCategoryAssociationRepository eventTicketCategoryAssociationRepository;
-//    private final UserRepository userRepository;
-//
-//    public OrderService(OrderRepository orderRepository, TicketCategoryRepository ticketCategoryRepository, EventTicketCategoryAssociationRepository eventTicketCategoryAssociationRepository, UserRepository userRepository) {
-//        this.orderRepository = orderRepository;
-//        this.ticketCategoryRepository = ticketCategoryRepository;
-//        this.eventTicketCategoryAssociationRepository = eventTicketCategoryAssociationRepository;
-//        this.userRepository = userRepository;
+//    public List<OrderEntity> getAllOrders() {
+//        List<OrderEntity> orderEntityList = orderRepository.findAll();
+//        return orderEntityList.stream().toList();
 //    }
 //
-//    @Autowired
-//
-//
-//    public OrderDTO convertOrderEntityToOrderDTO(OrderEntity order) {
-//        return new OrderDTO(order.getOrderId(), order.getTicketCategories().stream()
-//                .map(EventTicketCategoryAssociation::getAssociationId)
-//                .findFirst()
-//                .orElse(null), // Modificare aici pentru a obține primul EventId din lista de TicketCategories
-//                order.getOrderedAt(), order.getNumberOfTickets(), order.getTotalPrice(), order.getTicketCategories());
-//    }
-//
-//    public List<OrderDTO> getAllOrdersDTO() {
-//        List<OrderEntity> listOrder = orderRepository.findAll();
-//        return listOrder.stream().map(this::convertOrderEntityToOrderDTO).toList();
-//    }
-//
-//    public OrderDTO postOrder(NewOrder newOrder) {
-//        LocalDateTime localDateTime = LocalDateTime.now();
-//        TicketCategory ticketCategory = ticketCategoryRepository.findById(newOrder.getTicketCategoryId()).orElse(null);
-//        User user = userRepository.findById(1).orElse(null);
-//
-//        if (ticketCategory != null && user != null) {
-//
-//            OrderEntity orderEntity = new OrderEntity(user, List.of(ticketCategory), localDateTime, newOrder.getNumberOfTickets(),
-//                    newOrder.getNumberOfTickets() * ticketCategory.getPrice());
-//
-//            OrderEntity savedOrder = orderRepository.save(orderEntity);
-//            return convertOrderEntityToOrderDTO(savedOrder);
-//        } else {
-//            // Tratează cazul în care TicketCategory sau User nu au fost găsite
-//            return null;
-//        }
-//    }
-//
-//    public void updateOrder(OrderUpdateDTO orderUpdateDTO) {
-//        OrderEntity orderEntity = orderRepository.findOrderEntityByOrderId(orderUpdateDTO.getOrderId());
-//
-//        if (orderEntity != null) {
-//            TicketCategory ticketCategory = ticketCategoryRepository.findTicketCategoryByTicketCategoryId(orderUpdateDTO.getTicketCategoryId());
-//
-//            if (ticketCategory != null) {
-//                orderEntity.setNumberOfTickets(orderUpdateDTO.getNumberOfTickets());
-//                orderEntity.setTotalPrice(orderUpdateDTO.getNumberOfTickets() * ticketCategory.getPrice());
-//
-//                // Elimină linia care setează descrierea direct pe TicketCategory
-//                // orderEntity.getTicketCategories().get(0).setDescription(orderUpdateDTO.getDescription());
-//
-//                orderRepository.save(orderEntity);
-//            } else {
-//                // Tratează cazul în care TicketCategory nu a fost găsit
-//            }
-//        } else {
-//            // Tratează cazul în care OrderEntity nu a fost găsit
-//        }
-//    }
-//
-//    public void deleteOrder(Integer orderId) {
-//        OrderEntity orderEntity = orderRepository.findOrderEntityByOrderId(orderId);
-//        if (orderEntity != null) {
-//            orderRepository.delete(orderEntity);
-//        } else {
-//            // Tratează cazul în care OrderEntity nu a fost găsit
-//        }
-//    }
 //}

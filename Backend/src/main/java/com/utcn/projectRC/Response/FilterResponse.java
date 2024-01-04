@@ -2,10 +2,13 @@ package com.utcn.projectRC.Response;
 
 import com.utcn.projectRC.DTO.EventDTO;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 public class FilterResponse {
     private String message;
     private Integer numberOfEvents;

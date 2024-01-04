@@ -2,12 +2,17 @@ package com.utcn.projectRC.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 
 public class Event {
     @Id
@@ -31,10 +36,6 @@ public class Event {
     private LocalDate endDate;
     private String urlImage;
 
-
-    public Event() {
-
-    }
     public Event(Venue venueId, List<EventTicketCategory> listEventTicketCategory, EventType eventTypeId, String eventDescription, String eventName, LocalDate startDate, LocalDate endDate, String urlImage) {
         this.venueId = venueId;
         this.listEventTicketCategory = listEventTicketCategory;

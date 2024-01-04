@@ -24,29 +24,63 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
+
     @Override
     protected void doFilterInternal(
             @NotNull HttpServletRequest request,
             @NotNull HttpServletResponse response,
             @NotNull FilterChain filterChain
     ) throws ServletException, IOException {
-        final String authHeader = request.getHeader("Authorization");
-        final String jwtToken;
-        final String userEmail;
-        if(authHeader == null || !authHeader.startsWith("Bearer ")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-        jwtToken = authHeader.substring(7);
-        userEmail = jwtService.extractUserName(jwtToken);
-        if(userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
-            if(jwtService.isTokenValid(jwtToken, userDetails)) {
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authToken);
+
+//        final String authHeader = request.getHeader("Authorization");
+//        final String jwtToken;
+//        final String userEmail;
+//        if(authHeader == null || !authHeader.startsWith("Bearer ")) {
+//            filterChain.doFilter(request, response);
+//            return;
+//        }
+//        jwtToken = authHeader.substring(7);
+//        userEmail = jwtService.extractUserName(jwtToken);
+//        if(userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+//            UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
+//            if(jwtService.isTokenValid(jwtToken, userDetails)) {
+//                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+//                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+//                SecurityContextHolder.getContext().setAuthentication(authToken);
+//            }
+//        }
+//        filterChain.doFilter(request, response);
+//    }
+
+        try {
+            final String authHeader = request.getHeader("Authorization");
+            final String jwtToken;
+            final String userEmail;
+
+            if (authHeader != null && authHeader.startsWith("Bearer ")) {
+                jwtToken = authHeader.substring(7);
+                userEmail = jwtService.extractUserName(jwtToken);
+
+                if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                    UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
+
+                    if (jwtService.isTokenValid(jwtToken, userDetails)) {
+                        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                                userDetails, null, userDetails.getAuthorities());
+                        authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                        SecurityContextHolder.getContext().setAuthentication(authToken);
+                    }
+                }
             }
+
+            // Continuă cu lanțul de filtre
             filterChain.doFilter(request, response);
-        }
+        }  catch (Exception e) {
+        // Înregistrează excepția în jurnal
+            System.out.println("Exception during JWT authentication filter processing");
+
+        // Lasați Spring Security să gestioneze răspunsul de eroare
+        throw new ServletException("Exception during JWT authentication filter processing", e);
     }
+}
 }

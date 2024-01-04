@@ -3,11 +3,17 @@ package com.utcn.projectRC.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+
 
 public class EventTicketCategory {
     @Id
@@ -30,8 +36,6 @@ public class EventTicketCategory {
     private Double discountPercentage;
     private long price;
 
-    public EventTicketCategory() {
-    }
     public EventTicketCategory(TicketCategory ticketCategory, String access, Integer avaibleQuantity, Double discountPercentage, long price) {
         this.ticketCategory = ticketCategory;
         this.access = access;

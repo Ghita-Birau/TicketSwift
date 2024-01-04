@@ -1,8 +1,11 @@
 package com.utcn.projectRC.model;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class NewOrder {
     private Integer eventId;
     private Integer ticketCategoryId;

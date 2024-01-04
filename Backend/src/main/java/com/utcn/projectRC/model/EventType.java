@@ -5,9 +5,15 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+
 
 public class EventType {
     @Id
@@ -16,9 +22,6 @@ public class EventType {
 
     private String eventTypeName;
 
-    public EventType() {
-
-    }
     public EventType(String eventTypeName) {
         this.eventTypeName = eventTypeName;
     }

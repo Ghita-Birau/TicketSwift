@@ -1,12 +1,11 @@
 package com.utcn.projectRC.DTO;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 

@@ -1,12 +1,15 @@
 package com.utcn.projectRC.Request;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 public class FilterRequest {
     private String searchTerm;
     private LocalDate startDateFrom;

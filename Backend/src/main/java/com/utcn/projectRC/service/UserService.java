@@ -1,13 +1,18 @@
 package com.utcn.projectRC.service;
 
 import com.utcn.projectRC.DTO.EventDTO;
+import com.utcn.projectRC.DTO.EventTicketCategoryDTO;
 import com.utcn.projectRC.DTO.UserDTO;
 import com.utcn.projectRC.model.Event;
 import com.utcn.projectRC.model.EventType;
+import com.utcn.projectRC.model.OrderEntity;
 import com.utcn.projectRC.model.User;
 import com.utcn.projectRC.repository.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -27,6 +33,11 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JwtService jwtService;
+
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -56,12 +67,14 @@ public class UserService implements UserDetailsService {
         userDTO.setUserEmail(user.getUserEmail());
         userDTO.setAdress(user.getAddress());
         userDTO.setDateOfBirth(user.getDateOfBirth());
-        userDTO.setOrders(user.getOrders());
         userDTO.setRole(user.getUserRole());
+        //userDTO.setOrders(user.getOrders());
         return userDTO;
     }
 
-    public UserDTO getUserByToken(String token) {
+
+    public UserDTO getUserFromRequest(HttpServletRequest request) {
+        String token = extractTokenFromHeader(request);
         String userEmail = jwtService.extractUserName(token);
         Optional<User> userOptional = userRepository.findByUserEmail(userEmail);
 
@@ -71,8 +84,14 @@ public class UserService implements UserDetailsService {
         } else {
             throw new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, userEmail));
         }
-        //return userRepository.findByUserEmail(userEmail)
-         //       .orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, userEmail)));
+    }
+
+    private String extractTokenFromHeader(HttpServletRequest request) {
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            return authHeader.substring(7);
+        }
+        throw new RuntimeException("Token not found in the Authorization header");
     }
 }
 

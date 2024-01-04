@@ -13,7 +13,8 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -34,6 +35,7 @@ public class User implements UserDetails {
 //    private Boolean locked = false;
 //    private Boolean enabled = false;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
     private List<OrderEntity> orders;
 
