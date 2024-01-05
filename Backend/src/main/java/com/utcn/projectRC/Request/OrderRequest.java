@@ -6,7 +6,5 @@ import lombok.Getter;
 public class OrderRequest {
     private String eventName;
     private String category;
-    //private String eventTypeName;
     private Integer numberOfTickets;
-    //private long price;
 }

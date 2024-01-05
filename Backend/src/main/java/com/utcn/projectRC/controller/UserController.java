@@ -1,41 +1,50 @@
 package com.utcn.projectRC.controller;
 
-import com.utcn.projectRC.DTO.UserDTO;
-import com.utcn.projectRC.model.User;
-import com.utcn.projectRC.service.JwtService;
+import com.utcn.projectRC.DTO.EventDTO;
+import com.utcn.projectRC.Request.FilterRequest;
+import com.utcn.projectRC.Request.LoginRequest;
+import com.utcn.projectRC.Request.RegisterRequest;
+import com.utcn.projectRC.Response.FilterResponse;
+import com.utcn.projectRC.Response.UserResponse;
+import com.utcn.projectRC.model.Event;
 import com.utcn.projectRC.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
-@RequestMapping("/api/user")
+@CrossOrigin
 @RequiredArgsConstructor
+@RequestMapping("/api/user")
 public class UserController {
 
-    //public final JwtService jwtService;
-    public final UserService userService;
+    private final UserService userService;
 
-//    @GetMapping("/by/token")
-//    public UserDTO getUserByToken(@RequestParam String token) {
-//        return userService.getUserByToken(token);
-//    }
-
-    private String extractTokenFromHeader(HttpServletRequest request) {
-        String authHeader = request.getHeader("Authorization");
-
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            return authHeader.substring(7);
-        }
-
-        throw new RuntimeException("Token not found in the Authorization header");
+    @PostMapping("/register")
+    public ResponseEntity<UserResponse> register(@RequestBody RegisterRequest registerRequest) {
+        userService.register(registerRequest);
+        Integer userId = userService.findUser(registerRequest.getUserEmail());
+        UserResponse response = new UserResponse("User registered successfully", userId);
+        return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/by/token")
-    public UserDTO getUserByToken(HttpServletRequest request) {
-        return userService.getUserDTOFromRequest(request);
+    @PostMapping("/login")
+    public ResponseEntity<UserResponse> login(@RequestBody LoginRequest loginRequest) {
+        String message = userService.login(loginRequest);
+        Integer userId = userService.findUser(loginRequest.getUserEmail());
+        UserResponse response = new UserResponse(message, userId);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<UserResponse> logout(@RequestParam String userEmail) {
+        String message = userService.logout(userEmail);
+        Integer userId = userService.findUser(userEmail);
+        UserResponse response = new UserResponse(message, userId);
+        return ResponseEntity.ok(response);
     }
 }

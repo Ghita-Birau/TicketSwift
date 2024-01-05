@@ -10,6 +10,7 @@ import com.utcn.projectRC.model.EventTicketCategory;
 import com.utcn.projectRC.model.EventType;
 import com.utcn.projectRC.Request.FilterRequest;
 import com.utcn.projectRC.repository.EventRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,15 +22,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
+
 public class EventService {
     private final EventRepository eventRepository;
-
-
-    @Autowired
-
-    public EventService(EventRepository eventRepository) {
-        this.eventRepository = eventRepository;
-    }
 
     public EventDTO convertEventToEventDTO(Event event) {
         EventDTO eventDTO = new EventDTO();

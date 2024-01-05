@@ -3,7 +3,7 @@ package com.utcn.projectRC.DTO;
 import com.utcn.projectRC.model.OrderEntity;
 import com.utcn.projectRC.model.UserRole;
 import lombok.*;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 
 import java.time.LocalDate;
 import java.util.List;
