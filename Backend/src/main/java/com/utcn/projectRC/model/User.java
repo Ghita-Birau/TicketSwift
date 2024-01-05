@@ -1,15 +1,9 @@
 package com.utcn.projectRC.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -32,10 +26,6 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
     private Boolean logged=false;
-//    private Boolean enabled = false;
-
-    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
-    private List<OrderEntity> orders;
 
     public User(String name, String userEmail, String password, LocalDate dateOfBirth, String address, String phoneNumber) {
         this.name = name;

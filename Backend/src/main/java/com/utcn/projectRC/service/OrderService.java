@@ -1,5 +1,6 @@
 package com.utcn.projectRC.service;
 
+import com.utcn.projectRC.DTO.OrderDTO;
 import com.utcn.projectRC.Exception.NotFoundException;
 import com.utcn.projectRC.Request.OrderRequest;
 import com.utcn.projectRC.model.Event;
@@ -19,6 +20,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -31,19 +33,13 @@ public class OrderService {
     private final TicketCategoryService ticketCategoryService;
     private final EventTicketCategoryService eventTicketCategoryService;
 
-//    public List<OrderEntity> getAllOrdersByUser(String userEmail) {
-//        List<OrderEntity> orderEntityList = new ArrayList<>();
-//        orderEntityList = orderRepository.findAllByUserId_UserEmail(userEmail);
-//
-//        if(orderEntityList.isEmpty()) {
-//            throw new NotFoundException("There are no orders for this user");
-//        } else {
-//            return orderEntityList.stream().toList();
-//        }
-//    }
-
-    public List<OrderEntity> getAllOrdersForUser(String userEmail) {
-        return orderRepository.findByUserId_UserEmail(userEmail);
+    public List<OrderDTO> findOrderDetailsByUserEmail(String userEmail) {
+        List<OrderDTO> orderDTOList = orderRepository.findOrderDetailsByUserEmail(userEmail);
+        if(orderDTOList.isEmpty()) {
+            throw new NotFoundException("There are no orders for this user");
+        } else {
+            return orderDTOList;
+        }
     }
 
     public void placeTheOrder(OrderRequest orderRequest, String userEmail) {
@@ -65,9 +61,5 @@ public class OrderService {
         } else {
             throw new IllegalStateException("Please login first");
         }
-    }
-
-    public OrderEntity findAllOrders(Integer id) {
-        return orderRepository.findOrderEntityByOrderId(id);
     }
 }

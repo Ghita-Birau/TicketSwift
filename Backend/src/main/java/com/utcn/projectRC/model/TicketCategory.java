@@ -20,15 +20,7 @@ public class TicketCategory {
     private Integer ticketCategoryId;
 
     private String description;
-
-    @Transient
-    private int quantityInCart;
-
     public TicketCategory(String description) {
         this.description = description;
-    }
-    public TicketCategory(String description, int quantityInCart) {
-        this.description = description;
-        this.quantityInCart = quantityInCart;
     }
 }

@@ -1,6 +1,7 @@
 package com.utcn.projectRC.controller;
 
 import com.utcn.projectRC.DTO.MapEventDTO;
+import com.utcn.projectRC.DTO.OrderDTO;
 import com.utcn.projectRC.DTO.UserDTO;
 import com.utcn.projectRC.Request.OrderRequest;
 import com.utcn.projectRC.Request.RegisterRequest;
@@ -27,8 +28,8 @@ public class OrderController {
     private final UserService userService;
 
     @GetMapping("/all/orders/by/user")
-    public List<OrderEntity> getAllOrdersByUser(@RequestParam String userEmail) {
-        return orderService.getAllOrdersForUser(userEmail);
+    public List<OrderDTO> getOrderDetailsByUserEmail(@RequestParam String userEmail) {
+        return orderService.findOrderDetailsByUserEmail(userEmail);
     }
 
     @PostMapping("/place/order")
@@ -37,11 +38,5 @@ public class OrderController {
         Integer userId = userService.findUser(userEmail).getUserId();
         UserResponse response = new UserResponse("Order placed successfully", userId);
         return ResponseEntity.ok(response);
-    }
-
-    @GetMapping("/all/orders")
-    public OrderEntity getAllOrders(@RequestParam Integer id) {
-        OrderEntity orderEntity = orderService.findAllOrders(id);
-        return orderEntity;
     }
 }
