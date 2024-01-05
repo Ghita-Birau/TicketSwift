@@ -44,10 +44,9 @@ public class EventTicketCategory {
         this.price = price;
     }
 
-    public EventTicketCategory(Event event, TicketCategory ticketCategory, List<OrderEntity> ordersList, String access, Integer avaibleQuantity, Double discountPercentage, long price) {
+    public EventTicketCategory(Event event, TicketCategory ticketCategory, String access, Integer avaibleQuantity, Double discountPercentage, long price) {
         this.event = event;
         this.ticketCategory = ticketCategory;
-        this.ordersList = ordersList;
         this.access = access;
         this.avaibleQuantity = avaibleQuantity;
         this.discountPercentage = discountPercentage;

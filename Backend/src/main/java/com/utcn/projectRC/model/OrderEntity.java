@@ -17,7 +17,6 @@ public class OrderEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer orderId;
 
-    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User userId;

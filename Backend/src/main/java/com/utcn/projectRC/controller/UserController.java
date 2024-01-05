@@ -27,7 +27,7 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<UserResponse> register(@RequestBody RegisterRequest registerRequest) {
         userService.register(registerRequest);
-        Integer userId = userService.findUser(registerRequest.getUserEmail());
+        Integer userId = userService.findUser(registerRequest.getUserEmail()).getUserId();
         UserResponse response = new UserResponse("User registered successfully", userId);
         return ResponseEntity.ok(response);
     }
@@ -35,7 +35,7 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<UserResponse> login(@RequestBody LoginRequest loginRequest) {
         String message = userService.login(loginRequest);
-        Integer userId = userService.findUser(loginRequest.getUserEmail());
+        Integer userId = userService.findUser(loginRequest.getUserEmail()).getUserId();
         UserResponse response = new UserResponse(message, userId);
         return ResponseEntity.ok(response);
     }
@@ -43,7 +43,7 @@ public class UserController {
     @PostMapping("/logout")
     public ResponseEntity<UserResponse> logout(@RequestParam String userEmail) {
         String message = userService.logout(userEmail);
-        Integer userId = userService.findUser(userEmail);
+        Integer userId = userService.findUser(userEmail).getUserId();
         UserResponse response = new UserResponse(message, userId);
         return ResponseEntity.ok(response);
     }

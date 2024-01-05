@@ -18,10 +18,10 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public Integer findUser(String userEmail) {
+    public User findUser(String userEmail) {
         User user = userRepository.findByUserEmail(userEmail);
         if (user != null) {
-            return user.getUserId();
+            return user;
         } else {
             throw new IllegalStateException("User is not found");
         }
@@ -75,7 +75,7 @@ public class UserService {
         user.setDateOfBirth(registerRequest.getDateOfBirth());
         user.setPhoneNumber(registerRequest.getPhoneNumber());
         user.setUserRole(UserRole.USER);
-        user.setOrders(new ArrayList<>());
+        //user.setOrders(new ArrayList<>());
         return user;
     }
 }

@@ -16,8 +16,10 @@ public class UserDTO {
     private Integer userId;
     private String name;
     private String userEmail;
+    private String password;
     private LocalDate dateOfBirth;
     private String adress;
+    private String phoneNumber;
     private UserRole role;
     private List<OrderEntity> orders;
 }
