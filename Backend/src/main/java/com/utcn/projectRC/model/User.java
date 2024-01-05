@@ -35,7 +35,7 @@ public class User implements UserDetails {
 //    private Boolean locked = false;
 //    private Boolean enabled = false;
 
-    @ToString.Exclude
+
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
     private List<OrderEntity> orders;
 

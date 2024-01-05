@@ -8,6 +8,7 @@ import com.utcn.projectRC.model.EventType;
 import com.utcn.projectRC.model.OrderEntity;
 import com.utcn.projectRC.model.User;
 import com.utcn.projectRC.repository.UserRepository;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -68,12 +69,12 @@ public class UserService implements UserDetailsService {
         userDTO.setAdress(user.getAddress());
         userDTO.setDateOfBirth(user.getDateOfBirth());
         userDTO.setRole(user.getUserRole());
-        //userDTO.setOrders(user.getOrders());
+        userDTO.setOrders(user.getOrders());
         return userDTO;
     }
 
 
-    public UserDTO getUserFromRequest(HttpServletRequest request) {
+    public UserDTO getUserDTOFromRequest(HttpServletRequest request) {
         String token = extractTokenFromHeader(request);
         String userEmail = jwtService.extractUserName(token);
         Optional<User> userOptional = userRepository.findByUserEmail(userEmail);
@@ -92,6 +93,19 @@ public class UserService implements UserDetailsService {
             return authHeader.substring(7);
         }
         throw new RuntimeException("Token not found in the Authorization header");
+    }
+
+    public User getUserFromRequest(HttpServletRequest request) {
+        String token = extractTokenFromHeader(request);
+        String userEmail = jwtService.extractUserName(token);
+        Optional<User> userOptional = userRepository.findByUserEmail(userEmail);
+
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            return user;
+        } else {
+            throw new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, userEmail));
+        }
     }
 }
 

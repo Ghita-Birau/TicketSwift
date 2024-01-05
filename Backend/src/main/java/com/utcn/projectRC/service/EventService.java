@@ -392,4 +392,9 @@ public class EventService {
             return paginatedEvents.stream().map(this::convertEventToEventDTO).toList();
         }
     }
+
+    public Integer findEventByName(String eventName) {
+        return eventRepository.findEventByEventName(eventName).getEventId();
+    }
+
 }

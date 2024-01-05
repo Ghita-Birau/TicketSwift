@@ -1,6 +1,7 @@
 package com.utcn.projectRC.security.config;
 
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -20,11 +21,14 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @RequiredArgsConstructor
 
 public class SecurityConfiguration {
+
     private static final String[] URL_LIST = {
             "/api/v1/auth/**",
             "/api/user/by/token",
             "/api/all/events/for/map",
             "/api/filter/Sort/And/Paginate/Events",
+            "/api/all/orders/by/user",
+            "/api/place/the/order",
     };
 
     private final JwtAuthenticationFilter jwtAuthFilter;

@@ -36,6 +36,6 @@ public class UserController {
 
     @GetMapping("/by/token")
     public UserDTO getUserByToken(HttpServletRequest request) {
-        return userService.getUserFromRequest(request);
+        return userService.getUserDTOFromRequest(request);
     }
 }

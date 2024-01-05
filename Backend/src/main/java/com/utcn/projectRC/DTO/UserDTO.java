@@ -19,5 +19,5 @@ public class UserDTO {
     private LocalDate dateOfBirth;
     private String adress;
     private UserRole role;
-    //private List<OrderEntity> orders;
+    private List<OrderEntity> orders;
 }
