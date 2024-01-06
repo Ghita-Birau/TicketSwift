@@ -12,11 +12,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 @Repository
 public interface OrderRepository extends JpaRepository<OrderEntity, Integer> {
-    //OrderEntity findOrderEntityByOrderId(Integer orderId);
-    //List<OrderEntity> findAllByUserId_UserEmail(String userEmail);
-    List<OrderEntity> findByUserId_UserEmail(String userEmail);
-
-    OrderEntity findOrderEntityByOrderId(Integer id);
+    //List<OrderEntity> findByUserId_UserEmail(String userEmail);
 
     @Query("SELECT NEW com.utcn.projectRC.DTO.OrderDTO(e.eventName, e.urlImage, et.eventTypeName, o.numberOfTickets, o.orderedAt, o.totalPrice, tc.description) " +
             "FROM OrderEntity o " +
@@ -27,4 +23,6 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Integer> {
             "WHERE o.userId.userEmail = :userEmail")
     List<OrderDTO> findOrderDetailsByUserEmail(@Param("userEmail") String userEmail);
 
+    @Query("SELECT o.id FROM OrderEntity o WHERE o.userId.id = :userId")
+    List<Integer> findOrderIdsByUserId(@Param("userId") Integer userId);
 }

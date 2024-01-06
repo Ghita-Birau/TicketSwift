@@ -42,22 +42,24 @@ public class OrderService {
         }
     }
 
-    public void placeTheOrder(OrderRequest orderRequest, String userEmail) {
+    public void placeTheOrder(List<OrderRequest> orderRequests, String userEmail) {
         User user = userService.findUser(userEmail);
         if(user.getLogged()) {
-            OrderEntity orderEntity = new OrderEntity();
-            Integer eventId = eventService.findEventByName(orderRequest.getEventName());
+            for (OrderRequest orderRequest : orderRequests) {
+                OrderEntity orderEntity = new OrderEntity();
+                Integer eventId = eventService.findEventByName(orderRequest.getEventName());
 
-            Integer ticketCategoryId = ticketCategoryService.findTicketCategoryByDescription(orderRequest.getCategory());
-            EventTicketCategory eventTicketCategory = eventTicketCategoryService.findByEventIdAndTicketCategoryId(eventId, ticketCategoryId);
+                Integer ticketCategoryId = ticketCategoryService.findTicketCategoryByDescription(orderRequest.getCategory());
+                EventTicketCategory eventTicketCategory = eventTicketCategoryService.findByEventIdAndTicketCategoryId(eventId, ticketCategoryId);
 
-            orderEntity.setEventTicketCategory(eventTicketCategory);
-            orderEntity.setOrderedAt(LocalDateTime.now());
-            orderEntity.setNumberOfTickets(orderRequest.getNumberOfTickets());
-            orderEntity.setTotalPrice(orderRequest.getNumberOfTickets() * eventTicketCategory.getPrice());
-            orderEntity.setUserId(userService.findUser(userEmail));
+                orderEntity.setEventTicketCategory(eventTicketCategory);
+                orderEntity.setOrderedAt(LocalDateTime.now());
+                orderEntity.setNumberOfTickets(orderRequest.getNumberOfTickets());
+                orderEntity.setTotalPrice(orderRequest.getNumberOfTickets() * eventTicketCategory.getPrice());
+                orderEntity.setUserId(userService.findUser(userEmail));
 
-            orderRepository.save(orderEntity);
+                orderRepository.save(orderEntity);
+            }
         } else {
             throw new IllegalStateException("Please login first");
         }

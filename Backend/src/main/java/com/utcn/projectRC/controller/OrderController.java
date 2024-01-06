@@ -1,11 +1,16 @@
 package com.utcn.projectRC.controller;
 
+import com.utcn.projectRC.DTO.EventDTO;
 import com.utcn.projectRC.DTO.MapEventDTO;
 import com.utcn.projectRC.DTO.OrderDTO;
 import com.utcn.projectRC.DTO.UserDTO;
+import com.utcn.projectRC.Request.FilterRequest;
 import com.utcn.projectRC.Request.OrderRequest;
 import com.utcn.projectRC.Request.RegisterRequest;
+import com.utcn.projectRC.Response.FilterResponse;
+import com.utcn.projectRC.Response.OrdersResponse;
 import com.utcn.projectRC.Response.UserResponse;
+import com.utcn.projectRC.model.Event;
 import com.utcn.projectRC.model.OrderEntity;
 import com.utcn.projectRC.service.OrderService;
 import com.utcn.projectRC.service.UserService;
@@ -28,15 +33,18 @@ public class OrderController {
     private final UserService userService;
 
     @GetMapping("/all/orders/by/user")
-    public List<OrderDTO> getOrderDetailsByUserEmail(@RequestParam String userEmail) {
-        return orderService.findOrderDetailsByUserEmail(userEmail);
+    public ResponseEntity<OrdersResponse> getOrderDetailsByUserEmail(@RequestParam String userEmail) {
+        List<OrderDTO> allOrdersByUser = orderService.findOrderDetailsByUserEmail(userEmail);
+        Integer userId = userService.findUser(userEmail).getUserId();
+        OrdersResponse response = new OrdersResponse("Success", userId, allOrdersByUser);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/place/order")
-    public ResponseEntity <UserResponse> placeTheOrder(@RequestBody OrderRequest orderRequest, @RequestParam String userEmail) {
-        orderService.placeTheOrder(orderRequest, userEmail);
+    public ResponseEntity <UserResponse> placeTheOrder(@RequestBody List<OrderRequest> orderRequests, @RequestParam String userEmail) {
+        orderService.placeTheOrder(orderRequests, userEmail);
         Integer userId = userService.findUser(userEmail).getUserId();
-        UserResponse response = new UserResponse("Order placed successfully", userId);
+        UserResponse response = new UserResponse("Orders placed successfully", userId);
         return ResponseEntity.ok(response);
     }
 }

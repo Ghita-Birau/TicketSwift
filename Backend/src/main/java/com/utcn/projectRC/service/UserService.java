@@ -5,18 +5,23 @@ import com.utcn.projectRC.Request.LoginRequest;
 import com.utcn.projectRC.Request.RegisterRequest;
 import com.utcn.projectRC.model.User;
 import com.utcn.projectRC.model.UserRole;
+import com.utcn.projectRC.repository.OrderRepository;
 import com.utcn.projectRC.repository.UserRepository;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
+    private final OrderRepository orderRepository;
 
     public User findUser(String userEmail) {
         User user = userRepository.findByUserEmail(userEmail);
@@ -75,7 +80,31 @@ public class UserService {
         user.setDateOfBirth(registerRequest.getDateOfBirth());
         user.setPhoneNumber(registerRequest.getPhoneNumber());
         user.setUserRole(UserRole.USER);
-        //user.setOrders(new ArrayList<>());
         return user;
+    }
+
+    public User findUserById(Integer userId) {
+        return userRepository.findByUserId(userId);
+    }
+
+    public String deleteUser(Integer userId) {
+        User user = userRepository.findByUserId(userId);
+        if(user != null) {
+            if (user.getLogged()) {
+                deleteOrdersByUser(user.getUserId());
+                userRepository.delete(user);
+                return "User and his orders deleted successfully";
+            } else {
+                throw new NotFoundException("Please login first");
+            }
+        } else {
+            throw new NotFoundException("User not found");
+        }
+    }
+    public void deleteOrdersByUser(Integer userId) {
+        if (userId != null) {
+            List<Integer> listOrdersIdMustDelete = orderRepository.findOrderIdsByUserId(userId);
+            orderRepository.deleteAllById(listOrdersIdMustDelete);
+        }
     }
 }

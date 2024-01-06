@@ -7,6 +7,7 @@ import com.utcn.projectRC.Request.RegisterRequest;
 import com.utcn.projectRC.Response.FilterResponse;
 import com.utcn.projectRC.Response.UserResponse;
 import com.utcn.projectRC.model.Event;
+import com.utcn.projectRC.model.User;
 import com.utcn.projectRC.service.UserService;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.RequiredArgsConstructor;
@@ -44,6 +45,18 @@ public class UserController {
     public ResponseEntity<UserResponse> logout(@RequestParam String userEmail) {
         String message = userService.logout(userEmail);
         Integer userId = userService.findUser(userEmail).getUserId();
+        UserResponse response = new UserResponse(message, userId);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/find/by/id")
+    public User findUserById(@RequestParam Integer userId) {
+        return userService.findUserById(userId);
+    }
+
+    @PostMapping("/delete/account")
+    public ResponseEntity<UserResponse> deleteAccount(@RequestParam Integer userId) {
+        String message = userService.deleteUser(userId);
         UserResponse response = new UserResponse(message, userId);
         return ResponseEntity.ok(response);
     }
