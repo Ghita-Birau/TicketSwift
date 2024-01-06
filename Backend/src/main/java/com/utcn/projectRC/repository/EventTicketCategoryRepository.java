@@ -1,7 +1,6 @@
-package com.utcn.projectRC.repository;
+package com.utcn.projectRC.Repository;
 
-import com.utcn.projectRC.model.Event;
-import com.utcn.projectRC.model.EventTicketCategory;
+import com.utcn.projectRC.Entity.EventTicketCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

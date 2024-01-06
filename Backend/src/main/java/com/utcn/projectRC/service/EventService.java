@@ -1,15 +1,15 @@
-package com.utcn.projectRC.service;
+package com.utcn.projectRC.Service;
 
 import com.utcn.projectRC.DTO.EventDTO;
 import com.utcn.projectRC.DTO.EventTicketCategoryDTO;
 import com.utcn.projectRC.DTO.MapEventDTO;
 import com.utcn.projectRC.DTO.VenueDTO;
 import com.utcn.projectRC.Exception.NotFoundException;
-import com.utcn.projectRC.model.Event;
-import com.utcn.projectRC.model.EventTicketCategory;
-import com.utcn.projectRC.model.EventType;
+import com.utcn.projectRC.Entity.Event;
+import com.utcn.projectRC.Entity.EventTicketCategory;
+import com.utcn.projectRC.Entity.EventType;
 import com.utcn.projectRC.Request.FilterRequest;
-import com.utcn.projectRC.repository.EventRepository;
+import com.utcn.projectRC.Repository.EventRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

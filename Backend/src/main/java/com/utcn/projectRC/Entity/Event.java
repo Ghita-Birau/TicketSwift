@@ -1,7 +1,6 @@
-package com.utcn.projectRC.model;
+package com.utcn.projectRC.Entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

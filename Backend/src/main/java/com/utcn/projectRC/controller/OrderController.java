@@ -1,11 +1,11 @@
-package com.utcn.projectRC.controller;
+package com.utcn.projectRC.Controller;
 
 import com.utcn.projectRC.DTO.OrderDTO;
 import com.utcn.projectRC.Request.OrderRequest;
 import com.utcn.projectRC.Response.OrdersResponse;
 import com.utcn.projectRC.Response.UserResponse;
-import com.utcn.projectRC.service.OrderService;
-import com.utcn.projectRC.service.UserService;
+import com.utcn.projectRC.Service.OrderService;
+import com.utcn.projectRC.Service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

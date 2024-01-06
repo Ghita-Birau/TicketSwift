@@ -1,7 +1,7 @@
 package com.utcn.projectRC.DTO;
 
-import com.utcn.projectRC.model.OrderEntity;
-import com.utcn.projectRC.model.UserRole;
+import com.utcn.projectRC.Entity.OrderEntity;
+import com.utcn.projectRC.Entity.UserRole;
 import lombok.*;
 
 

@@ -1,13 +1,13 @@
-package com.utcn.projectRC.service;
+package com.utcn.projectRC.Service;
 
 import com.utcn.projectRC.Exception.NotFoundException;
 import com.utcn.projectRC.Request.LoginRequest;
 import com.utcn.projectRC.Request.RegisterRequest;
 import com.utcn.projectRC.Request.UpdateUserRequest;
-import com.utcn.projectRC.model.User;
-import com.utcn.projectRC.model.UserRole;
-import com.utcn.projectRC.repository.OrderRepository;
-import com.utcn.projectRC.repository.UserRepository;
+import com.utcn.projectRC.Entity.User;
+import com.utcn.projectRC.Entity.UserRole;
+import com.utcn.projectRC.Repository.OrderRepository;
+import com.utcn.projectRC.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;

@@ -1,11 +1,11 @@
-package com.utcn.projectRC.controller;
+package com.utcn.projectRC.Controller;
 
 import com.utcn.projectRC.Request.LoginRequest;
 import com.utcn.projectRC.Request.RegisterRequest;
 import com.utcn.projectRC.Request.UpdateUserRequest;
 import com.utcn.projectRC.Response.UserResponse;
-import com.utcn.projectRC.model.User;
-import com.utcn.projectRC.service.UserService;
+import com.utcn.projectRC.Entity.User;
+import com.utcn.projectRC.Service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

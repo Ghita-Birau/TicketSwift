@@ -1,7 +1,7 @@
-package com.utcn.projectRC.service;
+package com.utcn.projectRC.Service;
 
-import com.utcn.projectRC.model.EventTicketCategory;
-import com.utcn.projectRC.repository.EventTicketCategoryRepository;
+import com.utcn.projectRC.Entity.EventTicketCategory;
+import com.utcn.projectRC.Repository.EventTicketCategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

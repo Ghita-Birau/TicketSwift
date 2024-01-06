@@ -1,11 +1,8 @@
-package com.utcn.projectRC.repository;
+package com.utcn.projectRC.Repository;
 
-import com.utcn.projectRC.model.User;
+import com.utcn.projectRC.Entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-
-import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {

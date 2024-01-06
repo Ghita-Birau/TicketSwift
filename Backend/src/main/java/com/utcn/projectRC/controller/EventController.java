@@ -1,11 +1,11 @@
-package com.utcn.projectRC.controller;
+package com.utcn.projectRC.Controller;
 
 import com.utcn.projectRC.DTO.EventDTO;
 import com.utcn.projectRC.DTO.MapEventDTO;
-import com.utcn.projectRC.model.Event;
+import com.utcn.projectRC.Entity.Event;
 import com.utcn.projectRC.Request.FilterRequest;
 import com.utcn.projectRC.Response.FilterResponse;
-import com.utcn.projectRC.service.EventService;
+import com.utcn.projectRC.Service.EventService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

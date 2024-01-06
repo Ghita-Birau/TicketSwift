@@ -1,4 +1,4 @@
-package com.utcn.projectRC.model;
+package com.utcn.projectRC.Entity;
 
 public enum UserRole {
     USER,

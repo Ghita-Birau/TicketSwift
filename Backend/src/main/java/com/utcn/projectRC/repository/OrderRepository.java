@@ -1,9 +1,7 @@
-package com.utcn.projectRC.repository;
+package com.utcn.projectRC.Repository;
 
 import com.utcn.projectRC.DTO.OrderDTO;
-import com.utcn.projectRC.model.OrderEntity;
-import com.utcn.projectRC.model.User;
-import jakarta.persistence.criteria.Order;
+import com.utcn.projectRC.Entity.OrderEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

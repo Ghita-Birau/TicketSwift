@@ -1,12 +1,12 @@
-package com.utcn.projectRC.service;
+package com.utcn.projectRC.Service;
 
 import com.utcn.projectRC.DTO.OrderDTO;
 import com.utcn.projectRC.Exception.NotFoundException;
 import com.utcn.projectRC.Request.OrderRequest;
-import com.utcn.projectRC.model.EventTicketCategory;
-import com.utcn.projectRC.model.OrderEntity;
-import com.utcn.projectRC.model.User;
-import com.utcn.projectRC.repository.OrderRepository;
+import com.utcn.projectRC.Entity.EventTicketCategory;
+import com.utcn.projectRC.Entity.OrderEntity;
+import com.utcn.projectRC.Entity.User;
+import com.utcn.projectRC.Repository.OrderRepository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

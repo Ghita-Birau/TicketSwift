@@ -1,4 +1,4 @@
-package com.utcn.projectRC.model;
+package com.utcn.projectRC.Entity;
 
 import jakarta.persistence.*;
 import lombok.*;
