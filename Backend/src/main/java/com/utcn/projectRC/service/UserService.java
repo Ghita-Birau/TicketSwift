@@ -8,13 +8,10 @@ import com.utcn.projectRC.model.User;
 import com.utcn.projectRC.model.UserRole;
 import com.utcn.projectRC.repository.OrderRepository;
 import com.utcn.projectRC.repository.UserRepository;
-import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -128,5 +125,4 @@ public class UserService {
         userRepository.save(existingUser);
         return "User details updated successfully";
     }
-
 }

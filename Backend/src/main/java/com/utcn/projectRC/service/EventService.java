@@ -11,7 +11,6 @@ import com.utcn.projectRC.model.EventType;
 import com.utcn.projectRC.Request.FilterRequest;
 import com.utcn.projectRC.repository.EventRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -392,5 +391,4 @@ public class EventService {
     public Integer findEventByName(String eventName) {
         return eventRepository.findEventByEventName(eventName).getEventId();
     }
-
 }

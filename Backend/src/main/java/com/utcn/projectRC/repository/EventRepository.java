@@ -26,7 +26,6 @@ public interface EventRepository extends JpaRepository <Event, Integer> {
 
     List<Event> findAllByListEventTicketCategory_TicketCategory_DescriptionInIgnoreCase(List<String> categoryDescriptions);
 
-
     List<Event> findAllByListEventTicketCategory_AccessContainingIgnoreCase(String access);
 
     List<Event> findAllByListEventTicketCategory_DiscountPercentageGreaterThan(Double discountPercentage);

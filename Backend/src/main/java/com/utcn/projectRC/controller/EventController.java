@@ -7,7 +7,6 @@ import com.utcn.projectRC.Request.FilterRequest;
 import com.utcn.projectRC.Response.FilterResponse;
 import com.utcn.projectRC.service.EventService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,12 +15,11 @@ import java.util.List;
 @CrossOrigin
 @RestController
 @RequiredArgsConstructor
-
 @RequestMapping("/api")
 
 public class EventController {
-    private final EventService eventService;
 
+    private final EventService eventService;
 
     @PostMapping("/filter/Sort/And/Paginate/Events")
         public ResponseEntity<FilterResponse> filterSortAndPaginateEvents(@RequestBody FilterRequest filterRequest) {

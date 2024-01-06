@@ -1,11 +1,8 @@
 package com.utcn.projectRC.DTO;
 
-import com.utcn.projectRC.model.Event;
-import com.utcn.projectRC.model.TicketCategory;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Setter

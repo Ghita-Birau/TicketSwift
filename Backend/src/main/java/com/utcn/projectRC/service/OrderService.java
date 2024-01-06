@@ -3,24 +3,16 @@ package com.utcn.projectRC.service;
 import com.utcn.projectRC.DTO.OrderDTO;
 import com.utcn.projectRC.Exception.NotFoundException;
 import com.utcn.projectRC.Request.OrderRequest;
-import com.utcn.projectRC.model.Event;
 import com.utcn.projectRC.model.EventTicketCategory;
 import com.utcn.projectRC.model.OrderEntity;
 import com.utcn.projectRC.model.User;
 import com.utcn.projectRC.repository.OrderRepository;
-import com.utcn.projectRC.repository.TicketCategoryRepository;
-import jakarta.servlet.http.HttpServletRequest;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor

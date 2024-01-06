@@ -8,13 +8,5 @@ import java.util.List;
 
 @Repository
 public interface TicketCategoryRepository extends CrudRepository<TicketCategory, Integer> {
-    //List<TicketCategory> findAllByTicketCategoryIdAndDescription(Integer id, String description);
-
-//    List<TicketCategory> findAllByTicketCategoryId(Integer id);
-//
-//    TicketCategory findTicketCategoryByTicketCategoryId(Integer ticketCategoryId);
-//
-//    TicketCategory findTicketCategoryByDescriptionAndPrice(String description, Integer price);
     TicketCategory findTicketCategoryByDescription(String description);
-
 }

@@ -1,6 +1,5 @@
 package com.utcn.projectRC.Response;
 
-import com.utcn.projectRC.DTO.EventDTO;
 import com.utcn.projectRC.DTO.OrderDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
