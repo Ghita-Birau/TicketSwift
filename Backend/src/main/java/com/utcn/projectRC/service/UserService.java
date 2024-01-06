@@ -3,6 +3,7 @@ package com.utcn.projectRC.service;
 import com.utcn.projectRC.Exception.NotFoundException;
 import com.utcn.projectRC.Request.LoginRequest;
 import com.utcn.projectRC.Request.RegisterRequest;
+import com.utcn.projectRC.Request.UpdateUserRequest;
 import com.utcn.projectRC.model.User;
 import com.utcn.projectRC.model.UserRole;
 import com.utcn.projectRC.repository.OrderRepository;
@@ -107,4 +108,25 @@ public class UserService {
             orderRepository.deleteAllById(listOrdersIdMustDelete);
         }
     }
+
+    public String updateUser(Integer userId, UpdateUserRequest updateUserRequest) {
+        User existingUser = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("User not found with ID: " + userId));
+
+        if (updateUserRequest.getName() != null) {
+            existingUser.setName(updateUserRequest.getName());
+        }
+        if (updateUserRequest.getAddress() != null) {
+            existingUser.setAddress(updateUserRequest.getAddress());
+        }
+        if (updateUserRequest.getPhoneNumber() != null) {
+            existingUser.setPhoneNumber(updateUserRequest.getPhoneNumber());
+        }
+        if (updateUserRequest.getPassword() != null) {
+            existingUser.setPassword(BCrypt.hashpw(updateUserRequest.getPassword(), BCrypt.gensalt()));
+        }
+        userRepository.save(existingUser);
+        return "User details updated successfully";
+    }
+
 }

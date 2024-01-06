@@ -4,6 +4,7 @@ import com.utcn.projectRC.DTO.EventDTO;
 import com.utcn.projectRC.Request.FilterRequest;
 import com.utcn.projectRC.Request.LoginRequest;
 import com.utcn.projectRC.Request.RegisterRequest;
+import com.utcn.projectRC.Request.UpdateUserRequest;
 import com.utcn.projectRC.Response.FilterResponse;
 import com.utcn.projectRC.Response.UserResponse;
 import com.utcn.projectRC.model.Event;
@@ -57,6 +58,13 @@ public class UserController {
     @PostMapping("/delete/account")
     public ResponseEntity<UserResponse> deleteAccount(@RequestParam Integer userId) {
         String message = userService.deleteUser(userId);
+        UserResponse response = new UserResponse(message, userId);
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<UserResponse> updateUser(@RequestParam Integer userId, @RequestBody UpdateUserRequest updateUserRequest) {
+        String message = userService.updateUser(userId, updateUserRequest);
         UserResponse response = new UserResponse(message, userId);
         return ResponseEntity.ok(response);
     }

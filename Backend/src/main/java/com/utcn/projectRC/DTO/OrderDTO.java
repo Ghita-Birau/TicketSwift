@@ -19,5 +19,6 @@ public class OrderDTO {
     private Integer numberOfTickets;
     private LocalDateTime orderedAt;
     private long totalPrice;
+    private Integer orderId;
     private String ticketCategoryDescription;
 }

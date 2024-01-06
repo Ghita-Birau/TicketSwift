@@ -9,7 +9,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Getter
-@Setter
 public class FilterRequest {
     private String searchTerm;
     private LocalDate startDateFrom;
