@@ -26,12 +26,7 @@ public class OrderService {
     private final EventTicketCategoryService eventTicketCategoryService;
 
     public List<OrderDTO> findOrderDetailsByUserEmail(String userEmail) {
-        List<OrderDTO> orderDTOList = orderRepository.findOrderDetailsByUserEmail(userEmail);
-        if(orderDTOList.isEmpty()) {
-            throw new NotFoundException("There are no orders for this user");
-        } else {
-            return orderDTOList;
-        }
+        return orderRepository.findOrderDetailsByUserEmail(userEmail);
     }
 
     public void placeTheOrder(List<OrderRequest> orderRequests, String userEmail) {
