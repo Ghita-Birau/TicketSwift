@@ -89,6 +89,12 @@ function AuthContentForm({ onSubmit, elements, buttonLabel, elementsPerPage }) {
                 placeholder={element.placeholder}
                 {...register(element.name.toLowerCase(), element.validation)}
                 maxLength={element?.maxLength}
+                onChange={
+                  element.onChange &&
+                  ((e) => {
+                    element.onChange(e);
+                  })
+                }
               />
               {element.icon}
             </InputContainer>

@@ -1,6 +1,3 @@
-// import { fakeData } from "../../utils/Constants";
-import { idkGhitaDAta } from "../../utils/Constants";
-
 import styled, { css } from "styled-components";
 import useEventsFilters from "./useEventsFilters";
 import Loader from "../../ui/Loader";
@@ -53,8 +50,6 @@ const EventsHeader = styled.header`
 function Events() {
   const { events = [], isLoading } = useEventsFilters();
   let { filteredEvents = [], numberOfEvents } = events;
-
-  filteredEvents = filteredEvents.length === 0 ? idkGhitaDAta : filteredEvents;
 
   if (isLoading) return <Loader />;
 

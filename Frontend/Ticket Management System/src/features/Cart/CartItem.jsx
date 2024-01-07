@@ -25,7 +25,7 @@ const ContainerItem = styled.div`
 
 const ImgContainer = styled.div`
   max-width: 15rem;
-  max-height: 15rem;
+  max-height: 10rem;
   border-radius: 8px;
   overflow: hidden;
 

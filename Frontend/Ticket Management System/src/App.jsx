@@ -12,6 +12,9 @@ import EventsPage from "./pages/EventsPage";
 import Window from "./ui/Window";
 import Modal from "./ui/Modal";
 import MapPage from "./pages/MapPage";
+import Account from "./pages/Account";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 
 const queryClient = new QueryClient();
 
@@ -55,10 +58,13 @@ function App() {
               <Route path="/" element={<AppLayout />}>
                 <Route path="/" element={<Home />} />
                 <Route path="/orders" element={<Orders />} />
+                <Route path="/account" element={<Account />} />
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/events" element={<EventsPage />} />
                 <Route path="/map" element={<MapPage />} />
               </Route>
+              {/* <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} /> */}
             </Routes>
           </BrowserRouter>
         </QueryClientProvider>

@@ -10,7 +10,7 @@ import styled from "styled-components";
 import Heading from "../../ui/Heading";
 import CartItem from "./CartItem";
 import EmptyCart from "./EmptyCart";
-import toast from "react-hot-toast";
+import useCheckout from "./useCheckout";
 
 const Container = styled.div`
   width: 100%;
@@ -132,13 +132,20 @@ function CartDetails() {
   const totalPrice = getTotalCartPrice(store);
   const totalDiscounts = getTotalPriceWithDiscount(store);
   const dispatch = useDispatch();
+  const { checkout } = useCheckout();
 
   if (nrOfTickets === 0) return <EmptyCart />;
 
   function handleClick(e) {
     e.preventDefault();
+    let orders = cart.map((item) => ({
+      eventName: item.name,
+      category: item.description,
+      numberOfTickets: item.numberOfTickets,
+    }));
+    console.log(orders);
+    checkout({ orders });
     dispatch(clearCart());
-    toast.success("You've successfully placed an order");
   }
 
   return (

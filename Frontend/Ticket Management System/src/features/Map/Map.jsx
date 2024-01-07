@@ -7,6 +7,11 @@ import styles from "./Map.module.css";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import useMapLocations from "./useMapLocations";
+// import "leaflet/dist/leaflet.css";
+import Button from "../../ui/Button";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setSearchTerm } from "../../contexts/filterSlice";
 
 const StyledDiv = styled.div`
   height: 100%;
@@ -33,6 +38,51 @@ const StyledButton = styled.button`
   }
 `;
 
+const StyledPopup = styled(Popup)`
+  padding: 1.2rem 2rem;
+  display: flex;
+  align-items: center;
+
+  opacity: 1;
+`;
+
+const PopupContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+
+  width: 100%;
+
+  text-align: center;
+`;
+
+const ImageContainer = styled.div`
+  width: 100%;
+  height: 15rem;
+  overflow: hidden;
+  border-radius: 8px;
+
+  & > img {
+    width: 100%;
+    height: 100%;
+  }
+`;
+
+const P = styled.p`
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+`;
+
+const Div = styled.div`
+  padding: 0rem 0.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
 function Map() {
   const [mapPosition, setMapPosition] = useState([46.7675, 23.5725]);
   const {
@@ -41,6 +91,13 @@ function Map() {
     getPosition,
   } = useGeoLocation();
   const { locations = [], isLoading } = useMapLocations();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  function handleClick(name) {
+    navigate("/events");
+    dispatch(setSearchTerm(name));
+  }
 
   useEffect(
     function () {
@@ -75,10 +132,26 @@ function Map() {
             position={[event.venue.latitude, event.venue.longitude]}
             key={event.eventId}
           >
-            <Popup>
-              <span>{event.venue.type}</span>
-              <span>{event.venue.location}</span>
-            </Popup>
+            <StyledPopup>
+              <PopupContainer>
+                <ImageContainer>
+                  <img src={event.urlImage} alt={`${event.name} event`} />
+                </ImageContainer>
+                <div>
+                  <P>{event.description}</P>
+                  <Div>
+                    <span>{event.venue.type}</span>
+                    <span>{event.venue.location}</span>
+                  </Div>
+                </div>
+                <Button
+                  variation="details"
+                  onClick={() => handleClick(event.name)}
+                >
+                  See Details
+                </Button>
+              </PopupContainer>
+            </StyledPopup>
           </Marker>
         ))}
         <CenterPosition position={mapPosition} />

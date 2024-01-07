@@ -1,11 +1,11 @@
 import { fakeData } from "../utils/Constants";
+import { useNavigate } from "react-router-dom";
 
 import Button from "../ui/Button";
 import ActiveSlider from "../ui/Slider&Style/ActiveSlider";
 import styled from "styled-components";
 import Modal from "../ui/Modal";
 import Heading from "../ui/Heading";
-import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
@@ -27,6 +27,7 @@ const Main = styled.main`
 
 function Dashboard() {
   const navigate = useNavigate();
+  // const { events } = useEventsFilters();
 
   function handleClick() {
     navigate("/events");

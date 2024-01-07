@@ -72,14 +72,16 @@ const buttonTypes = {
 
   cart: css`
     background-color: var(--color-gray-50);
+    color: var(--color-brand-600);
     border: none;
 
-    padding: 0.4rem;
+    padding: 0.6rem;
+    border-radius: 8px;
 
     & > svg {
       width: 2.6rem;
       height: 2.6rem;
-      stroke: var(--color-gray-600);
+      stroke: var(--color-brand-600);
 
       &:hover {
         stroke: var(--color-brand-600);
@@ -87,7 +89,7 @@ const buttonTypes = {
     }
 
     &:hover {
-      background-color: var(--color-gray-50);
+      background-color: var(--color-gray-200);
     }
   `,
 
@@ -122,6 +124,21 @@ const buttonTypes = {
     &:hover {
       background-color: var(--color-brand-600);
       color: var(--color-gray-0);
+    }
+  `,
+
+  details: css`
+    background-color: var(--color-gray-600);
+    color: var(--color-gray-100);
+    border: none;
+    border-radius: 7px;
+    font-size: 1rem;
+    margin-top: 0.4rem;
+
+    padding: 0.4rem 1rem;
+
+    &:hover {
+      background-color: var(--color-gray-700);
     }
   `,
 };

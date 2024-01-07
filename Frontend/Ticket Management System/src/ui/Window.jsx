@@ -10,7 +10,7 @@ import useOutsideClick from "../hooks/useOutsideClick";
 const StyledToggle = styled.div`
   background: none;
   border: none;
-  padding: 0.4rem;
+  /* padding: 0.4rem; */
   border-radius: var(--border-radius-sm);
   transform: translateX(0.8rem);
   transition: all 0.2s;
@@ -32,7 +32,6 @@ const StyledContainer = styled.div`
 const StyledList = styled.div`
   display: flex;
   flex-direction: column;
-  /* padding: 1rem 1.4rem; */
   position: fixed;
   z-index: 1000;
 

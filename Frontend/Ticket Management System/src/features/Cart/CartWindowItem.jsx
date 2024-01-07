@@ -19,6 +19,7 @@ const Container = styled.div`
 
   & > div:not(:last-child) {
     padding: 0.6rem;
+    max-height: 10rem;
 
     & > img {
       width: 100%;

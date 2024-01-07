@@ -52,6 +52,26 @@ function RegisterForm() {
     setIsShowing((is) => !is);
   }
 
+  function handleDateChange(e) {
+    let value = e.target.value;
+
+    value = value.replace(/\D/g, "").substring(0, 8);
+
+    // Adaugă slash-uri
+    if (value.length > 2 && value.length <= 4) {
+      value = value.substring(0, 2) + "/" + value.substring(2);
+    } else if (value.length > 4) {
+      value =
+        value.substring(0, 2) +
+        "/" +
+        value.substring(2, 4) +
+        "/" +
+        value.substring(4);
+    }
+
+    e.target.value = value;
+  }
+
   const elements = [
     {
       label: "Email Address",
@@ -115,6 +135,7 @@ function RegisterForm() {
       type: "text",
       placeholder: "dd/mm/yyyy",
       icon: <HiCalendar />,
+      onChange: handleDateChange,
       validation: {
         required: "This field is required",
         validate: (value) => {

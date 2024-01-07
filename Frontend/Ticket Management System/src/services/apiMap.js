@@ -1,13 +1,8 @@
 import { springUrl } from "../utils/Constants";
 
-export default async function getLocations({ token }) {
+export default async function getLocations() {
   try {
-    const response = await fetch(`${springUrl}/all/events/for/map`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await fetch(`${springUrl}/all/events/for/map`, {});
 
     if (!response.ok) {
       throw new Error("Something went wrong while trying to get locations");

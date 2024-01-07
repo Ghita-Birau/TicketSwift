@@ -2,7 +2,7 @@ import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
 import { useSearchParams } from "react-router-dom";
 import { PAGE_SIZE } from "../utils/Constants";
 
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import PropTypes from "prop-types";
 
 const Container = styled.div`
@@ -31,11 +31,15 @@ const StyledButton = styled.button`
   padding: 1rem 1.6rem;
   transition: all 0.2s;
 
-  &:hover {
-    color: var(--color-gray-50);
-    border-radius: 8px;
-    background-color: var(--color-brand-600);
-  }
+  ${(props) =>
+    !props.isdisabled &&
+    css`
+      &:hover {
+        color: var(--color-gray-50);
+        border-radius: 8px;
+        background-color: var(--color-brand-600);
+      }
+    `}
 `;
 
 function Footer({ count = 0 }) {
@@ -78,12 +82,14 @@ function Footer({ count = 0 }) {
       <ButtonContainer>
         <StyledButton
           onClick={handlePrevious}
+          isdisabled={Number(currentPage) === 0}
           disabled={Number(currentPage) === 0}
         >
           {<HiChevronLeft />} Previous
         </StyledButton>
         <StyledButton
           onClick={handleNext}
+          isdisabled={Number(currentPage) === pageCount - 1}
           disabled={Number(currentPage) === pageCount - 1}
         >
           Next

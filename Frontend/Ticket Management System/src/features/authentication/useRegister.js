@@ -4,13 +4,13 @@ import { register as registerAPI } from "../../services/apiAuth";
 import toast from "react-hot-toast";
 
 function useRegister() {
-  const { setValue: setAccessToken } = useLocalStorage("token", "");
+  const { setValue: setUserId } = useLocalStorage("userId", "");
 
   const { mutate: register, isLoading } = useMutation({
     mutationFn: (user) => registerAPI({ user }),
     onSuccess: (data) => {
       toast.success("Successfully registered!");
-      setAccessToken(data.token);
+      setUserId(data.userId);
     },
   });
 

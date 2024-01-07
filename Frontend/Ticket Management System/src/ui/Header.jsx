@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { HiOutlineShoppingCart } from "react-icons/hi2";
+import { HiOutlineShoppingCart, HiOutlineUserCircle } from "react-icons/hi2";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { ModalContext } from "./Modal";
 import { setSearchTerm } from "../contexts/filterSlice";
@@ -9,8 +9,9 @@ import { setSearchTerm } from "../contexts/filterSlice";
 import styled from "styled-components";
 import Window from "./Window";
 import CartWindow from "../features/Cart/CartWindow";
-import StyledButton from "./Button";
 import Searchbar from "./Searchbar";
+import Button from "./Button";
+import useLogout from "../features/authentication/useLogout";
 
 const StyledHeader = styled.header`
   background-color: var(--color-gray-50);
@@ -23,31 +24,6 @@ const Container = styled.div`
   align-items: center;
   justify-content: space-between;
   list-style-type: none;
-`;
-
-const Button = styled(StyledButton)`
-  padding: 0.4rem;
-  background-color: var(--color-gray-50);
-
-  border: none;
-
-  &:focus {
-    outline: none;
-  }
-
-  & > svg {
-    width: 2.6rem;
-    height: 2.6rem;
-    stroke: var(--color-gray-600);
-
-    &:hover {
-      stroke: var(--color-brand-600);
-    }
-  }
-
-  &:hover {
-    background-color: var(--color-gray-50);
-  }
 `;
 
 const Notification = styled.div`
@@ -67,6 +43,16 @@ const ActionContainers = styled.div`
   gap: 1rem;
 `;
 
+const Div = styled.div`
+  margin-right: -1rem;
+
+  & svg {
+    width: 2.4rem;
+    height: 2.4rem;
+    color: var(--color-grey-700);
+  }
+`;
+
 function Header() {
   const [nrOfItems, setNrOfItems] = useState(0);
   const { open, close } = useContext(ModalContext);
@@ -74,6 +60,10 @@ function Header() {
   const cart = useSelector((store) => store.cart.cart);
   const location = useLocation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.user.user);
+  const { logout } = useLogout();
+  const isLoggedIn = user != null;
 
   const cartItems = cart.length;
   const currentPath = location.pathname;
@@ -92,8 +82,12 @@ function Header() {
   );
 
   function handleClick() {
-    close();
-    open("login-form");
+    if (isLoggedIn) {
+      logout();
+    } else {
+      close();
+      open("login-form");
+    }
   }
 
   return (
@@ -107,12 +101,22 @@ function Header() {
 
         <ActionContainers>
           <Button variation="secondary" onClick={handleClick}>
-            Login
+            {isLoggedIn ? "Logout" : "Login"}
           </Button>
+
+          {isLoggedIn && (
+            <Div>
+              <Button
+                variation="cart"
+                icon={<HiOutlineUserCircle />}
+                onClick={() => navigate("/account")}
+              />
+            </Div>
+          )}
+
           <Window.Container>
             <Window.Toggle name="cart-window">
               <Button variation="cart" icon={<HiOutlineShoppingCart />} />
-
               {currentPath !== "/cart" &&
                 nrOfItems !== 0 &&
                 nrOfItems === cartItems && (
