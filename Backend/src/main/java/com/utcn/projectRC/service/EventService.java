@@ -1,9 +1,6 @@
 package com.utcn.projectRC.Service;
 
-import com.utcn.projectRC.DTO.EventDTO;
-import com.utcn.projectRC.DTO.EventTicketCategoryDTO;
-import com.utcn.projectRC.DTO.MapEventDTO;
-import com.utcn.projectRC.DTO.VenueDTO;
+import com.utcn.projectRC.DTO.*;
 import com.utcn.projectRC.Exception.NotFoundException;
 import com.utcn.projectRC.Entity.Event;
 import com.utcn.projectRC.Entity.EventTicketCategory;
@@ -24,8 +21,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 
 public class EventService {
-    private final EventRepository eventRepository;
 
+    private final EventRepository eventRepository;
     public EventDTO convertEventToEventDTO(Event event) {
         EventDTO eventDTO = new EventDTO();
         eventDTO.setEventId(event.getEventId());
@@ -86,6 +83,17 @@ public class EventService {
         return mapEventDTO;
     }
 
+    public HomeEventDTO convertEventToHomeEventDTO(Event event) {
+        HomeEventDTO homeEventDTO = new HomeEventDTO();
+
+        homeEventDTO.setEventId(event.getEventId());
+        homeEventDTO.setEventName(event.getEventName());
+        homeEventDTO.setEventDescription(event.getEventDescription());
+        homeEventDTO.setUrlImage(event.getUrlImage());
+
+        return homeEventDTO;
+    }
+
     private EventTicketCategoryDTO convertEventTicketCategoryToDTO(EventTicketCategory eventTicketCategory) {
         EventTicketCategoryDTO eventTicketCategoryDTO = new EventTicketCategoryDTO();
         eventTicketCategoryDTO.setEventTicketCategoryId(eventTicketCategory.getEventTicketCategoryId());
@@ -102,6 +110,11 @@ public class EventService {
     public List<MapEventDTO> getAllMapEvents() {
         List<Event> eventList = eventRepository.findAll();
         return eventList.stream().map(this::convertEventToMapEventDTO).toList();
+    }
+
+    public List<HomeEventDTO> getAllHomeEvents() {
+        List<Event> eventList = eventRepository.findAll();
+        return eventList.stream().map(this::convertEventToHomeEventDTO).toList();
     }
 
     public List<Event> getAllEvents() {

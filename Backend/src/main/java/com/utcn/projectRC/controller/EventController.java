@@ -1,6 +1,7 @@
 package com.utcn.projectRC.Controller;
 
 import com.utcn.projectRC.DTO.EventDTO;
+import com.utcn.projectRC.DTO.HomeEventDTO;
 import com.utcn.projectRC.DTO.MapEventDTO;
 import com.utcn.projectRC.Entity.Event;
 import com.utcn.projectRC.Request.FilterRequest;
@@ -32,5 +33,10 @@ public class EventController {
     @GetMapping("/all/events/for/map")
     public List<MapEventDTO> getAllMapEvents() {
         return eventService.getAllMapEvents();
+    }
+
+    @GetMapping("/all/events/for/home")
+    public List<HomeEventDTO> getAllHomeEvents() {
+        return eventService.getAllHomeEvents();
     }
 }
