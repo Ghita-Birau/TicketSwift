@@ -4,15 +4,18 @@ import { useLocalStorage } from "../../hooks/useLocalStorage";
 
 import useUser from "./useUser";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 function useLogout() {
   const { user } = useUser();
   const queryClient = useQueryClient();
   const { removeValue } = useLocalStorage("userId", "");
+  const navigate = useNavigate();
   const { mutate: logout, isLoading: isLoggingOut } = useMutation({
     mutationFn: () => logoutAPI({ email: user.userEmail }),
     onSuccess: () => {
       toast.success("You've successfully logged out");
+      navigate("/login");
       removeValue();
       queryClient.invalidateQueries({ queryKey: ["user"] });
     },

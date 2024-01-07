@@ -1,8 +1,4 @@
 import { useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import { useDispatch } from "react-redux";
-// import { setSearchTerm } from "../../contexts/filterSlice";
-
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
@@ -27,26 +23,6 @@ const Container = styled.div`
     transform: translateY(-1.2rem);
   }
 
-  ${(props) =>
-    props.isactive === "true" &&
-    `
-    &::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 1;
-      transition: background 0.3s ease;
-    }
-
-    & > p {
-      color: var(--color-white);
-    }
-  `}
-
   & > p {
     text-transform: uppercase;
     z-index: 2;
@@ -70,13 +46,8 @@ const ImageContainer = styled.div`
 function EventSwiperCard({ event }) {
   const [isActive, setIsActive] = useState(false);
 
-  // const navigate = useNavigate();
-  // const dispatch = useDispatch();
-
   function handleClick() {
     setIsActive(!isActive);
-    // dispatch(setSearchTerm(event.name));
-    // navigate("/events");
   }
 
   return (

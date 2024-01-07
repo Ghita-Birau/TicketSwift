@@ -63,8 +63,8 @@ function App() {
                 <Route path="/events" element={<EventsPage />} />
                 <Route path="/map" element={<MapPage />} />
               </Route>
-              {/* <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} /> */}
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
             </Routes>
           </BrowserRouter>
         </QueryClientProvider>

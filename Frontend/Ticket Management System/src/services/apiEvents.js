@@ -39,3 +39,21 @@ export async function getAllFilteredEvents(filterData) {
     throw new Error("Something went wrong while processing the response");
   }
 }
+
+export async function getAllEventsForSlider() {
+  try {
+    const response = await fetch(`${springUrl}/all/events/for/home`);
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        "Something went wrong while fetching the events for the slider"
+      );
+    }
+
+    return data;
+  } catch (error) {
+    throw new Error("Something went wrong while processing the response");
+  }
+}

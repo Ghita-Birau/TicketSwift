@@ -141,6 +141,21 @@ const buttonTypes = {
       background-color: var(--color-gray-700);
     }
   `,
+
+  swiperDetails: css`
+    background-color: var(--color-gray-600);
+    color: var(--color-gray-100);
+    border: none;
+    border-radius: 7px;
+    font-size: 1rem;
+    margin-top: 0.4rem;
+
+    padding: 0.4rem 1rem;
+
+    &:hover {
+      background-color: var(--color-gray-700);
+    }
+  `,
 };
 
 const StyledButton = styled.button`

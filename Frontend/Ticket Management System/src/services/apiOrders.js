@@ -18,6 +18,7 @@ export async function getAllOrders({ email }) {
 }
 
 export async function postOrders({ email, orders }) {
+  console.log(orders);
   try {
     const response = await fetch(
       `${springUrl}/place/order?userEmail=${email}`,

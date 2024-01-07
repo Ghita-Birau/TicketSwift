@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { HiOutlineShoppingCart, HiOutlineUserCircle } from "react-icons/hi2";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useContext } from "react";
-import { ModalContext } from "./Modal";
 import { setSearchTerm } from "../contexts/filterSlice";
 
 import styled from "styled-components";
@@ -12,6 +10,7 @@ import CartWindow from "../features/Cart/CartWindow";
 import Searchbar from "./Searchbar";
 import Button from "./Button";
 import useLogout from "../features/authentication/useLogout";
+import useUser from "../features/authentication/useUser";
 
 const StyledHeader = styled.header`
   background-color: var(--color-gray-50);
@@ -55,13 +54,12 @@ const Div = styled.div`
 
 function Header() {
   const [nrOfItems, setNrOfItems] = useState(0);
-  const { open, close } = useContext(ModalContext);
   const searchTerm = useSelector((state) => state.filters.searchTerm);
   const cart = useSelector((store) => store.cart.cart);
   const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((state) => state.user.user);
+  const user = useUser();
   const { logout } = useLogout();
   const isLoggedIn = user != null;
 
@@ -82,12 +80,7 @@ function Header() {
   );
 
   function handleClick() {
-    if (isLoggedIn) {
-      logout();
-    } else {
-      close();
-      open("login-form");
-    }
+    logout();
   }
 
   return (
@@ -101,7 +94,7 @@ function Header() {
 
         <ActionContainers>
           <Button variation="secondary" onClick={handleClick}>
-            {isLoggedIn ? "Logout" : "Login"}
+            Logout
           </Button>
 
           {isLoggedIn && (

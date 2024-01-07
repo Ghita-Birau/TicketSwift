@@ -11,6 +11,7 @@ import AuthContentForm from "./AuthContentForm";
 import styled from "styled-components";
 import useLogin from "./useLogin";
 import Loader from "../../ui/Loader";
+import { useNavigate } from "react-router-dom";
 
 const StyledButton = styled.button`
   background: none;
@@ -43,6 +44,7 @@ function LoginForm() {
   const [isShowing, setIsShowing] = useState(false);
   const { login, isLoading } = useLogin();
   const { reset } = useForm();
+  const navigate = useNavigate();
 
   const togglePassword = useCallback((e) => {
     e.preventDefault();
@@ -89,7 +91,10 @@ function LoginForm() {
 
   function onSubmit(data, e) {
     e.preventDefault();
-    login({ email: data.email, password: data.password });
+    login(
+      { email: data.email, password: data.password },
+      { onSuccess: () => navigate("/") }
+    );
     reset();
   }
 

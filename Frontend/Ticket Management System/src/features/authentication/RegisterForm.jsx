@@ -14,6 +14,7 @@ import AuthContentForm from "./AuthContentForm";
 import styled from "styled-components";
 import useRegister from "./useRegister";
 import Loader from "../../ui/Loader";
+import { useNavigate } from "react-router-dom";
 
 const StyledButton = styled.button`
   background: none;
@@ -46,6 +47,7 @@ function RegisterForm() {
   const [isShowing, setIsShowing] = useState(false);
   const { register, isLoading } = useRegister();
   const { reset } = useForm();
+  const navigate = useNavigate();
 
   function togglePassword(e) {
     e.preventDefault();
@@ -186,14 +188,17 @@ function RegisterForm() {
     const parts = data.birthdate.split("/");
     const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
 
-    register({
-      name: data.username,
-      userEmail: data.email,
-      password: data.password,
-      dateOfBirth: formattedDate,
-      address: data.address,
-      phoneNumber: data.phone,
-    });
+    register(
+      {
+        name: data.username,
+        userEmail: data.email,
+        password: data.password,
+        dateOfBirth: formattedDate,
+        address: data.address,
+        phoneNumber: data.phone,
+      },
+      { onSuccess: () => navigate("/login") }
+    );
 
     reset();
   }
